@@ -368,7 +368,7 @@ const AiSystem = () => {
       <h2 className='font-medium md:!text-xl'>
       Time Period
       </h2>
-      <Radio.Group value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} className='flex gap-2 md:gap-8 mb-4'>
+      <Radio.Group value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} className='grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-8 mb-4'>
         <Radio value='shift'>Shift</Radio>
         <Radio value='weekly'>Weekly</Radio>
         <Radio value='monthly'>Monthly</Radio>
