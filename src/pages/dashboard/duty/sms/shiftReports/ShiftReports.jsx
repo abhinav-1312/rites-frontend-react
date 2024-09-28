@@ -1,11 +1,12 @@
 import React from 'react'
-import SubHeader from '../../../../components/SubHeader'
-import { FireOutlined, CheckCircleOutlined, CheckSquareOutlined } from '@ant-design/icons';
-import TabList from '../../../../components/TabList';
-import Btn from '../../../../components/Btn';
 import { useNavigate } from 'react-router-dom';
-import data from '../../../../utils/db.json'
-import GeneralInfo from '../../../../components/GeneralInfo';
+import { FireOutlined, CheckCircleOutlined, CheckSquareOutlined } from '@ant-design/icons';
+import SubHeader from '../../../../../components/SubHeader'
+import TabList from '../../../../../components/TabList';
+import Btn from '../../../../../components/Btn';
+import GeneralInfo from '../../../../../components/GeneralInfo';
+import data from '../../../../../utils/db.json'
+import FormContainer from '../../../../../components/FormContainer';
 
 const {smsGeneralInfo} = data
 
@@ -30,7 +31,7 @@ const smsDutyEndTabs = [
 const ShiftReports = () => {
   const navigate = useNavigate()
   return (
-    <>
+    <FormContainer className='flex flex-col gap-4'>
       <SubHeader title='SMS - Shift Reports' link='/sms/dutyEnd' />
       <section>
         <GeneralInfo data={smsGeneralInfo} />
@@ -43,7 +44,7 @@ const ShiftReports = () => {
       </section>
 
 
-    </>
+    </FormContainer>
   )
 }
 

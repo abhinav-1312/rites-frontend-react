@@ -1,10 +1,11 @@
 import React from "react";
-import { Table } from "antd";
-import SubHeader from "../../../../components/SubHeader";
-import GeneralInfo from "../../../../components/GeneralInfo";
 import { useNavigate } from "react-router-dom";
-import Btn from "../../../../components/Btn";
-import data from "../../../../utils/db.json";
+import { Table } from "antd";
+import SubHeader from "../../../../../components/SubHeader";
+import GeneralInfo from "../../../../../components/GeneralInfo";
+import Btn from "../../../../../components/Btn";
+import data from "../../../../../utils/db.json";
+import FormContainer from "../../../../../components/FormContainer";
 
 const { smsVerificationReportData: sampleData, smsGeneralInfo } = data;
 
@@ -15,12 +16,12 @@ const columns = [
     key: "stage",
   },
   {
-    title: "Cast Number",
+    title: "Cast No.",
     dataIndex: "castNumber",
     key: "castNumber",
   },
   {
-    title: "Turn Down Temperature",
+    title: "Turn Down Temp.",
     dataIndex: "turnDownTemperature",
     key: "turnDownTemperature",
   },
@@ -34,7 +35,7 @@ const columns = [
 const SmsVerification = () => {
   const navigate = useNavigate()
   return (
-    <>
+    <FormContainer>
       <SubHeader title="SMS - Verification Report" link="/sms/shiftReports" />
       <GeneralInfo data={smsGeneralInfo} />
       <section>
@@ -49,10 +50,8 @@ const SmsVerification = () => {
           }}
         />
       </section>
-      <section className="flex-1 flex items-end justify-center">
-        <Btn onClick={() => navigate(-1)}> Go Back </Btn>
-      </section>
-    </>
+        <Btn onClick={() => navigate(-1)} className='mx-auto'> Go Back </Btn>
+    </FormContainer>
   );
 };
 

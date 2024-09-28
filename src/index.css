@@ -135,3 +135,7 @@ label{
 .ant-table-filter-trigger{
   @apply !text-white
 }
+
+.bloom-inspection-form label{
+  @apply !h-fit
+}

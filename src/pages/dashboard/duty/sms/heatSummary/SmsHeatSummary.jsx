@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import SubHeader from "../../../../components/SubHeader";
-import data from "../../../../utils/db.json";
-import GeneralInfo from "../../../../components/GeneralInfo";
-import IconBtn from "../../../../components/IconBtn";
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Checkbox, message, Modal, Table } from "antd";
-import FormInputItem from "../../../../components/FormInputItem";
-import Btn from "../../../../components/Btn";
 import { useNavigate } from "react-router-dom";
+import { Checkbox, message, Modal, Table } from "antd";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import SubHeader from "../../../../../components/SubHeader";
+import data from "../../../../../utils/db.json";
+import GeneralInfo from "../../../../../components/GeneralInfo";
+import IconBtn from "../../../../../components/IconBtn";
+import FormInputItem from "../../../../../components/FormInputItem";
+import Btn from "../../../../../components/Btn";
+import FormContainer from "../../../../../components/FormContainer";
 
 const {
   smsGeneralInfo,
@@ -52,6 +53,7 @@ const SmsHeatSummary = () => {
       title: "Heat No.",
       dataIndex: "heatNo",
       key: "heatNo",
+      fixed: "left"
     },
     {
       title: "Sequence No.",
@@ -123,14 +125,14 @@ const SmsHeatSummary = () => {
   }, [populateTableData]);
 
   return (
-    <>
+    <FormContainer className='flex flex-col gap-4 md:gap-8'>
       <SubHeader title="SMS - Shift Summary" link="/sms/dutyEnd" />
       <GeneralInfo data={smsGeneralInfo} />
       <section>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-8 border p-1 border-gray-500 rounded-sm relative">
+        <div className="grid grid-cols-1 gap-2 md:gap-4 border p-1 border-[#d9d9d9] shadow-md rounded-sm relative">
           <div>
             <h3 className="font-semibold">Hydris Calibration Details</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4">
+            <div className="grid grid-cols-2">
               {Object.keys(
                 smsSummaryCalibrationDetails["hydrisCalibrationDetails"]
               ).map((key) => {
@@ -149,7 +151,7 @@ const SmsHeatSummary = () => {
           </div>
           <div>
             <h3 className="font-semibold">Leco Calibration Details</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4">
+            <div className="grid grid-cols-2">
               {Object.keys(
                 smsSummaryCalibrationDetails["lecoCalibrationDetails"]
               ).map((key) => {
@@ -202,7 +204,7 @@ const SmsHeatSummary = () => {
 
           <FormInputItem label='Make of Casting Powder Used' />
           <FormInputItem label='Make of Hydris Probe' />
-          <div className="w-full text-right">
+          <div className="text-center">
           <Btn onClick={handleSave}>Save</Btn>
           </div>
       </section>
@@ -211,7 +213,7 @@ const SmsHeatSummary = () => {
           <FormInputItem value={newHeat} placeholder='Enter Heat Number' onChange={(_fieldName, value) => setNewHeat(value)} />
           <Btn onClick={addNewHeat}>Add</Btn>
       </Modal>
-    </>
+    </FormContainer>
   );
 };
 

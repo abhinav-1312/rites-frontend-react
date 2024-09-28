@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { Input } from 'antd';
 import {HomeOutlined, BellOutlined, FileTextOutlined, RobotOutlined, LineChartOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
 import Home from './home/Home';
@@ -8,6 +8,7 @@ import AiSystem from './aiSystem/AiSystem';
 import DataAnalysis from './dataAnalysis/DataAnalysis';
 import IsoReports from './isoReports/IsoReports';
 import Admin from './admin/Admin';
+import { ActiveTabContext } from '../../context/dashboardActiveTabContext';
 
 const { Search } = Input;
 
@@ -51,7 +52,8 @@ const dashboardTabItems = [
 ]
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState(1)
+  // const [activeTab, setActiveTab] = useState(1)
+  const {activeTab, setActiveTab} = useContext(ActiveTabContext)
   const renderDashboardTabItems = () => 
     dashboardTabItems.map(item=> {
       return (
@@ -88,7 +90,7 @@ const Dashboard = () => {
     }
 
   return (
-    <div className='flex flex-col gap-4 lg:gap-8 bg-white p-4 md:w-4/5 mx-auto'>
+    <div className='flex flex-col gap-4 md:gap-8 bg-white p-4 md:w-4/5 mx-auto h-[100vh] md:h-fit'>
     <section>
       <Search placeholder='Search' className='dashboard-search' />
     </section>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 const TabList = ({tabList}) => {
     const navigate = useNavigate()
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {
             tabList?.map((tab, key) => {
                 return (

@@ -1,10 +1,11 @@
 import React from "react";
-import SubHeader from "../../../../components/SubHeader";
-import GeneralInfo from "../../../../components/GeneralInfo";
-import { Table } from "antd";
-import data from "../../../../utils/db.json";
-import Btn from "../../../../components/Btn";
 import { useNavigate } from "react-router-dom";
+import { Table } from "antd";
+import SubHeader from "../../../../../components/SubHeader";
+import GeneralInfo from "../../../../../components/GeneralInfo";
+import Btn from "../../../../../components/Btn";
+import data from "../../../../../utils/db.json";
+import FormContainer from "../../../../../components/FormContainer";
 
 const { smsGeneralInfo, smsHeatListData: sampleData } = data;
 
@@ -13,7 +14,6 @@ const columns = [
     title: "S.No.",
     dataIndex: "serialNumber",
     key: "serialNumber",
-    fixed: "left",
   },
   {
     title: "Heat Number",
@@ -66,7 +66,7 @@ const columns = [
 const SmsHeatList = () => {
   const navigate = useNavigate()
   return (
-    <>
+    <FormContainer>
       <SubHeader title="SMS - Report - Heat List" link="/sms/shiftReports" />
       <GeneralInfo data={smsGeneralInfo} />
       <section>
@@ -81,10 +81,8 @@ const SmsHeatList = () => {
           }}
         />
       </section>
-      <section className="flex-1 flex items-end justify-center">
-        <Btn onClick={() => navigate(-1)}> Go Back </Btn>
-      </section>
-    </>
+        <Btn onClick={() => navigate(-1)} className='mx-auto'> Go Back </Btn>
+    </FormContainer>
   );
 };
 

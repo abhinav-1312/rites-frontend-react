@@ -340,23 +340,8 @@ const AiSystem = () => {
         style={{ backgroundColor: tabColorList[index] }}
       >
         <div className='!text-4xl font-bold text-white text-center'>{tab.value}</div> <br />
-        {/* <div className='flex-1'> 
-
-
-        {
-          tab.title.map(item => {
-            return (
-              <>
-              <span className='font-semibold text-white text-2xl'>{item}</span> <br />
-              </>
-            )
-          })
-        }
-        </div> */}
-
         <div className='text-white text-center'>{tab.title[0]}</div>
         <div className='text-white text-center !text-2xl'>{tab.title[1]}</div>
-        {/* <span className='font-semibold text-white'>{tab.title}</span> */}
       </div>
     ));
   };

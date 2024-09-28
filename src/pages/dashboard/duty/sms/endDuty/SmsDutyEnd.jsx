@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
-import SubHeader from '../../../../components/SubHeader'
-import {EditOutlined, FileSearchOutlined, EyeOutlined, PieChartOutlined}from '@ant-design/icons';
-import IconBtn from '../../../../components/IconBtn';
 import { message } from 'antd';
-import FormBody from '../../../../components/FormBody';
-import FormInputItem from '../../../../components/FormInputItem';
-import Btn from '../../../../components/Btn';
-import TabList from '../../../../components/TabList';
+import {EditOutlined, FileSearchOutlined, EyeOutlined, PieChartOutlined}from '@ant-design/icons';
+import SubHeader from '../../../../../components/SubHeader'
+import IconBtn from '../../../../../components/IconBtn';
+import FormBody from '../../../../../components/FormBody';
+import FormInputItem from '../../../../../components/FormInputItem';
+import Btn from '../../../../../components/Btn';
+import TabList from '../../../../../components/TabList';
+import FormContainer from '../../../../../components/FormContainer';
+import GeneralInfo from '../../../../../components/GeneralInfo';
+import data from "../../../../../utils/db.json";
+
+const { smsGeneralInfo } = data;
 
 const smsDutyEndTabs = [
   {
@@ -33,17 +38,13 @@ const SmsDutyEnd = () => {
     message.success("Duty End Called")
   }
   return (
-    <>
+    <FormContainer className='flex flex-col gap-4 md:gap-8'>
     <SubHeader title='SMS - Duty End' link='/' />
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-2 lg:gap-8 relative border p-1 border-gray-500 rounded-sm">
-        <h3>Date: 13/12/2001</h3>
-        <h3>Shift: A</h3>
-        <h3>SMS: SMS 3</h3>
-        <h3>Rail Grade: R260</h3>
+    <GeneralInfo data={smsGeneralInfo}>
         <div className='absolute top-0 right-0'>
           <IconBtn icon={EditOutlined} onClick={() => message.success("Clicked")} />
         </div>
-      </section>
+    </GeneralInfo>
 
       <section>
         <TabList tabList={smsDutyEndTabs} />
@@ -55,11 +56,13 @@ const SmsDutyEnd = () => {
           onFinish={handleFormSubmit}
         >
           <FormInputItem placeholder='Enter Remarks' onChange={(_, value) => setRemarks(value)} name='remarks'/>
-            <Btn htmlType='submit'>End Duty</Btn>
+            <div className="text-center">
+              <Btn htmlType='submit'>End Duty</Btn>
+            </div>
         </FormBody>
       </section>
       
-    </>
+    </FormContainer>
   )
 }
 
