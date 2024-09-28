@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
-import { message } from 'antd';
 import {EditOutlined, FileSearchOutlined, EyeOutlined, PieChartOutlined}from '@ant-design/icons';
-import SubHeader from '../../../../../components/SubHeader'
-import IconBtn from '../../../../../components/IconBtn';
-import FormBody from '../../../../../components/FormBody';
-import FormInputItem from '../../../../../components/FormInputItem';
-import Btn from '../../../../../components/Btn';
-import TabList from '../../../../../components/TabList';
-import FormContainer from '../../../../../components/FormContainer';
-import GeneralInfo from '../../../../../components/GeneralInfo';
-import data from "../../../../../utils/db.json";
+import { message } from 'antd';
+import FormContainer from '../../../../../components/DKG_FormContainer';
+import SubHeader from '../../../../../components/DKG_SubHeader';
+import GeneralInfo from '../../../../../components/DKG_GeneralInfo';
+import IconBtn from '../../../../../components/DKG_IconBtn';
+import TabList from '../../../../../components/DKG_TabList';
+import FormBody from '../../../../../components/DKG_FormBody';
+import FormInputItem from '../../../../../components/DKG_FormInputItem';
+import Btn from '../../../../../components/DKG_Btn';
+import data from "../../../../../utils/db.json"
 
-const { smsGeneralInfo } = data;
+
+const {smsGeneralInfo }=data;
 
 const smsDutyEndTabs = [
   {

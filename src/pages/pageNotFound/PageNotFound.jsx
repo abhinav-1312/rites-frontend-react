@@ -3,7 +3,7 @@ import React from 'react'
 const PageNotFound = () => {
   return (
     <div>
-      Page Not Found
+      Under Construction
     </div>
   )
 }

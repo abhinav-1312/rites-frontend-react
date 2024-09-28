@@ -1,11 +1,11 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import { Table } from 'antd';
-import SubHeader from '../../../../../components/SubHeader'
 import data from "../../../../../utils/db.json";
-import GeneralInfo from '../../../../../components/GeneralInfo';
-import Btn from '../../../../../components/Btn';
-import FormContainer from '../../../../../components/FormContainer';
+import { Table } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import SubHeader from '../../../../../components/DKG_SubHeader';
+import GeneralInfo from '../../../../../components/DKG_GeneralInfo';
+import Btn from '../../../../../components/DKG_Btn';
+import FormContainer from '../../../../../components/DKG_FormContainer';
 
 const { smsCheckListData: sampleData, smsGeneralInfo } = data;
 

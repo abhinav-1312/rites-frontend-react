@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import Btn from '../../components/Btn'
+import Btn from '../../components/DKG_Btn'
 import {ReactComponent as Logo} from '../../assets/images/logo.svg'
-import FormBody from '../../components/FormBody'
-import FormInputItem from '../../components/FormInputItem'
+import FormBody from '../../components/DKG_FormBody'
+import FormInputItem from '../../components/DKG_FormInputItem'
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/slice/authSlice'
 import { useNavigate } from 'react-router-dom'
-import FormContainer from '../../components/FormContainer'
+import FormContainer from '../../components/DKG_FormContainer'
 
 const Login = () => {
   const dispatch = useDispatch()

@@ -1,0 +1,225 @@
+{
+    "shiftList": [
+        {
+          "key": "A",
+          "value": "A"
+        },
+        {
+          "key": "B",
+          "value": "B"
+        },
+        {
+          "key": "C",
+          "value": "C"
+        }
+    ],
+    "millList": [
+      {
+        "key": "URM",
+        "value": "URM"
+      },
+      {
+        "key": "RSM",
+        "value": "RSM"
+      }
+    ],
+    "millMaping": {
+        "URM": ["1", "2", "3", "4", "5", "6"],
+        "RSM": ["1", "2"]
+    },
+    "millsMaping": {
+        "URM": ["130"],
+        "RSM": ["78", "65"]
+    },
+    "millMapingSec": {
+      "URM": ["NDT 1", "NDT 2"],
+      "RSM": ["LR", "SR"]
+    },
+    "railGradeList": [
+        {
+          "key": "R260",
+          "value": "R260"
+        },
+        {
+          "key": "350HT",
+          "value": "350HT"
+        },
+        {
+          "key": "1080HH",
+          "value": "1080HH"
+        },
+        {
+          "key": "880",
+          "value": "880"
+        },
+        {
+          "key": "880NC",
+          "value": "880NC"
+        }
+    ],
+    "railSectionList": [
+        {
+          "key": "60E1",
+          "value": "60E1"
+        },
+        {
+          "key": "IRS 52",
+          "value": "IRS 52"
+        },
+        {
+          "key": "UIC 60",
+          "value": "UIC 60"
+        },
+        {
+          "key": "60E1A1",
+          "value": "60E1A1"
+        },
+        {
+          "key": "136RE",
+          "value": "136RE"
+        }
+    ],
+    "visualInspectionGeneralInfo": {
+        "date": "01/01/2024",
+        "shift": "A",
+        "railGrade": "R260",
+        "mill": "URM",
+        "line": "03",
+        "railSec": "60E1",
+        "length": "130m"
+    },
+    "checkBoxItem": [
+        { "key": 1,
+          "value": "Mark right if other IEs confirmation are done"
+        }
+    ],
+    "acceptanceData": [
+      {   "key": "1",
+          "null": "A"
+      },
+      {   "key": "2",
+          "null": "+0.1"
+      },
+      {   "key": "3",
+          "null": "Tot."
+      }
+    ],
+    "acceptanceColumns": [
+      { "title": "", "dataIndex": "null", "key": "null" },
+      { "title": "Insp.", "dataIndex": "Insp.", "key": "Insp." },
+      { "title": "130", "dataIndex": "130", "key": "130" },
+      { "title": "117", "dataIndex": "117", "key": "117" },
+      { "title": "87", "dataIndex": "87", "key": "87" },
+      { "title": "65", "dataIndex": "65", "key": "65" },
+      { "title": "52", "dataIndex": "52", "key": "52" },
+      { "title": "26", "dataIndex": "26", "key": "26" },
+      { "title": "13", "dataIndex": "13", "key": "13" }
+    ],
+    "rejectionColumns": [
+      {"title": "13", "dataIndex": "13", "key": "13"},
+      {"title": "12", "dataIndex": "12", "key": "12"},
+      {"title": "11", "dataIndex": "11", "key": "11"},
+      {"title": "10", "dataIndex": "10", "key": "10"},
+      {"title": "Component", "dataIndex": "component", "key": "component"}
+    ],
+    "rejectionData": [
+      {
+          "key": "1", 
+          "13": "",
+          "12": "", 
+          "11": "",
+          "10": "", 
+          "component": ""
+      }
+    ],
+    "compiledData": [
+      {
+          "key": "1",
+          "nill": "Rails Inspected"
+      },
+      {
+          "key": "2",
+          "nill": "Rails Accepted (A)"
+      },
+      {
+          "key": "3",
+          "nill": "Rails Accepted (A + 0.1)"
+      },
+      {
+          "key": "4", 
+          "nill": "Rails Accepted (Total)"
+      },
+      {
+          "key": "5", 
+          "nill": "Rails Rejected"
+      }
+    ],
+    "compiledColumns": [
+      {"title": "", "dataIndex": "nill", "key": "nill"},
+      {"title": "Number", "dataIndex": "number", "key": "number"},
+      {"title": "Tonnes", "dataIndex": "tonnes", "key": "tonnes"}
+    ],
+    "defectColumns": [
+      { "title": "LAP", "dataIndex": "lap", "key": "lap" },
+      { "title": "HH", "dataIndex": "hh", "key": "hh" },
+      { "title": "OHT", "dataIndex": "oht", "key": "oht" },
+      { "title": "MDM", "dataIndex": "mdm", "key": "mdm" },
+      { "title": "KK", "dataIndex": "kk", "key": "kk" }
+    ],
+    "defectAnalysisData": [
+      { 
+          "key": "1", 
+          "lap": "1", 
+          "hh": "2", 
+          "oht": "1", 
+          "mdm": "1", 
+          "kk": "4" 
+      },
+      { 
+          "key": "2", 
+          "lap": "LH", 
+          "hh": "Asy-", 
+          "oht": "Asy+", 
+          "mdm": "MDF", 
+          "kk": "US" 
+      },
+      { 
+          "key": "3", 
+          "lap": "1", 
+          "hh": "2", 
+          "oht": "1", 
+          "mdm": "1", 
+          "kk": "4" 
+      }
+    ],
+    "lineNumberList": [
+      {
+        "key": "All lines",
+        "value": "All lines"
+      },
+      {
+        "key": "Line 1",
+        "value": "Line 1"
+      },
+      {
+        "key": "Line 2",
+        "value": "Line 2"
+      },
+      {
+        "key": "Line 3",
+        "value": "Line 3"
+      },
+      {
+          "key": "Line 4",
+          "value": "Line 4"
+      },
+      {
+          "key": "Line 5",
+          "value": "Line 5"
+      },
+      {
+          "key": "Line 6",
+          "value": "Line 6"
+      }
+    ]
+}

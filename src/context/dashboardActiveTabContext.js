@@ -1,5 +1,5 @@
 // UserContext.js
-import React, { act, createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 // Create a Context
 const ActiveTabContext = createContext();

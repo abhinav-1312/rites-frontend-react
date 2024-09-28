@@ -1,7 +1,7 @@
 import React from 'react'
 import {HomeOutlined} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import Tab from '../../../components/Tab';
+import Tab from '../../../components/DKG_Tab';
 const dutyItemTabs = [
   {
     id: 1,
@@ -12,12 +12,14 @@ const dutyItemTabs = [
   {
     id: 2,
     title: 'Rolling Stage',
-    icon: <HomeOutlined />
+    icon: <HomeOutlined />,
+    link: 'stage/startDuty'
   },
   {
     id: 3,
     title: 'NDT',
-    icon: <HomeOutlined />
+    icon: <HomeOutlined />,
+    link: 'ndt/startDuty'
   },
   {
     id: 4,
@@ -27,7 +29,8 @@ const dutyItemTabs = [
   {
     id: 5,
     title: 'Visual Inspection',
-    icon: <HomeOutlined />
+    icon: <HomeOutlined />,
+    link: '/visual/startDuty'
     
   },
   {

@@ -1,12 +1,12 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import SubHeader from '../../../../../components/DKG_SubHeader'
 import { FireOutlined, CheckCircleOutlined, CheckSquareOutlined } from '@ant-design/icons';
-import SubHeader from '../../../../../components/SubHeader'
-import TabList from '../../../../../components/TabList';
-import Btn from '../../../../../components/Btn';
-import GeneralInfo from '../../../../../components/GeneralInfo';
+import TabList from '../../../../../components/DKG_TabList';
+import Btn from '../../../../../components/DKG_Btn';
+import { useNavigate } from 'react-router-dom';
 import data from '../../../../../utils/db.json'
-import FormContainer from '../../../../../components/FormContainer';
+import GeneralInfo from '../../../../../components/DKG_GeneralInfo';
+import FormContainer from '../../../../../components/DKG_FormContainer';
 
 const {smsGeneralInfo} = data
 

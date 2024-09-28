@@ -1,8 +1,8 @@
 import { Button, Input, Radio, Space, Table } from 'antd'
 import React, { useRef, useState } from 'react'
-import CustomDatePicker from '../../../components/CustomDatePicker'
-import FormBody from '../../../components/FormBody'
-import Btn from '../../../components/Btn'
+import CustomDatePicker from '../../../components/DKG_CustomDatePicker'
+import FormBody from '../../../components/DKG_FormBody'
+import Btn from '../../../components/DKG_Btn'
 import moment from 'moment'
 import {SearchOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';

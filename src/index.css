@@ -132,6 +132,10 @@ label{
   @apply w-full
 }
 
+.time-component .ant-picker{
+  @apply w-full
+}
+
 .ant-table-filter-trigger{
   @apply !text-white
 }

@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, message, Modal, Table } from "antd";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import SubHeader from "../../../../../components/SubHeader";
+import SubHeader from "../../../../../components/DKG_SubHeader";
 import data from "../../../../../utils/db.json";
-import GeneralInfo from "../../../../../components/GeneralInfo";
-import IconBtn from "../../../../../components/IconBtn";
-import FormInputItem from "../../../../../components/FormInputItem";
-import Btn from "../../../../../components/Btn";
-import FormContainer from "../../../../../components/FormContainer";
+import GeneralInfo from "../../../../../components/DKG_GeneralInfo";
+import IconBtn from "../../../../../components/DKG_IconBtn";
+import FormInputItem from "../../../../../components/DKG_FormInputItem";
+import Btn from "../../../../../components/DKG_Btn";
+import FormContainer from "../../../../../components/DKG_FormContainer";
 
 const {
   smsGeneralInfo,

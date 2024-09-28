@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-
 import { message } from 'antd'
-import SubHeader from '../../../../../components/SubHeader'
-import FormBody from '../../../../../components/FormBody'
-import FormInputItem from '../../../../../components/FormInputItem'
-import FormDropdownItem from '../../../../../components/FormDropdownItem'
-import Btn from '../../../../../components/Btn'
-import FormContainer from '../../../../../components/FormContainer'
-import TextAreaComponent from '../../../../../components/TextAreaComponent'
 import data from "../../../../../utils/db.json";
-import GeneralInfo from '../../../../../components/GeneralInfo'
+import SubHeader from '../../../../../components/DKG_SubHeader'
+import GeneralInfo from '../../../../../components/DKG_GeneralInfo'
+import FormContainer from '../../../../../components/DKG_FormContainer'
+import TextAreaComponent from "../../../../../components/DKG_TextAreaComponent"
+import FormBody from '../../../../../components/DKG_FormBody';
+import FormInputItem from '../../../../../components/DKG_FormInputItem';
+import FormDropdownItem from '../../../../../components/DKG_FormDropdownItem';
+import Btn from '../../../../../components/DKG_Btn';
 
 const { smsGeneralInfo } = data;
 

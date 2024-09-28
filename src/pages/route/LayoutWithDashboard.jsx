@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActiveTabProvider } from '../../context/dashboardActiveTabContext'
-import CustomLayout from '../../components/CustomLayout'
+import CustomLayout from '../../components/DKG_CustomLayout'
 import Dashboard from '../dashboard/Dashboard'
 import { Outlet } from 'react-router-dom'
 
