@@ -90,7 +90,7 @@ const Dashboard = () => {
     }
     // abc
   return (
-    <div className='flex flex-col gap-4 md:gap-8 bg-white p-4 w-full md:w-4/5 mx-auto h-fit md:h-fit'>
+    <div className='flex flex-col gap-4 md:gap-8 bg-offWhite p-4 w-full h-full overflow-auto md:w-4/5 mx-auto md:h-fit'>
     <section>
       <Search placeholder='Search' className='dashboard-search' />
     </section>

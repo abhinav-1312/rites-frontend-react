@@ -39,7 +39,7 @@ const ShiftReports = () => {
       <section>
         <TabList tabList={smsDutyEndTabs} />
       </section>
-      <section className='flex-1 flex justify-center items-end'>
+      <section className='text-center mt-4'>
         <Btn onClick={() => navigate(-1)}> Go Back </Btn>
       </section>
 
