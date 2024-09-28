@@ -37,7 +37,7 @@ const Login = () => {
         <h1>Log In</h1>
       </header>
     <FormContainer className='mt-20 main-content border-none !shadow-none'>
-      <main className='w-full p-4 flex flex-col h-fit justify-center items-center gap-8 bg-white relative z-20 rounded-md'>
+      <main className='w-full p-4 flex flex-col h-fit justify-center items-center gap-8 bg-offWhite relative z-20 rounded-md'>
         <Logo width={300} height={200} />
         <FormBody onFinish={handleFormSubmit} initialValues={formData}>
           <FormInputItem label="Employee ID" placeholder="123456" name='empId' onChange={handleFormValueChange} required />
