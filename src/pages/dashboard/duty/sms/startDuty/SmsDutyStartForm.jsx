@@ -72,11 +72,11 @@ const SmsDutyStartForm = () => {
       onFinish={handleFormSubmit}
     >
       <div className="grid grid-cols-2 gap-2">
-      <CustomDatePicker label='Date' name='date' value={formData?.date} onChange={handleChange}/>
-      <FormDropdownItem label='Shift' dropdownArray={shiftList} name='shift' onChange={handleChange} valueField='key' visibleField='value' />
+      <CustomDatePicker label='Date' name='date' value={formData?.date} onChange={handleChange} required/>
+      <FormDropdownItem label='Shift' dropdownArray={shiftList} name='shift' onChange={handleChange} valueField='key' visibleField='value' required/>
       </div>
-      <FormDropdownItem label="SMS" name='sms' dropdownArray={smsList} visibleField='value' valueField='key' onChange={handleChange} />
-      <FormDropdownItem label="Rail Grade" name='railGrade' dropdownArray={railGradeList} visibleField='value' valueField='key' onChange={handleChange} />
+      <FormDropdownItem label="SMS" name='sms' dropdownArray={smsList} visibleField='value' valueField='key' onChange={handleChange} required/>
+      <FormDropdownItem label="Rail Grade" name='railGrade' dropdownArray={railGradeList} visibleField='value' valueField='key' onChange={handleChange} required />
       <div className="text-center">
         <Btn htmlType='submit' className='mx-auto'>Submit</Btn>
       </div>

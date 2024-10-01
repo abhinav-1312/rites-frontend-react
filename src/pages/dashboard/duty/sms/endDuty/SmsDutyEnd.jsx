@@ -10,6 +10,7 @@ import FormBody from '../../../../../components/DKG_FormBody';
 import FormInputItem from '../../../../../components/DKG_FormInputItem';
 import Btn from '../../../../../components/DKG_Btn';
 import data from "../../../../../utils/db.json"
+import { useNavigate } from 'react-router-dom';
 
 
 const {smsGeneralInfo }=data;
@@ -34,9 +35,11 @@ const smsDutyEndTabs = [
 
 const SmsDutyEnd = () => {
   const [remarks, setRemarks] = useState('')
+  const navigate = useNavigate();
 
   const handleFormSubmit = () => {
     message.success("Duty End Called")
+    navigate('/')
   }
   return (
     <FormContainer className='flex flex-col gap-4 md:gap-8'>
@@ -56,7 +59,7 @@ const SmsDutyEnd = () => {
           initialValues={remarks}
           onFinish={handleFormSubmit}
         >
-          <FormInputItem placeholder='Enter Remarks' onChange={(_, value) => setRemarks(value)} name='remarks'/>
+          <FormInputItem placeholder='Enter Remarks' onChange={(_, value) => setRemarks(value)} name='remarks' required/>
             <div className="text-center">
               <Btn htmlType='submit'>End Duty</Btn>
             </div>
