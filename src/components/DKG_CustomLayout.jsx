@@ -17,11 +17,11 @@ const CustomLayout = () => {
   return (
     <>
       <Header toggleCollapse={toggleCollapse} />
-      <div className="flex overflow-y-auto h-[calc(100vh-4.5rem)] relative">
+      <div className="flex max-h-[100vh] overflow-y-auto h-[calc(100vh-4.5rem)] relative">
           <SideNav collapsed={collapsed} toggleCollapse={toggleCollapse} />
         <Layout className="layout overflow-hidden flex-1">
-          <Content className="md:px-8 md:py-4 md:gap-8 overflow-y-auto overflow-x-hidden main-content">
-            <div className="relative z-1 h-full overflow-y-auto flex flex-col gap-4 md:gap-8">
+          <Content className="md:px-8 md:py-4 flex flex-col gap-4 md:gap-8 overflow-auto md:overflow-hidden relative main-content">
+            <div className="relative z-1 overflow-auto flex flex-col gap-4 md:gap-8">
               <Outlet />
             </div>
           </Content>

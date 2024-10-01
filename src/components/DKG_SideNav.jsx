@@ -3,6 +3,30 @@ import Sider from "antd/es/layout/Sider";
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
+  RadarChartOutlined,
+  BarChartOutlined,
+  RetweetOutlined,
+  HddOutlined,
+  BranchesOutlined,
+  CompassOutlined,
+  DeploymentUnitOutlined,
+  HistoryOutlined,
+  TeamOutlined,
+  ToolOutlined,
+  ClockCircleOutlined,
+  FundOutlined,
+  DatabaseOutlined,
+  AuditOutlined,
+  ExperimentOutlined,
+  HeatMapOutlined,
+  CheckOutlined,
+  FileDoneOutlined,
+  EyeOutlined,
+  FileSearchOutlined,
+  FlagOutlined,
+  SendOutlined,
+  MessageOutlined,
+  BankOutlined,
   DashboardOutlined,
   BellOutlined,
   HomeOutlined,
@@ -34,43 +58,43 @@ const items = [
     children: [
       {
         key: "2.1",
-        icon: <BellOutlined />,
+        icon: <BankOutlined />,
         label: "Duty Home",
         activeTab: 2,
         path: "/",
       },
       {
         key: "2.2",
-        icon: <BellOutlined />,
+        icon: <MessageOutlined />,
         label: "SMS",
         children: [
           {
             key: "2.2.1",
-            icon: <BellOutlined />,
+            icon: <SendOutlined />,
             label: "SMS Duty Start",
             path: "/sms/dutyStart",
           },
           {
             key: "2.2.2",
-            icon: <BellOutlined />,
+            icon: <FlagOutlined />,
             label: "SMS Duty End",
             path: "/sms/dutyEnd",
             children: [
               {
                 key: "2.2.2.1",
-                icon: <BellOutlined />,
+                icon: <FlagOutlined />,
                 label: "SMS Duty End Home",
                 path: "/sms/dutyEnd",
               },
               {
                 key: "2.2.2.2",
-                icon: <BellOutlined />,
+                icon: <FileSearchOutlined />,
                 label: "SMS Summary",
                 path: "/sms/heatSummary",
               },
               {
                 key: "2.2.2.3",
-                icon: <BellOutlined />,
+                icon: <EyeOutlined />,
                 label: "Bloom Inspection",
                 path: "/sms/bloomInspection",
               },
@@ -81,25 +105,25 @@ const items = [
                 children: [
                   {
                     key: "2.2.2.1.1",
-                    icon: <BellOutlined />,
+                    icon: <ExperimentOutlined />,
                     label: "Shift Reports Home",
                     path: "/sms/shiftReports",
                   },
                   {
                     key: "2.2.2.1.2",
-                    icon: <BellOutlined />,
+                    icon: <HeatMapOutlined />,
                     label: "Heat List",
                     path: "/sms/shiftReports/heatList",
                   },
                   {
                     key: "2.2.2.1.3",
-                    icon: <BellOutlined />,
+                    icon: <CheckOutlined />,
                     label: "Check List",
                     path: "/sms/shiftReports/checkList",
                   },
                   {
                     key: "2.2.2.1.4",
-                    icon: <BellOutlined />,
+                    icon: <FileDoneOutlined />,
                     label: "Verification",
                     path: "/sms/shiftReports/verification",
                   },
@@ -110,62 +134,76 @@ const items = [
         ],
       },
       {
-        key: '2.3',
-        icon: <BellOutlined />,
-        label: 'Rolling Stage',
+        key: "2.3",
+        icon: <AuditOutlined />,
+        label: "Rolling Stage",
         children: [
           {
-            key: '2.3.1',
-            icon: <HomeOutlined />,
-            label: 'Start Duty',
-            path: '/stage/startDuty',
+            key: "2.3.1",
+            icon: <SendOutlined />,
+            label: "Start Duty",
+            path: "/stage/startDuty",
           },
           {
-            key: '2.3.2',
-            icon: <HomeOutlined />,
-            label: 'Stage Home',
-            path: '/stage/home',
+            key: "2.3.2",
+            icon: <FlagOutlined />,
+            label: "RS Duty End",
+            children: [
+              {
+                key: "2.3.2.1",
+                icon: <FlagOutlined />,
+                label: "RS Duty End Home",
+                path: "/stage/home",
+              }
+            ]
           },
         ],
       },
       {
-        key: '2.4',
-        icon: <BellOutlined />,
-        label: 'NDT',
+        key: "2.4",
+        icon: <RadarChartOutlined />,
+        label: "NDT",
         children: [
           {
-            key: '2.4.1',
-            icon: <HomeOutlined />,
-            label: 'Start Duty',
-            path: '/ndt/startDuty',
+            key: "2.4.1",
+            icon: <SendOutlined />,
+            label: "Start Duty",
+            path: "/ndt/startDuty",
           },
           {
-            key: '2.4.2',
-            icon: <HomeOutlined />,
-            label: 'NDT Home',
-            path: '/ndt/home',
-          },
-          {
-            key: '2.4.3',
-            icon: <HomeOutlined />,
-            label: 'Calibration',
-            path: '/ndt/calibration',
+            key: "2.4.2",
+            icon: <FlagOutlined />,
+            label: "NDT Duty End",
+            children: [
+              {
+                key: '2.4.2.1',
+                label: "NDT Duty End Home",
+                icon: <FlagOutlined />,
+                path: "/ndt/home",
+              },
+              {
+                key: "2.4.2.2",
+                icon: <BarChartOutlined />,
+                label: "Calibration",
+                path: "/ndt/calibration",
+              },
+              {
+                key: "2.4.2.3",
+                icon: <RetweetOutlined />,
+                label: "Report",
+                path: "/ndt/report",
+              },
+            ]
           },
           // {
           //   key: '2.3.4',
-          //   icon: <HomeOutlined />,
+          //   icon: <FileDoneOutlined />,
           //   label: 'Shift Summary',
           //   path: '/ndt/shiftSummary',
           // },
-          {
-            key: '2.4.5',
-            icon: <HomeOutlined />,
-            label: 'Report',
-            path: '/ndt/report',
-          },
           // {
           //   key: '2.3.6',
-          //   icon: <HomeOutlined />,
+          //   icon: <SnippetsOutlined />,
           //   label: 'Test Sample Marking',
           //   path: '/ndt/testSampleMarking',
           // },
@@ -173,12 +211,12 @@ const items = [
       },
       {
         key: "2.6",
-        icon: <BellOutlined />,
+        icon: <HddOutlined />,
         label: "Visual Inspection",
         children: [
           {
             key: "2.6.1",
-            icon: <HomeOutlined />,
+            icon: <SendOutlined />,
             label: "VI Duty Start",
             path: "/visual/startDuty",
           },
@@ -189,29 +227,105 @@ const items = [
             children: [
               {
                 key: "2.6.2.1",
-                icon: <HomeOutlined />,
+                icon: <FlagOutlined />,
                 label: "VI Duty End Home",
                 path: "/visual/home",
               },
               {
                 key: "2.6.2.3",
-                icon: <HomeOutlined />,
+                icon: <BranchesOutlined />,
                 label: "Inspection",
                 path: "/visual/inspection",
               },
               {
                 key: "2.6.2.4",
-                icon: <HomeOutlined />,
+                icon: <FileSearchOutlined />,
                 label: "Shift Inspection Summary",
                 path: "/visual/summary",
               },
               // {
               //   key: "2.6.2.5",
-              //   icon: <HomeOutlined />,
+              //   icon: <SnippetsOutlined />,
               //   label: "Test Sample Marking",
               //   path: "/visual/summary",
               // },
-            ]
+            ],
+          },
+        ],
+      },
+      {
+        key: "2.7",
+        icon: <CompassOutlined />,
+        label: "Short Rail Inspection",
+        children: [
+          {
+            key: "2.7.1",
+            icon: <FlagOutlined />,
+            label: "Short Rail Inspection Home",
+            children: [
+              {
+                key: "2.7.1.1",
+                icon: <FlagOutlined />,
+                label: "SR Inspection Home",
+                path: "/srInspection",
+              },
+              {
+                key: "2.7.1.2",
+                icon: <DeploymentUnitOutlined />,
+                label: "New SR Inspection",
+                path: "/srInspection/addNewInspection",
+              },
+              {
+                key: "2.7.1.3",
+                icon: <DashboardOutlined />,
+                label: "Other WS Remarks",
+                path: "/srInspection/wsRemarks",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        key: "2.8",
+        icon: <DatabaseOutlined />,
+        label: "QCT",
+        children: [
+          {
+            key: "2.8.1",
+            icon: <HistoryOutlined />,
+            label: "QCT Sample List",
+            path: "/qct/sampleList",
+          },
+          {
+            key: "2.8.2",
+            icon: <TeamOutlined />,
+            label: "New Sample Declaration",
+            path: "/qct/newSampleDeclaration",
+          },
+        ],
+      },
+      {
+        key: "2.9",
+        icon: <ToolOutlined />,
+        label: "Calibration",
+        children: [
+          {
+            key: "2.9.1",
+            icon: <ClockCircleOutlined />,
+            label: "Calibration List",
+            path: "/calibration/list",
+          },
+          {
+            key: "2.9.2",
+            icon: <FundOutlined />,
+            label: "New / Modify Calibration List",
+            path: "/calibration/newModifyCalibration",
+          },
+          {
+            key: "2.9.3",
+            icon: <DatabaseOutlined />,
+            label: "Bulk Calibration",
+            path: "/calibration/bulkCalibration",
           },
         ],
       },

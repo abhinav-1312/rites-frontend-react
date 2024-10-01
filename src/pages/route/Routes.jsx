@@ -23,58 +23,20 @@ import NDTHome from "../dashboard/duty/ndt/home/Home";
 import NCalibrationForm from "../dashboard/duty/ndt/calibration/NCalibrationForm";
 import NReport from "../dashboard/duty/ndt/report/NReport";
 import SmsDutyStartForm from "../dashboard/duty/sms/startDuty/SmsDutyStartForm";
+import CalibrationList from '../dashboard/duty/calibration/calibrationList/CalibrationList';
+import NewCalibrationForm from '../dashboard/duty/calibration/newCalibration/NewCalibrationForm';
+import BulkCalibrationForm from '../dashboard/duty/calibration/bulkCalibration/BulkCalibrationForm';
+import QctSampleList from '../dashboard/duty/qct/qctSampleList/QctSampleList';
+import QctSampleDeclarationForm from '../dashboard/duty/qct/newSampleDeclaration/QctSampleDeclarationForm';
+import SrInspectionHome from '../dashboard/duty/srInspection/srInspectionHome/SrInspectionHome';
+import SrNewInspectionForm from '../dashboard/duty/srInspection/srNewInspection/SrNewInspectionForm';
+import WsRemarks from '../dashboard/duty/srInspection/wsRemarks/WsRemarks';
+import TestSampleList from '../dashboard/duty/stage/testSampleMarking/testSampleList/TestSampleList';
+import NewTestSampleDeclaration from "../dashboard/duty/stage/testSampleMarking/newTestSample/NewTestSampleDeclaration";
 
 const RoutesComponent = () => {
   return (
     <BrowserRouter>
-      {/* <Routes>
-        <Route element = {<PrivateRoutes />}>
-        
-          <Route path='/' element={<Layout />} >
-            <Route index element={ <Dashboard />} />
-            <Route path='/sms'>
-              <Route index element={<SmsDutyStartForm />} />
-              <Route path='heatSummary' element={<SmsHeatSummary />} />
-              <Route path='dutyStart' element={<SmsDutyStartForm />} />
-              <Route path='dutyEnd' element={<SmsDutyEnd />} />
-              <Route path='bloomInspection' element={<SmsBloomInspection />} />
-              <Route path='shiftReports'>
-                <Route index element={<ShiftReports />} />
-                <Route path='heatList' element={<SmsHeatList />} />
-                <Route path='checkList' element={<SmsCheckList />} />
-                <Route path='verification' element={<SmsVerification />} />
-              </Route>
-            </Route>
-
-            <Route path='/visual'>
-              <Route index element={<VIShiftDetailsForm />} />
-              <Route path='startDuty' element={<VIShiftDetailsForm />} />
-              <Route path='home' element={<Home />} />
-              <Route path='inspection' element={<VisualInspectionForm />} />
-              <Route path='summary' element={<VIShiftSummary />} />
-            </Route>
-
-            <Route path='/stage'>
-              <Route index element={<StageShiftDetailsForm />} />
-              <Route path='startDuty' element={<StageShiftDetailsForm />} />
-              <Route path='home' element={<StageHome />} />
-            </Route>
-
-            <Route path='/ndt'>
-              <Route index element={<NDTStartDutyForm />} />
-              <Route path='startDuty' element={<NDTStartDutyForm />} />
-              <Route path='home' element={<NDTHome />} />
-              <Route path='calibration' element={<NCalibrationForm  />} />
-              <Route path='report' element={<NReport />} />
-            </Route>
-          </Route>
-        </Route>
-
-        <Route path='/login' element={<Login />} />
-        <Route path='*' element={<PageNotFound />} />
-
-      </Routes> */}
-
       <Routes>
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<LayoutWithDashboard />}>
@@ -93,12 +55,12 @@ const RoutesComponent = () => {
               </Route>
             </Route>
 
-            <Route path="/visual">
-              <Route index element={<VIShiftDetailsForm />} />
-              <Route path="startDuty" element={<VIShiftDetailsForm />} />
-              <Route path="home" element={<Home />} />
-              <Route path="inspection" element={<VisualInspectionForm />} />
-              <Route path="summary" element={<VIShiftSummary />} />
+            <Route path="/stage">
+              <Route index element={<StageShiftDetailsForm />} />
+              <Route path="startDuty" element={<StageShiftDetailsForm />} />
+              <Route path="home" element={<StageHome />} />
+              <Route path="testSampleMarkingList" element={<TestSampleList />} />
+              <Route path="newTestSampleDeclaration" element={<NewTestSampleDeclaration />} />
             </Route>
 
             <Route path="/ndt">
@@ -109,10 +71,31 @@ const RoutesComponent = () => {
               <Route path="report" element={<NReport />} />
             </Route>
 
-            <Route path="/stage">
-              <Route index element={<StageShiftDetailsForm />} />
-              <Route path="startDuty" element={<StageShiftDetailsForm />} />
-              <Route path="home" element={<StageHome />} />
+            <Route path="/visual">
+              <Route index element={<VIShiftDetailsForm />} />
+              <Route path="startDuty" element={<VIShiftDetailsForm />} />
+              <Route path="home" element={<Home />} />
+              <Route path="inspection" element={<VisualInspectionForm />} />
+              <Route path="summary" element={<VIShiftSummary />} />
+            </Route>
+
+            <Route path="/srInspection">
+              <Route index element={<SrInspectionHome />} />
+              <Route path="addNewInspection" element={<SrNewInspectionForm />} />
+              <Route path="wsRemarks" element={<WsRemarks />} />
+            </Route>
+
+            <Route path="/qct">
+              <Route index element={<QctSampleList />} />
+              <Route path="sampleList" element={<QctSampleList />} />
+              <Route path="newSampleDeclaration" element={<QctSampleDeclarationForm />} />
+            </Route>
+
+            <Route path='/calibration'>
+              <Route index element={<CalibrationList />} />
+              <Route path='list' element={<CalibrationList />} />
+              <Route path='newModifyCalibration' element={<NewCalibrationForm />} />
+              <Route path='bulkCalibration' element={<BulkCalibrationForm  />} />
             </Route>
           </Route>
         </Route>

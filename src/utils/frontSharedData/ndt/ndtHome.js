@@ -19,7 +19,7 @@ const ndtHomeTabs = [
     {
         title: 'Test Sample Marking',
         icon: <PieChartOutlined />,
-        link: "/stage/testSampleMarking"
+        link: "/stage/testSampleMarkingList"
     },
 ]
 

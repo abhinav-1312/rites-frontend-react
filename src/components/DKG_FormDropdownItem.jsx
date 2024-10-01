@@ -3,9 +3,9 @@ import {Form, Select} from "antd"
 
 const { Option } = Select;
 
-const FormDropdownItem = ({label, placeholder, name, onChange, dropdownArray, valueField, visibleField, required}) => {
+const FormDropdownItem = ({label, placeholder, name, onChange, dropdownArray, valueField, visibleField, required, className}) => {
   return (
-    <Form.Item label={label} name={name} rules={[{ required: required ? true : false, message: 'Required!' }]}>
+    <Form.Item label={label} name={name} rules={[{ required: required ? true : false, message: 'Required!' }]} className={className} >
       <Select placeholder={placeholder}  onChange={(value)=>onChange(name, value)}>
         {
             dropdownArray.map((item, key)=>(

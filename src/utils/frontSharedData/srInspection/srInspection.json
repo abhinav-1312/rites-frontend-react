@@ -1,0 +1,35 @@
+{
+    "srInspectionGeneralInfo": {
+        "date": "01/01/2024",
+        "shift": "A"
+    },
+    "shortRailColumns": [
+        {"title": "S.No.", "dataIndex": "serialNumber", "key": "serialNumber"},
+        {"title": "Inspected Tonnage", "dataIndex": "inspectedTonnage", "key": "inspectedTonnage"},
+        {"title": "Accepted Tonnage", "dataIndex": "acceptedTonnage", "key": "acceptedTonnage"},
+        {"title": "Rejected Tonnage", "dataIndex": "rejectedTonnage", "key": "rejectedTonnage"}
+    ],
+    "shortRailData": [
+        {
+            "key": "1",
+            "serialNumber": "1",
+            "inspectedTonnage": "",
+            "acceptedTonnage": "",
+            "rejectedTonnage": ""
+        },
+        {
+            "key": "2",
+            "serialNumber": "2",
+            "inspectedTonnage": "",
+            "acceptedTonnage": "",
+            "rejectedTonnage": ""
+        },
+        {
+            "key": "3",
+            "serialNumber": "3",
+            "inspectedTonnage": "",
+            "acceptedTonnage": "",
+            "rejectedTonnage": ""
+        }
+    ]
+}

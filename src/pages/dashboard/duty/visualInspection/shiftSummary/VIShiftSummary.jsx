@@ -11,7 +11,6 @@ import FilterTable from "../../../../../components/DKG_FilterTable";
 import filter from "../../../../../assets/icons/filter.svg"
 import DisplayIcon from "../../../../../components/DKG_DisplayIcon"
 import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
-import { FilterOutlined } from '@ant-design/icons';
 
 const { acceptanceData: sampleData, rejectionData: sampleDataSec, compiledData, defectAnalysisData, lineNumberList, acceptanceColumns, rejectionColumns, compiledColumns, defectColumns, visualInspectionGeneralInfo } = data;
 
@@ -47,17 +46,17 @@ const VIShiftSummary = () => {
         <SubHeader title="Visual Inspection - Shift Summary" link="/visual/home" />
         <GeneralInfo data={visualInspectionGeneralInfo} />
 
-        <FormBody initialValues={formData} className='!p-0'>
-            <section className="flex justify-center">
-                <div className='flex items-center gap-x-4 justify-center'>
-                    <DisplayIcon src={filter} alt='Filter' width={24} height={24} />
+        <FormBody initialValues={formData}>
+            <section className="flex justify-center mt-2">
+                <div className='flex items-center'>
+                    <DisplayIcon src={filter} alt='Filter' width={24} height={24} className='mr-2' />
                     
                     <FormDropdownItem label='Line Number' name='lineNumber' dropdownArray={lineNumberList} valueField={'key'} visibleField={'value'} onChange={handleChange} required />
                 </div>
             </section>
         </FormBody>
 
-        {/* <Divider/> */}
+        <Divider className="mt-0" />
 
         <div className='flex justify-center'>
             <Select 
@@ -85,7 +84,10 @@ const VIShiftSummary = () => {
                     pageSizeOptions: ["5", "10", "20"],
                     }}
                 />
-                <Divider className="m-0">Rejection Summary</Divider>
+
+                <hr />
+
+                <Divider>Rejection Summary</Divider>
 
                 <Table
                     dataSource={sampleDataSec}
@@ -97,7 +99,10 @@ const VIShiftSummary = () => {
                     pageSizeOptions: ["5", "10", "20"],
                     }}
                 />
-                <Divider className="!m-0">Compiled Summary</Divider>
+
+                <hr />
+
+                <Divider>Compiled Summary</Divider>
 
                 <Table
                     dataSource={compiledData}
@@ -109,6 +114,9 @@ const VIShiftSummary = () => {
                     pageSizeOptions: ["5", "10", "20"],
                     }}
                 />
+
+                <hr />
+
                 <div className='flex justify-center mt-6'>
                     <Btn onClick={handleClick} className='w-[25%]'>Go VI Home</Btn>
                 </div>
@@ -141,8 +149,10 @@ const VIShiftSummary = () => {
             <>
                 <FilterTable />
                 
+                <hr />
+
                 <div className='flex justify-center mt-6'>
-                    <Btn htmlType='submit' onClick={handleClick} className='w-[25%]'>Go Back</Btn>
+                    <Btn htmlType='submit' onClick={handleClick} className='w-[25%]'>Go VI Home</Btn>
                 </div>
             </>
         )}

@@ -25,16 +25,16 @@ const Home = () => {
 
   return (
     <FormContainer>
-        <SubHeader title="Visual - Duty End" link="/" />
+        <SubHeader title="Visual - Home" link="/" />
         <GeneralInfo data={visualInspectionGeneralInfo} />
 
-        <section>
+        <section className="mt-6">
             <TabList tabList={visualHomeTabs} />
         </section>
 
-        <Divider className="my-0" />
+        <Divider className="mt-6 mb-1" />
 
-        <FormBody initialValues={remarks} onFinish={handleFormSubmit} className='p-0'>
+        <FormBody initialValues={remarks} onFinish={handleFormSubmit}>
             <Checkbox.Group options={checkBoxItem.map(item => ({key: item.key, label: item.value, value: item.key }))} value={checkedValues} onChange={(checkedValues) => setCheckedValues(checkedValues)} />
             
             <Divider />

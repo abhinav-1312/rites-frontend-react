@@ -31,7 +31,6 @@ const dutyItemTabs = [
     title: 'Visual Inspection',
     icon: <HomeOutlined />,
     link: '/visual/startDuty'
-    
   },
   {
     id: 6,
@@ -41,17 +40,20 @@ const dutyItemTabs = [
   {
     id: 7,
     title: 'Short Rail Inspection',
-    icon: <HomeOutlined />
+    icon: <HomeOutlined />,
+    link: 'srInspection'
   },
   {
     id: 8,
     title: 'QCT',
-    icon: <HomeOutlined />
+    icon: <HomeOutlined />,
+    link: 'qct/sampleList'
   },
   {
     id: 9,
     title: 'Calibration',
-    icon: <HomeOutlined />
+    icon: <HomeOutlined />,
+    link: 'calibration/list'
   },
   {
     id: 10,
