@@ -19,7 +19,7 @@ const stageHomeTabs = [
     {
         title: 'Testing Sample Marking',
         icon: <EyeOutlined />,
-        link: "/stage/testSample/list"
+        link: "/stage/testSampleMarkingList"
     },
     {
         title: 'HT Sequence',

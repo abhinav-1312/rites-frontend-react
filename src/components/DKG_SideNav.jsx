@@ -3,6 +3,9 @@ import Sider from "antd/es/layout/Sider";
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
+  BorderInnerOutlined,
+  BorderOuterOutlined,
+  DoubleRightOutlined,
   RadarChartOutlined,
   BarChartOutlined,
   RetweetOutlined,
@@ -154,6 +157,62 @@ const items = [
                 icon: <FlagOutlined />,
                 label: "RS Duty End Home",
                 path: "/stage/home",
+              },
+              {
+                key: "2.3.2.2",
+                icon: <DoubleRightOutlined />,
+                label: "RS Control",
+                children: [
+                  {
+                    key: "2.3.2.2.1",
+                    icon: <DoubleRightOutlined />,
+                    label: "Rail Control",
+                    path: "/stage/rollingControl"
+                  },
+                  {
+                    key: "2.3.2.2.2",
+                    icon: <BorderOuterOutlined />,
+                    label: "Control Sample for 60E1",
+                    path: "/stage/rollingControl/rollingControlSample60E1"
+                  },
+                  {
+                    key: "2.3.2.2.3",
+                    icon: <BorderInnerOutlined />,
+                    label: "Control Sample for IRS52",
+                    path: "/stage/rollingControl/rollingControlSampleIRS52"
+                  },
+                  {
+                    key: "2.3.2.2.4",
+                    icon: <CheckCircleOutlined />,
+                    label: "Control Sample for 60E1A1",
+                    path: "/stage/rollingControl/rollingControlSample60E1A1"
+                  },
+                ]
+              },
+              {
+                key: "2.3.2.3",
+                icon: <DoubleRightOutlined />,
+                label: "Test Sample Marking",
+                children: [
+                  {
+                    key: "2.3.2.3.1",
+                    icon: <DoubleRightOutlined />,
+                    label: "Test Sample List",
+                    path: "/stage/testSampleMarkingList"
+                  },
+                  {
+                    key: "2.3.2.3.2",
+                    icon: <BorderOuterOutlined />,
+                    label: "New Sample Declaration",
+                    path: "/stage/newTestSampleDeclaration"
+                  }
+                ]
+              },
+              {
+                key: "2.3.2.4",
+                icon: <DoubleRightOutlined />,
+                label: "HT Sequence",
+                path: "/stage/htSequence",
               }
             ]
           },
