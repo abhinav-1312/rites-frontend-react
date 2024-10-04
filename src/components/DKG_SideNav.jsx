@@ -261,12 +261,12 @@ const items = [
           //   label: 'Shift Summary',
           //   path: '/ndt/shiftSummary',
           // },
-          {
-            key: '2.3.6',
-            icon: <SnippetsOutlined />,
-            label: 'Test Sample Marking',
-            path: '/stage/testSampleMarkingList',
-          },
+          // {
+          //   key: '2.3.6',
+          //   icon: <SnippetsOutlined />,
+          //   label: 'Test Sample Marking',
+          //   path: '/stage/testSampleMarkingList',
+          // },
         ],
       },
       {
