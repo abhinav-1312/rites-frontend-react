@@ -1,64 +1,64 @@
 import React from 'react'
-import {HomeOutlined} from '@ant-design/icons';
+import {LineChartOutlined, ToolOutlined, DatabaseOutlined, CompassOutlined, DeploymentUnitOutlined, HddOutlined, SnippetsOutlined, RadarChartOutlined, AuditOutlined, MessageOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Tab from '../../../components/DKG_Tab';
 const dutyItemTabs = [
   {
     id: 1,
     title: 'SMS',
-    icon: <HomeOutlined />,
+    icon: <MessageOutlined />,
     link: '/sms/dutyStart'
   },
   {
     id: 2,
     title: 'Rolling Stage',
-    icon: <HomeOutlined />,
+    icon: <AuditOutlined />,
     link: 'stage/startDuty'
   },
   {
     id: 3,
     title: 'NDT',
-    icon: <HomeOutlined />,
+    icon: <RadarChartOutlined />,
     link: 'ndt/startDuty'
   },
   {
     id: 4,
     title: 'Testing',
-    icon: <HomeOutlined />
+    icon: <SnippetsOutlined />
   },
   {
     id: 5,
     title: 'Visual Inspection',
-    icon: <HomeOutlined />,
+    icon: <HddOutlined />,
     link: '/visual/startDuty'
   },
   {
     id: 6,
     title: 'Welding Inspection',
-    icon: <HomeOutlined />
+    icon: <DeploymentUnitOutlined />
   },
   {
     id: 7,
     title: 'Short Rail Inspection',
-    icon: <HomeOutlined />,
+    icon: <CompassOutlined />,
     link: 'srInspection'
   },
   {
     id: 8,
     title: 'QCT',
-    icon: <HomeOutlined />,
+    icon: <DatabaseOutlined />,
     link: 'qct/sampleList'
   },
   {
     id: 9,
     title: 'Calibration',
-    icon: <HomeOutlined />,
+    icon: <ToolOutlined />,
     link: 'calibration/list'
   },
   {
     id: 10,
     title: 'Info',
-    icon: <HomeOutlined />
+    icon: <LineChartOutlined />
   },
 ]
 

@@ -40,6 +40,7 @@ import {
   LineChartOutlined,
   ProfileOutlined,
   UserOutlined,
+  SnippetsOutlined
 } from "@ant-design/icons";
 import IconBtn from "./DKG_IconBtn";
 import { useDispatch } from "react-redux";
@@ -260,12 +261,12 @@ const items = [
           //   label: 'Shift Summary',
           //   path: '/ndt/shiftSummary',
           // },
-          // {
-          //   key: '2.3.6',
-          //   icon: <SnippetsOutlined />,
-          //   label: 'Test Sample Marking',
-          //   path: '/ndt/testSampleMarking',
-          // },
+          {
+            key: '2.3.6',
+            icon: <SnippetsOutlined />,
+            label: 'Test Sample Marking',
+            path: '/stage/testSampleMarkingList',
+          },
         ],
       },
       {
