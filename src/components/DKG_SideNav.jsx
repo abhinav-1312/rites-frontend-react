@@ -40,7 +40,6 @@ import {
   LineChartOutlined,
   ProfileOutlined,
   UserOutlined,
-  SnippetsOutlined
 } from "@ant-design/icons";
 import IconBtn from "./DKG_IconBtn";
 import { useDispatch } from "react-redux";

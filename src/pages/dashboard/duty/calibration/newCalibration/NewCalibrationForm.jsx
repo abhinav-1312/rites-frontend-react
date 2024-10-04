@@ -18,7 +18,7 @@ const NewCalibrationForm = () => {
   const [instrumentList, setInstrumentList] = useState([]);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    instrumentCategory: null, instrument: null,  instrumentDetail: '', railSection: null, serialNumber: '', calibrationDate: new Date(), calibrationResult: '', calibrationUptoDate: '',
+    instrumentCategory: null, instrument: null,  instrumentDetail: '', railSection: null, serialNumber: '', calibrationDate: '', calibrationResult: '', calibrationUptoDate: '',
   })
 
   const handleChange = (fieldName, value) => {
