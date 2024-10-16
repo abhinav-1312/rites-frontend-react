@@ -1,29 +1,29 @@
-import { FileSearchOutlined, EyeOutlined, PieChartOutlined }from '@ant-design/icons';
+import { FileSearchOutlined, HistoryOutlined, DashboardOutlined, ExperimentOutlined, ForkOutlined, ControlOutlined, EyeOutlined, PieChartOutlined }from '@ant-design/icons';
 
 const stageHomeTabs = [
     {
       title: 'Rail Rolling Control',
-      icon: <EyeOutlined />,
+      icon: <ControlOutlined />,
       link: "/stage/rollingControl"
     },
     {
       title: 'URM Rolling Verification',
-      icon: <FileSearchOutlined />,
+      icon: <DashboardOutlined />,
       link: "/stage/urmVerification"
     },
     {
       title: 'Rail Finishing Verification',
-      icon: <PieChartOutlined />,
+      icon: <HistoryOutlined />,
       link: "/stage/finishingVerification"
     },
     {
         title: 'Testing Sample Marking',
-        icon: <EyeOutlined />,
+        icon: <ExperimentOutlined />,
         link: "/stage/testSampleMarkingList"
     },
     {
         title: 'HT Sequence',
-        icon: <FileSearchOutlined />,
+        icon: <ForkOutlined />,
         link: "/stage/htSequence"
     },
 ]

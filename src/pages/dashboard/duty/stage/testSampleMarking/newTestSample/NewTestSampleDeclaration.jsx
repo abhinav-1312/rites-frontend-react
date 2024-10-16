@@ -9,15 +9,17 @@ import { message, Checkbox } from 'antd';
 import FormInputItem from '../../../../../../components/DKG_FormInputItem';
 import FormDropdownItem from '../../../../../../components/DKG_FormDropdownItem';
 import Btn from '../../../../../../components/DKG_Btn';
+import FormNumericInputItem from '../../../../../../components/DKG_FormNumericInputItem'
 
 const { testDropdownList, railGradeDropdownList, testSampleDecGeneralInfo, strandDropdownList, sampleLotDropdownList, sampleDropdownList, checkBoxItems, retestNameSecDropdownList, retestNameDropdownList } = data;
 
 const NewTestSampleDeclaration = () => {
   const [checkedValues, setCheckedValues] = useState([])
+  const [heatNumber, setHeatNumber] = useState('');
   const navigate = useNavigate();
   const [formData, setFormData] = useState(
     {
-      sampleDetails: '', test: '', railGrade: '', sampleType: '', heatNumber: '', strand: '', sampleLot: '', remarks: '', sampleID: '', retestName: '', retestOne: '', retestTwo: '', retestThree: '' 
+      test: '', railGrade: '', sampleType: '', heatNumber: '', strand: '', sampleLot: '', remarks: '', sampleID: '', retestName: '', retestOne: '', retestTwo: '', retestThree: '' 
     }
   );
 
@@ -42,8 +44,6 @@ const NewTestSampleDeclaration = () => {
       <GeneralInfo data={testSampleDecGeneralInfo} />
 
       <FormBody initialValues={formData} onFinish={handleFormSubmit} >
-        <FormInputItem label='Enter Sample Details' name='sampleDetails' value={formData.sampleDetails} onChange={handleChange} required/>
-
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-x-4'>
           <FormDropdownItem label='Test' name='test' value={formData.test} dropdownArray={testDropdownList} onChange={handleChange} valueField='key' visibleField='value' required/>
           <FormDropdownItem label='Rail Grade' name='railGrade' value={formData.railGrade} dropdownArray={railGradeDropdownList} onChange={handleChange} valueField='key' visibleField='value' required/>
@@ -63,7 +63,14 @@ const NewTestSampleDeclaration = () => {
                       </div>
 
                       <div className='grid grid-cols-2'>
-                          <FormInputItem label='Heat Number' name='heatNumber' value={formData.heatNumber} onChange={handleChange} required/>
+                        <FormNumericInputItem
+                          label="Heat Number"
+                          minLength={6}
+                          maxLength={6}
+                          value={heatNumber}
+                          onChange={setHeatNumber}
+                          required
+                        />
                           <FormDropdownItem label='Strand' name='strand' value={formData.strand} dropdownArray={strandDropdownList} onChange={handleChange} valueField='key' visibleField='value' className='ml-2 w-[95%]' required/>
                       </div>
 
@@ -101,7 +108,14 @@ const NewTestSampleDeclaration = () => {
                       </div>
 
                       <div className='grid grid-cols-2'>
-                          <FormInputItem label='Heat Number' name='heatNumber' value={formData.heatNumber} onChange={handleChange} required/>
+                        <FormNumericInputItem
+                          label="Heat Number"
+                          minLength={6}
+                          maxLength={6}
+                          value={heatNumber}
+                          onChange={setHeatNumber}
+                          required
+                        />
                           <FormDropdownItem label='Strand' name='strand' value={formData.strand} dropdownArray={strandDropdownList} onChange={handleChange} valueField='key' visibleField='value' className='ml-2 w-[95%]' required/>
                       </div>
 
@@ -139,8 +153,15 @@ const NewTestSampleDeclaration = () => {
                       </div>
 
                       <div className='grid grid-cols-2'>
-                          <FormInputItem label='Heat Number' name='heatNumber' value={formData.heatNumber} onChange={handleChange} required/>
-                          <FormDropdownItem label='Retest 1' name='retestOne' value={formData.retestOne} dropdownArray={strandDropdownList} onChange={handleChange} valueField='key' visibleField='value' className='ml-2' required/>
+                        <FormNumericInputItem
+                          label="Heat Number"
+                          minLength={6}
+                          maxLength={6}
+                          value={heatNumber}
+                          onChange={setHeatNumber}
+                          required
+                        />
+                        <FormDropdownItem label='Retest 1' name='retestOne' value={formData.retestOne} dropdownArray={strandDropdownList} onChange={handleChange} valueField='key' visibleField='value' className='ml-2' required/>
                       </div>
 
                       <div className='grid grid-cols-2'>
@@ -168,9 +189,16 @@ const NewTestSampleDeclaration = () => {
                           <FormDropdownItem label='Sample Lot' name='sampleLot' value={formData.sampleLot} dropdownArray={sampleLotDropdownList} onChange={handleChange} valueField='key' visibleField='value' className='ml-2' required/>
                       </div>
 
-                      <div className='grid grid-cols-2'>
+                      <div className='grid grid-cols-2 gap-x-2'>
                           <FormInputItem label='Sample ID' name='sampleID' value={formData.sampleID} onChange={handleChange} required/>
-                          <FormInputItem label='Heat Number' name='heatNumber' value={formData.heatNumber} onChange={handleChange} className='ml-2' required/>
+                          <FormNumericInputItem
+                            label="Heat Number"
+                            minLength={6}
+                            maxLength={6}
+                            value={heatNumber}
+                            onChange={setHeatNumber}
+                            required
+                          />
                       </div>
 
                       <div className='grid grid-cols-1'>

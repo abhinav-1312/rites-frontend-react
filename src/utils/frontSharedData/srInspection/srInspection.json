@@ -4,10 +4,10 @@
         "shift": "A"
     },
     "shortRailColumns": [
-        {"title": "S.No.", "dataIndex": "serialNumber", "key": "serialNumber"},
-        {"title": "Inspected Tonnage", "dataIndex": "inspectedTonnage", "key": "inspectedTonnage"},
-        {"title": "Accepted Tonnage", "dataIndex": "acceptedTonnage", "key": "acceptedTonnage"},
-        {"title": "Rejected Tonnage", "dataIndex": "rejectedTonnage", "key": "rejectedTonnage"}
+        {"title": "S.No.", "dataIndex": "serialNumber", "key": "serialNumber", "align": "center" },
+        {"title": "Inspected Tonnage", "dataIndex": "inspectedTonnage", "key": "inspectedTonnage", "align": "center"},
+        {"title": "Accepted Tonnage", "dataIndex": "acceptedTonnage", "key": "acceptedTonnage", "align": "center"},
+        {"title": "Rejected Tonnage", "dataIndex": "rejectedTonnage", "key": "rejectedTonnage", "align": "center"}
     ],
     "shortRailData": [
         {
@@ -27,6 +27,13 @@
         {
             "key": "3",
             "serialNumber": "3",
+            "inspectedTonnage": "",
+            "acceptedTonnage": "",
+            "rejectedTonnage": ""
+        },
+        {
+            "key": "4",
+            "serialNumber": "Total",
             "inspectedTonnage": "",
             "acceptedTonnage": "",
             "rejectedTonnage": ""

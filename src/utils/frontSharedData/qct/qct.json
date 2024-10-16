@@ -67,6 +67,24 @@
             "value": "Centerline RSH"
         }
     ],
+    "qctSecList": [
+        {
+            "key": "Fatigue",
+            "value": "Fatigue"
+        },
+        {
+            "key": "Fracture Toughness",
+            "value": "Fracture Toughness"
+        },
+        {
+            "key": "Residual Stress",
+            "value": "Residual Stress"
+        },
+        {
+            "key": "FCGR",
+            "value": "FCGR"
+        }
+    ],
     "sampleDeclarationColumns": [
         {"title": "S.No.", "dataIndex": "serialNumber", "key": "serialNumber", "fixed": "left"},
         {"title": "QCT", "dataIndex": "qct", "key": "qct", "fixed": "left"},

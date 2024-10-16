@@ -1,7 +1,7 @@
 import React from 'react'
 import {Form, Input, InputNumber} from "antd"
 
-const FormInputItem = ({label, name, value, onChange, readOnly, disabled, className, placeholder, required, type}) => {
+const FormInputItem = ({label, name, value, onChange, readOnly, disabled, className, placeholder, required, min, max, type}) => {
   const handleChange = (e) => {
     if(onChange)
       onChange(name, e.target.value)
@@ -17,6 +17,8 @@ const FormInputItem = ({label, name, value, onChange, readOnly, disabled, classN
         <InputNumber
         step={1}          // Increment/decrement step
         value={value}
+        min={min}
+        max={max}
         onChange={handleChange}
         style={{ width: '100%' }} // Adjust width as needed
       />

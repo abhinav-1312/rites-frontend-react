@@ -45,6 +45,7 @@ const SrInspectionHome = () => {
           dataSource={shortRailData}
           columns={shortRailColumns}
           scroll={{ x: true }}
+          bordered
           pagination={{
             pageSize: 5,
             showSizeChanger: true,

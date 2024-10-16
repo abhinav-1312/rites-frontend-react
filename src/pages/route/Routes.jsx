@@ -38,6 +38,12 @@ import RollingControl60E1 from "../dashboard/duty/stage/rollingStage/rollingCont
 import RollingControlIRS52 from "../dashboard/duty/stage/rollingStage/rollingControlIRS52/RollingControlIRS52";
 import RollingControl60E1A1 from "../dashboard/duty/stage/rollingStage/rollingControl60E1A1/RollingControl60E1A1";
 import HtSequence from "../dashboard/duty/stage/rollingStage/htSequence/HtSequence";
+import WeldingStartDutyForm from "../dashboard/duty/welding/startDuty/WeldingStartDutyForm";
+import WeldingHome from "../dashboard/duty/welding/home/WeldingHome";
+import NewWeldInspection from "../dashboard/duty/welding/newWeld/NewWeldInspection";
+import HeldRejectedPanel from '../dashboard/duty/welding/heldRejectedPanel/HeldRejectedPanel';
+import WeldingSummary from '../dashboard/duty/welding/shiftSummary/WeldingSummary';
+import WeldTestSample from "../dashboard/duty/welding/testSample/WeldTestSample";
 
 const RoutesComponent = () => {
   return (
@@ -106,6 +112,16 @@ const RoutesComponent = () => {
               <Route path='list' element={<CalibrationList />} />
               <Route path='newModifyCalibration' element={<NewCalibrationForm />} />
               <Route path='bulkCalibration' element={<BulkCalibrationForm  />} />
+            </Route>
+
+            <Route path="/welding">
+              <Route index element={<WeldingStartDutyForm />} />
+              <Route path="startDuty" element={<WeldingStartDutyForm />} />
+              <Route path="home" element={<WeldingHome />} />
+              <Route path="newWeldInspection" element={<NewWeldInspection />} />
+              <Route path="heldRejectedPanel" element={<HeldRejectedPanel />} />
+              <Route path="testSample" element={<WeldTestSample />} />
+              <Route path="shiftSummary" element={<WeldingSummary />} />
             </Route>
           </Route>
         </Route>

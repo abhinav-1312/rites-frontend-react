@@ -12,7 +12,7 @@ import CustomDatePicker from '../../../../../components/DKG_CustomDatePicker';
 import { Divider } from 'antd';
 import DKG_InteractionTable from '../../../../../components/DKG_QCTSampleDecTable';
 
-const { millDropdownList, qctGeneralInfo, railSectionList, railGradeList, qctList, sampleDeclarationColumns, sampleDeclarationData } = data;
+const { millDropdownList, qctGeneralInfo, railSectionList, railGradeList, qctList, sampleDeclarationColumns, sampleDeclarationData, qctSecList } = data;
 
 const QctSampleDeclarationForm = () => {
   const navigate = useNavigate();
@@ -47,8 +47,13 @@ const QctSampleDeclarationForm = () => {
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
-          <FormDropdownItem label='Rail Grade' name='railGrade' dropdownArray={railGradeList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' required />         
-          <FormDropdownItem label ='QCT' name='qct' dropdownArray={qctList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required />
+          <FormDropdownItem label='Rail Grade' name='railGrade' dropdownArray={railGradeList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' required /> 
+          {(formData.railGrade === 'R350HT' || formData.railGrade === '1080HH') &&
+            <FormDropdownItem label ='QCT' name='qct' dropdownArray={qctList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required />
+          }
+          {(formData.railGrade === 'R260' || formData.railGrade === '880') &&
+            <FormDropdownItem label ='QCT' name='qct' dropdownArray={qctSecList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required />
+          }        
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
@@ -60,7 +65,7 @@ const QctSampleDeclarationForm = () => {
 
         <DKG_InteractionTable />
 
-        <Divider />
+        <Divider className='mt-2 mb-2' />
 
         <FormInputItem label='Remarks' name='remarks' value={formData.remarks} onChange={handleChange} required/>
 

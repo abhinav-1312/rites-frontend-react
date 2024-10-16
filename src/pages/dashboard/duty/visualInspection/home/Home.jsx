@@ -11,12 +11,12 @@ import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import Btn from "../../../../../components/DKG_Btn";
 import { useNavigate } from 'react-router-dom'
 
-const { visualInspectionGeneralInfo, checkBoxItem } = data;
+const { visualInspectionGeneralInfo } = data;
 
 const Home = () => {
     const navigate = useNavigate();
     const [remarks, setRemarks] = useState('')
-    const [checkedValues, setCheckedValues] = useState([])
+    const [isChecked, setIsChecked] = useState('')
 
     const handleFormSubmit = () => {
         message.success("Duty End Called")
@@ -32,12 +32,12 @@ const Home = () => {
             <TabList tabList={visualHomeTabs} />
         </section>
 
-        <Divider className="mt-6 mb-1" />
+        <Divider className="mt-0 mb-0" />
 
         <FormBody initialValues={remarks} onFinish={handleFormSubmit}>
-            <Checkbox.Group options={checkBoxItem.map(item => ({key: item.key, label: item.value, value: item.key }))} value={checkedValues} onChange={(checkedValues) => setCheckedValues(checkedValues)} />
+            <Checkbox value={isChecked} onChange={(isChecked) => setIsChecked(isChecked)} defaultChecked>Mark right if other IEs confirmation are done</Checkbox>
             
-            <Divider />
+            <Divider className="mt-8" />
 
             <FormInputItem placeholder='Enter Remarks' onChange={(_, value) => setRemarks(value)} name='remarks' required/>
             <div className='flex justify-center'>

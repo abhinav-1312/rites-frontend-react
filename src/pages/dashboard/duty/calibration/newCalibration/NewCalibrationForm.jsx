@@ -88,7 +88,7 @@ const NewCalibrationForm = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
           <FormDropdownItem label ='Calibration Result' name='calibrationResult' dropdownArray={calResultList} valueField={'key'} visibleField={'value'} onChange = {handleChange} required />
           {
-              (formData?.calibrationResult === 'OK' || formData?.calibrationResult === 'Not OK') && 
+              (formData?.calibrationResult === 'OK') && 
               <CustomDatePicker label='Cal. Valid upto Date' name='calibrationUptoDate' value={formData?.calibrationUptoDate} onChange={handleChange} required />
           }
         </div>

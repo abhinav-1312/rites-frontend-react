@@ -46,38 +46,45 @@
             "title": "S.No.",
             "dataIndex": "serialNumber",
             "key": "serialNumber",
-            "fixed": "left"
+            "fixed": "left",
+            "align": "center"
         },
         {
             "title": "Instrument",
             "dataIndex": "instrument",
             "key": "instrument",
-            "fixed": "left"
+            "fixed": "left",
+            "align": "center"
         },
         {
             "title": "Detail",
             "dataIndex": "detail",
-            "key": "detail"
+            "key": "detail",
+            "align": "center"
         },
         {
             "title": "Rail Section",
             "dataIndex": "railSection",
-            "key": "railSection"
+            "key": "railSection",
+            "align": "center"
         },
         {
             "title": "Serial Number",
             "dataIndex": "sNumber",
-            "key": "sNumber"
+            "key": "sNumber",
+            "align": "center"
         },
         {
             "title": "Gauge Status",
             "dataIndex": "gaugeStatus",
-            "key": "gaugeStatus"
+            "key": "gaugeStatus",
+            "align": "center"
         },
         {
             "title": "Calibration Due Date",
             "dataIndex": "dueDate",
-            "key": "dueDate"
+            "key": "dueDate",
+            "align": "center"
         }
     ],
     "reportInfo": [

@@ -5,11 +5,10 @@ import GeneralInfo from '../../../../../components/DKG_GeneralInfo';
 import data from "../../../../../utils/frontSharedData/qct/qct.json";
 import FormBody from '../../../../../components/DKG_FormBody';
 import { useNavigate } from 'react-router-dom';
-import DisplayIcon from '../../../../../components/DKG_DisplayIcon';
 import FormDropdownItem from '../../../../../components/DKG_FormDropdownItem';
-import filter from "../../../../../assets/icons/filter.svg"
 import { Table, Divider } from 'antd';
 import Btn from '../../../../../components/DKG_Btn';
+import { FilterFilled } from "@ant-design/icons";
 
 const { millDropdownList, qctGeneralInfo, railSectionList, railGradeList, qctList, sampleDeclarationColumns, sampleDeclarationData } = data;
 
@@ -40,25 +39,25 @@ const QctSampleList = () => {
       <FormBody initialValues={formData}>
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
           <div className='flex items-center gap-x-2'>
-            <DisplayIcon src={filter} alt='Filter' width={24} height={24} />
-            <FormDropdownItem label='Mill' name='mill' dropdownArray={millDropdownList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' required />
+            <FilterFilled />
+            <FormDropdownItem label='Mill' name='mill' dropdownArray={millDropdownList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' />
           </div>
 
           <div className='flex items-center gap-x-2'>
-            <DisplayIcon src={filter} alt='Filter' width={24} height={24} />          
-            <FormDropdownItem label ='Rail Section' name='railSection' dropdownArray={railSectionList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required />
+            <FilterFilled />         
+            <FormDropdownItem label ='Rail Section' name='railSection' dropdownArray={railSectionList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' />
           </div>
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
           <div className='flex items-center gap-x-2'>
-            <DisplayIcon src={filter} alt='Filter' width={24} height={24} />
-            <FormDropdownItem label='Rail Grade' name='railGrade' dropdownArray={railGradeList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' required />
+            <FilterFilled />
+            <FormDropdownItem label='Rail Grade' name='railGrade' dropdownArray={railGradeList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' />
           </div>
 
           <div className='flex items-center gap-x-2'>
-            <DisplayIcon src={filter} alt='Filter' width={24} height={24} />          
-            <FormDropdownItem label ='QCT' name='qct' dropdownArray={qctList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required />
+            <FilterFilled />          
+            <FormDropdownItem label ='QCT' name='qct' dropdownArray={qctList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' />
           </div>
         </div>
 

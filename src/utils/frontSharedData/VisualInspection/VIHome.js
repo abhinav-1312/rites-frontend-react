@@ -14,7 +14,7 @@ const visualHomeTabs = [
     {
       title: 'Test Sample Marking',
       icon: <PieChartOutlined />,
-      link: "/stage/testSample/list"
+      link: "/stage/testSampleMarkingList"
     },
 ]
 

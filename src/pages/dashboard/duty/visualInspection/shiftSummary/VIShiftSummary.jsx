@@ -3,30 +3,22 @@ import SubHeader from "../../../../../components/DKG_SubHeader";
 import FormContainer from "../../../../../components/DKG_FormContainer";
 import GeneralInfo from "../../../../../components/DKG_GeneralInfo";
 import data from "../../../../../utils/frontSharedData/VisualInspection/VI.json";
-import { Divider, Table, Select } from 'antd';
+import { Divider, Table } from 'antd';
 import FormBody from "../../../../../components/DKG_FormBody";
 import Btn from "../../../../../components/DKG_Btn";
 import { useNavigate } from 'react-router-dom'
 import FilterTable from "../../../../../components/DKG_FilterTable";
-import filter from "../../../../../assets/icons/filter.svg"
-import DisplayIcon from "../../../../../components/DKG_DisplayIcon"
 import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
+import { FilterFilled } from "@ant-design/icons";
 
-const { acceptanceData: sampleData, rejectionData: sampleDataSec, compiledData, defectAnalysisData, lineNumberList, acceptanceColumns, rejectionColumns, compiledColumns, defectColumns, visualInspectionGeneralInfo } = data;
-
-const { Option } = Select;
+const { acceptanceData: sampleData, rejectionData: sampleDataSec, compiledData, defectAnalysisData, lineNumberList, acceptanceColumns, rejectionColumns, compiledColumns, defectColumns, visualInspectionGeneralInfo, summaryList } = data;
 
 const VIShiftSummary = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    lineNumber: '',
+    lineNumber: '', summary: ''
   })
-
-  const handleSelectChange = (value) => {
-    setSelectedOption(value);
-  };
 
   const handleChange = (fieldName, value) => {
     setFormData(prev=>{
@@ -47,30 +39,19 @@ const VIShiftSummary = () => {
         <GeneralInfo data={visualInspectionGeneralInfo} />
 
         <FormBody initialValues={formData}>
-            <section className="flex justify-center mt-2">
-                <div className='flex items-center'>
-                    <DisplayIcon src={filter} alt='Filter' width={24} height={24} className='mr-2' />
-                    
-                    <FormDropdownItem label='Line Number' name='lineNumber' dropdownArray={lineNumberList} valueField={'key'} visibleField={'value'} onChange={handleChange} required />
+            <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
+                <div className='flex items-center gap-x-2'>
+                    <FilterFilled />
+                    <FormDropdownItem label='Line Number' name='lineNumber' dropdownArray={lineNumberList} valueField={'key'} visibleField={'value'} onChange={handleChange} className='w-full' />
                 </div>
-            </section>
+
+                <div className='flex items-center gap-x-2'>
+                    <FormDropdownItem label='Summary' name='summary' dropdownArray={summaryList} valueField={'key'} visibleField={'value'} onChange={handleChange} className='w-full' />
+                </div>
+            </div>
         </FormBody>
 
-        <Divider className="mt-0" />
-
-        <div className='flex justify-center'>
-            <Select 
-                placeholder="Select a summary" 
-                onChange={handleSelectChange}
-                className='w-52'
-            >
-                <Option value="Acceptance Summary">Acceptance Summary</Option>
-                <Option value="Defect Analysis">Defect Analysis</Option>
-                <Option value="Inspected Railwise Summary">Inspected Railwise Summary</Option>
-            </Select>
-        </div>
-
-        {selectedOption === 'Acceptance Summary' && (
+        {formData.summary === 'Acceptance Summary' && (
             <>
                 <Divider>Length Wise Acceptance Summary</Divider>
 
@@ -78,14 +59,13 @@ const VIShiftSummary = () => {
                     dataSource={sampleData}
                     columns={acceptanceColumns}
                     scroll={{ x: true }}
+                    bordered
                     pagination={{
-                    pageSize: 5,
+                    pageSize: 8,
                     showSizeChanger: true,
-                    pageSizeOptions: ["5", "10", "20"],
+                    pageSizeOptions: ["8", "16", "32"],
                     }}
                 />
-
-                <hr />
 
                 <Divider>Rejection Summary</Divider>
 
@@ -93,14 +73,13 @@ const VIShiftSummary = () => {
                     dataSource={sampleDataSec}
                     columns={rejectionColumns}
                     scroll={{ x: true }}
+                    bordered
                     pagination={{
                     pageSize: 5,
                     showSizeChanger: true,
                     pageSizeOptions: ["5", "10", "20"],
                     }}
                 />
-
-                <hr />
 
                 <Divider>Compiled Summary</Divider>
 
@@ -108,6 +87,7 @@ const VIShiftSummary = () => {
                     dataSource={compiledData}
                     columns={compiledColumns}
                     scroll={{ x: true }}
+                    bordered
                     pagination={{
                     pageSize: 5,
                     showSizeChanger: true,
@@ -115,21 +95,20 @@ const VIShiftSummary = () => {
                     }}
                 />
 
-                <hr />
-
-                <div className='flex justify-center mt-6'>
-                    <Btn onClick={handleClick} className='w-[25%]'>Go VI Home</Btn>
+                <div className='flex justify-center mt-4'>
+                    <Btn onClick={handleClick} className='w-[25%]'>Go Home</Btn>
                 </div>
             </>
         )}
 
-        {selectedOption === 'Defect Analysis' && (
+        {formData.summary === 'Defect Analysis Summary' && (
             <>
                 <Divider>Defect Analysis Summary</Divider>
 
                 <Table 
                     dataSource={defectAnalysisData} 
                     columns={defectColumns} 
+                    bordered
                     pagination={{
                     pageSize: 5,
                     showSizeChanger: true,
@@ -137,22 +116,18 @@ const VIShiftSummary = () => {
                     }}
                 />
 
-                <hr />
-
-                <div className='flex justify-center mt-6'>
-                    <Btn htmlType='submit' onClick={handleClick} className='w-[25%]'>Go VI Home</Btn>
+                <div className='flex justify-center mt-4'>
+                    <Btn htmlType='submit' onClick={handleClick} className='w-[25%]'>Go Home</Btn>
                 </div>
             </>
         )}
 
-        {selectedOption === 'Inspected Railwise Summary' && (
+        {formData.summary === 'Inspected Railwise Summary' && (
             <>
                 <FilterTable />
-                
-                <hr />
 
-                <div className='flex justify-center mt-6'>
-                    <Btn htmlType='submit' onClick={handleClick} className='w-[25%]'>Go VI Home</Btn>
+                <div className='flex justify-center mt-4'>
+                    <Btn htmlType='submit' onClick={handleClick} className='w-[25%]'>Go Home</Btn>
                 </div>
             </>
         )}

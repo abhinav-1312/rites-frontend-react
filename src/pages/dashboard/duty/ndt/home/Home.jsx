@@ -31,7 +31,7 @@ const Home = () => {
             <TabList tabList={ndtHomeTabs} />
         </section>
 
-        <Divider className="mt-6 mb-1" />
+        <Divider className="mt-2 mb-0" />
 
         <FormBody initialValues={remarks} onFinish={handleFormSubmit}>            
             <FormInputItem placeholder='Enter Remarks' onChange={(_, value) => setRemarks(value)} name='remarks' required/>

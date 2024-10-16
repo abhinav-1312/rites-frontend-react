@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Input } from 'antd';
-import {HomeOutlined, BellOutlined, FileTextOutlined, RobotOutlined, LineChartOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
+import {HomeOutlined, IdcardOutlined, FileTextOutlined, RobotOutlined, LineChartOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
 import Home from './home/Home';
 import Duty from './duty/Duty';
 import Records from './records/Records';
@@ -23,7 +23,7 @@ const dashboardTabItems = [
   {
     id: 2,
     title: 'Duty',
-    icon: <BellOutlined />
+    icon: <IdcardOutlined />
   },
   {
     id: 3,

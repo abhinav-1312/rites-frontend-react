@@ -7,6 +7,7 @@ import { Checkbox, Divider, Image, message, Table, Upload } from "antd";
 import CustomDatePicker from "../../../../../components/DKG_CustomDatePicker";
 import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
+import FormNumericInputItem from "../../../../../components/DKG_FormNumericInputItem"
 import { Link } from "react-router-dom";
 import IconBtn from "../../../../../components/DKG_IconBtn";
 import { DeleteOutlined, PlusOutlined, UploadOutlined } from "@ant-design/icons";
@@ -24,8 +25,8 @@ const {
 const { accLengthList, railClassList } = visualInspectionAcceptanceData;
 
 const viRejectionDetailsColumns = [
-  { title: "Length", dataIndex: "length", key: "length" },
-  { title: "No. of Pieces", dataIndex: "numberPieces", key: "numberPieces" },
+  { title: "Length", dataIndex: "length", key: "length", align: 'center' },
+  { title: "No. of Pieces", dataIndex: "numberPieces", key: "numberPieces", align: 'center' },
 ];
 
 const viRejectionDetailsData = [
@@ -57,14 +58,14 @@ const viRejectionDetailsData = [
 ];
 
 const VisualInspectionForm = () => {
+  const [serialNumber, setSerialNumber] = useState('001');
+  const [heatNumber, setHeatNumber] = useState('');
+  const [actualOfferedLength, setActualOfferedLength] = useState('');
   const [formData, setFormData] = useState({
     railId: "U110324B034",
-    sNo: "001",
     shift: "",
-    date: new Date(),
-    heatNo: "",
+    date: "",
     heatStatus: "",
-    actualOfferedLength: "",
     ut: "",
     dim: "",
     visual: "",
@@ -72,7 +73,7 @@ const VisualInspectionForm = () => {
     acceptanceDataList: [
       {
         accLength: "",
-        number: "",
+        number: '',
         railClass: "",
       },
     ],
@@ -169,7 +170,7 @@ const VisualInspectionForm = () => {
       const acptDtLst = prev.acceptanceDataList;
       const updatedLst = [
         ...acptDtLst,
-        { accLength: "", number: "", railClass: "" },
+        { accLength: "", number: '', railClass: "" },
       ];
 
       return {
@@ -261,7 +262,7 @@ const VisualInspectionForm = () => {
           {formData.railId}
         </div>
 
-        <div className="">
+        <div>
           <div className="grid grid-cols-3 gap-x-2">
 
           <CustomDatePicker
@@ -280,22 +281,25 @@ const VisualInspectionForm = () => {
               onChange={handleChange}
               required
               />
-          <FormInputItem
-            label="S. No."
-            name="sNo"
-            onChange={handleChange}
+          <FormNumericInputItem
+            label='S.No.'
+            maxLength={3}
+            value={serialNumber}
+            onChange={setSerialNumber}
             required
-            />
+          />
             </div>
 
             <div className="grid grid-cols-2 gap-x-2">
 
-          <FormInputItem
+          <FormNumericInputItem
             label="Heat Number"
-            name="heatNo"
-            onChange={handleChange}
+            minLength={6}
+            maxLength={6}
+            value={heatNumber}
+            onChange={setHeatNumber}
             required
-            />
+          />
           <FormInputItem
             label="Heat Status"
             name="heatStatus"
@@ -303,10 +307,11 @@ const VisualInspectionForm = () => {
             required
             />
             </div>
-          <FormInputItem
+
+          <FormNumericInputItem
             label="Act. Offered Len. (in m.)"
-            name="actualOfferedLength"
-            onChange={handleChange}
+            value={actualOfferedLength}
+            onChange={setActualOfferedLength}
             required
           />
         </div>
@@ -375,7 +380,8 @@ const VisualInspectionForm = () => {
                 />
                 <FormInputItem
                   placeholder="Number"
-                  name="number"
+                  type='number'
+                  value={formData.number}
                   onChange={(fieldName, value) =>
                     handleAcceptanceDataChange(index, fieldName, value)
                   }
@@ -481,6 +487,7 @@ const VisualInspectionForm = () => {
             dataSource={viRejectionDetailsData}
             columns={viRejectionDetailsColumns}
             scroll={{ x: true }}
+            bordered
             pagination={{
               pageSize: 5,
               showSizeChanger: true,
@@ -489,7 +496,7 @@ const VisualInspectionForm = () => {
           />
         </section>
 
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col">
           <h3 className="font-semibold">Remarks</h3>
           <TextAreaComponent
             name="remarks"
@@ -516,7 +523,7 @@ const VisualInspectionForm = () => {
             />
           )}
 
-          <Btn htmlType="submit" className="mx-auto">
+          <Btn htmlType="submit" className="mx-auto mt-6">
             Save Inspection Data
           </Btn>
         </section>

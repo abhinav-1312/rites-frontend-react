@@ -1,4 +1,4 @@
-import { FileSearchOutlined, EyeOutlined, PieChartOutlined }from '@ant-design/icons';
+import { FileSearchOutlined, ExperimentOutlined, EyeOutlined, PieChartOutlined }from '@ant-design/icons';
 
 const ndtHomeTabs = [
     {
@@ -18,7 +18,7 @@ const ndtHomeTabs = [
     },
     {
         title: 'Test Sample Marking',
-        icon: <PieChartOutlined />,
+        icon: <ExperimentOutlined />,
         link: "/stage/testSampleMarkingList"
     },
 ]

@@ -117,7 +117,7 @@ label{
   @apply gap-2
 }
 .checkbox-group label{
-  @apply border-b-2 w-full pb-1
+  @apply w-full pb-1
 }
 
 .vi-acpt-def .ant-form-item{

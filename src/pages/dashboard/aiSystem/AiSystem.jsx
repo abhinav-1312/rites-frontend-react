@@ -244,37 +244,44 @@ const AiSystem = () => {
       title: 'Rail ID',
       dataIndex: 'railID',
       key: 'railID',
+      align: 'center',
       ...getColumnSearchProps('railID')
     },
     {
       title: 'Surface Defect Detection',
       key: 'surfaceDefectDetection',
+      align: 'center',
       children: [
         {
           title: 'Precision',
           dataIndex: ['surfaceDefectDetection', 'precision'],
           key: 'surfaceDefectDetectionPrecision',
+          align: 'center'
         },
         {
           title: 'Recall',
           dataIndex: ['surfaceDefectDetection', 'recall'],
           key: 'surfaceDefectDetectionRecall',
+          align: 'center'
         },
       ],
     },
     {
       title: 'Dimensional Variation Detection',
       key: 'dimensionalVariationDetection',
+      align: 'center',
       children: [
         {
           title: 'Precision',
           dataIndex: ['dimensionalVariationDetection', 'precision'],
           key: 'dimensionalVariationDetectionPrecision',
+          align: 'center'
         },
         {
           title: 'Recall',
           dataIndex: ['dimensionalVariationDetection', 'recall'],
           key: 'dimensionalVariationDetectionRecall',
+          align: 'center',
         },
       ],
     },
@@ -282,6 +289,7 @@ const AiSystem = () => {
       title: 'OCR',
       dataIndex: 'ocr',
       key: 'ocr',
+      align: 'center',
       filters: [
         {
           text: "True",
@@ -414,6 +422,7 @@ const AiSystem = () => {
       columns={columns}
       scroll={{ x: true }}
       dataSource={data}
+      bordered
       pagination={{
         pageSize: 5,
         showSizeChanger: true, 

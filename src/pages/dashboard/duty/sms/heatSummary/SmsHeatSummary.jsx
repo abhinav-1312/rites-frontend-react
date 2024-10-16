@@ -9,6 +9,7 @@ import IconBtn from "../../../../../components/DKG_IconBtn";
 import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import Btn from "../../../../../components/DKG_Btn";
 import FormContainer from "../../../../../components/DKG_FormContainer";
+import FormNumericInputItem from "../../../../../components/DKG_FormNumericInputItem"
 
 const {
   smsGeneralInfo,
@@ -30,7 +31,7 @@ const SmsHeatSummary = () => {
   const [newHeat, setNewHeat] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentTablePage, setCurrentTablePage] = useState(1)
-  const [tablePageSize, setTablePageSize] = useState(5)
+  const [tablePageSize, setTablePageSize] = useState(15)
   const [checkedValues, setCheckedValues] = useState([])
 
   const navigate = useNavigate()
@@ -170,17 +171,19 @@ const SmsHeatSummary = () => {
           </div>
         </div>
       </section>
+
       <section>
         <div className='relative'>
           <Table
             columns={columns}
             dataSource={tableData}
             scroll={{ x: true }}
+            bordered
             pagination={{
               current: currentTablePage,
               pageSize: tablePageSize,
               showSizeChanger: true,
-              pageSizeOptions: ["5", "10", "20"],
+              pageSizeOptions: ["15", "30", "45"],
               onChange: (page) => setCurrentTablePage(page),
               onShowSizeChange: (current, size) => handlePageSizeChange(size),
             }}
@@ -199,18 +202,26 @@ const SmsHeatSummary = () => {
           options={checkBoxItems.map(item => ({key: item.key, label: item.value, value: item.key }))}
           value={checkedValues}
           onChange={(checkedValues) => setCheckedValues(checkedValues)}
-          className='checkbox-group mb-4'
-          />
+          className='checkbox-group mb-6'
+        />
 
           <FormInputItem label='Make of Casting Powder Used' />
-          <FormInputItem label='Make of Hydris Probe' />
+          <FormInputItem label='Make of Hydris Probe used' />
           <div className="text-center">
           <Btn onClick={handleSave}>Save</Btn>
           </div>
       </section>
 
       <Modal title='Add new heat' open={isModalOpen} onCancel={()=>setIsModalOpen(false)} footer={null}>
-          <FormInputItem value={newHeat} placeholder='Enter Heat Number' onChange={(_fieldName, value) => setNewHeat(value)} />
+          {/* <FormInputItem value={newHeat} placeholder='Enter Heat Number' onChange={(_fieldName, value) => setNewHeat(value)} /> */}
+          <FormNumericInputItem
+            placeholder='Enter Heat Number'
+            minLength={6}
+            maxLength={6}
+            value={newHeat}
+            onChange={setNewHeat}
+            required
+          />
           <Btn onClick={addNewHeat}>Add</Btn>
       </Modal>
     </FormContainer>

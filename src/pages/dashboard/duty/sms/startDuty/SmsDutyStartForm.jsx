@@ -78,7 +78,7 @@ const SmsDutyStartForm = () => {
       <FormDropdownItem label="SMS" name='sms' dropdownArray={smsList} visibleField='value' valueField='key' onChange={handleChange} required/>
       <FormDropdownItem label="Rail Grade" name='railGrade' dropdownArray={railGradeList} visibleField='value' valueField='key' onChange={handleChange} required />
       <div className="text-center">
-        <Btn htmlType='submit' className='mx-auto'>Submit</Btn>
+        <Btn htmlType='submit' className='mx-auto'>Start Duty</Btn>
       </div>
     </FormBody>
       

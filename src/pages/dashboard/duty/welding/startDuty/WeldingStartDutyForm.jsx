@@ -11,16 +11,15 @@ import FormContainer from "../../../../../components/DKG_FormContainer";
 import { useNavigate } from 'react-router-dom'
 import SelectSearch from "../../../../../components/DKG_SelectSearch";
 
-const { millMaping: sampleData, millsMaping: secSampleData, shiftList, railGradeList, railSectionList } = data;
+const { millMapingTer: sampleData, shiftList, railGradeList, railSectionList } = data;
 
-const ShiftDetailsForm = () => {
+const WeldingStartDutyForm = () => {
     const [millDropdownList, setMillDropdownList] = useState([]);
-    const [lineNumberDropdownList, setLineNumberDropdownList] = useState([]);
-    const [stdRailLengthList, setStdRailLengthList] = useState([])
+    const [weldingLineDropdownList, setWeldingLineDropdownList] = useState([]);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        date: '', shift: '', mill: '', lineNumber: '', railGrade: '', railSection: '', stdRailLength: '', otherIE: '', otherIE2: '', otherIE3: '', rclIE: '', rclIE2: '', rclIE3: ''
+        date: '', shift: '', mill: '', weldingLine: '', railGrade: '', railSection: ''
     });
 
     const populateData = () => {
@@ -39,32 +38,20 @@ const ShiftDetailsForm = () => {
     
     useEffect(()=>{
     if(sampleData[formData.mill]){
-        const lineNumberDropdownList = sampleData[formData.mill].map(mill => {
+        const weldingLineDropdownList = sampleData[formData.mill].map(mill => {
         return {
             key: mill,
             value: mill
         }
         })
-        setLineNumberDropdownList([...lineNumberDropdownList])
+        setWeldingLineDropdownList([...weldingLineDropdownList])
     }
     }, [formData.mill, millDropdownList])
 
     const handleFormSubmit = () => {
         message.success("Form submission triggered.");
-        navigate('/visual/home');
+        navigate('/welding/home');
     };
-
-    useEffect(()=>{
-        if(secSampleData[formData.mill]){
-          const stdRailLengthList = secSampleData[formData.mill].map(mill => {
-            return {
-              key: mill,
-              value: mill
-            }
-          })
-          setStdRailLengthList([...stdRailLengthList])
-        }
-    }, [formData.mill, millDropdownList])
 
     const handleChange = (fieldName, value) => {
         setFormData((prev) => {
@@ -77,7 +64,7 @@ const ShiftDetailsForm = () => {
 
   return (
     <FormContainer>
-        <SubHeader title="Visual Inspection - Shift Details" link="/" />
+        <SubHeader title="Welding Inspection - Shift Details" link="/" />
 
         <FormBody initialValues={formData} onFinish={handleFormSubmit}>
             <div className="grid grid-cols-2 gap-x-2">
@@ -87,7 +74,7 @@ const ShiftDetailsForm = () => {
 
             <div className="grid grid-cols-2 gap-x-2">
                 <FormDropdownItem label='Mill' name='mill' dropdownArray={millDropdownList} valueField={'key'} visibleField={'value'} onChange={handleChange} required />
-                <FormDropdownItem label ='Line Number' name='lineNumber' dropdownArray={lineNumberDropdownList} valueField={'key'} visibleField={'value'} onChange = {handleChange} required />
+                <FormDropdownItem label ='Welding Line' name='weldingLine' dropdownArray={weldingLineDropdownList} valueField={'key'} visibleField={'value'} onChange = {handleChange} required />
             </div>
 
             <div className="grid grid-cols-2 gap-x-2">
@@ -95,23 +82,7 @@ const ShiftDetailsForm = () => {
                 <FormDropdownItem label="Rail Section" name='railSection' dropdownArray={railSectionList} visibleField='value' valueField='key' onChange={handleChange} required />
             </div>
 
-            <div className="grid grid-cols-2 gap-x-2">
-                <FormDropdownItem label="Std. offered Rail Length" name='stdRailLength' dropdownArray={stdRailLengthList} visibleField={'value'} valueField={'key'} onChange={handleChange} required />
-                <SelectSearch label='Add Other RITES IE' placeholder='Search a IE' name='otherIE' value={formData.otherIE} onChange={handleChange} required />
-            </div>
-
-            <div className="grid grid-cols-2 gap-x-2">
-                <SelectSearch label='Add Other RITES IE (2)' name='otherIE2' value={formData.otherIE2} onChange={handleChange} />
-                <SelectSearch label='Add Other RITES IE (3)' name='otherIE3' value={formData.otherIE3} onChange={handleChange} />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-x-2">
-              <FormInputItem label='Add Name of RCL IE' name='rclIE' value={formData.rclIE} onChange={handleChange} required/>
-              <FormInputItem label='Add Name of RCL IE (2)' name='rclIE2' value={formData.rclIE2} onChange={handleChange} required/>
-            </div>
-
-            <FormInputItem label='Add Name of RCL IE (3)' name='rclIE3' value={formData.rclIE3} onChange={handleChange}/>
-            <Btn htmlType="submit" className="flex justify-center mx-auto">
+            <Btn htmlType="submit" className="flex justify-center mx-auto mt-2">
                 Start Duty
             </Btn>
         </FormBody>
@@ -119,4 +90,4 @@ const ShiftDetailsForm = () => {
   )
 }
 
-export default ShiftDetailsForm
+export default WeldingStartDutyForm

@@ -3,25 +3,22 @@ import Sider from "antd/es/layout/Sider";
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  BorderInnerOutlined,
-  BorderOuterOutlined,
-  DoubleRightOutlined,
+  BookOutlined,
+  ForkOutlined,
   RadarChartOutlined,
   BarChartOutlined,
-  RetweetOutlined,
-  HddOutlined,
+  FilePdfOutlined,
+  BuildOutlined,
   BranchesOutlined,
   CompassOutlined,
   DeploymentUnitOutlined,
-  HistoryOutlined,
-  TeamOutlined,
+  BarsOutlined,
   ToolOutlined,
-  ClockCircleOutlined,
   FundOutlined,
   DatabaseOutlined,
   AuditOutlined,
   ExperimentOutlined,
-  HeatMapOutlined,
+  ControlOutlined,
   CheckOutlined,
   FileDoneOutlined,
   EyeOutlined,
@@ -30,16 +27,21 @@ import {
   SendOutlined,
   MessageOutlined,
   BankOutlined,
-  DashboardOutlined,
-  BellOutlined,
+  InfoCircleOutlined,
+  FireOutlined,
   HomeOutlined,
   LogoutOutlined,
-  CheckCircleOutlined,
+  ThunderboltOutlined,
   FileTextOutlined,
   RobotOutlined,
   LineChartOutlined,
   ProfileOutlined,
   UserOutlined,
+  HourglassOutlined,
+  ExclamationCircleOutlined,
+  AppstoreAddOutlined,
+  IdcardOutlined,
+  WarningOutlined
 } from "@ant-design/icons";
 import IconBtn from "./DKG_IconBtn";
 import { useDispatch } from "react-redux";
@@ -56,7 +58,7 @@ const items = [
   },
   {
     key: "2",
-    icon: <BellOutlined />,
+    icon: <IdcardOutlined />,
     label: "Duty",
     children: [
       {
@@ -85,7 +87,7 @@ const items = [
             children: [
               {
                 key: "2.2.2.1",
-                icon: <FlagOutlined />,
+                icon: <BankOutlined />,
                 label: "SMS Duty End Home",
                 path: "/sms/dutyEnd",
               },
@@ -103,7 +105,7 @@ const items = [
               },
               {
                 key: "2.2.2.1",
-                icon: <BellOutlined />,
+                icon: <BarChartOutlined />,
                 label: "Shift Reports",
                 children: [
                   {
@@ -114,7 +116,7 @@ const items = [
                   },
                   {
                     key: "2.2.2.1.2",
-                    icon: <HeatMapOutlined />,
+                    icon: <FireOutlined />,
                     label: "Heat List",
                     path: "/sms/shiftReports/heatList",
                   },
@@ -144,46 +146,46 @@ const items = [
           {
             key: "2.3.1",
             icon: <SendOutlined />,
-            label: "Start Duty",
+            label: "Stage Start Duty",
             path: "/stage/startDuty",
           },
           {
             key: "2.3.2",
             icon: <FlagOutlined />,
-            label: "RS Duty End",
+            label: "Stage Duty End",
             children: [
               {
                 key: "2.3.2.1",
-                icon: <FlagOutlined />,
-                label: "RS Duty End Home",
+                icon: <BankOutlined />,
+                label: "Stage Duty End Home",
                 path: "/stage/home",
               },
               {
                 key: "2.3.2.2",
-                icon: <DoubleRightOutlined />,
-                label: "RS Control",
+                icon: <ControlOutlined />,
+                label: "Rolling Stage Control",
                 children: [
                   {
                     key: "2.3.2.2.1",
-                    icon: <DoubleRightOutlined />,
+                    icon: <ControlOutlined />,
                     label: "Rail Control",
                     path: "/stage/rollingControl"
                   },
                   {
                     key: "2.3.2.2.2",
-                    icon: <BorderOuterOutlined />,
+                    icon: <HourglassOutlined />,
                     label: "Control Sample for 60E1",
                     path: "/stage/rollingControl/rollingControlSample60E1"
                   },
                   {
                     key: "2.3.2.2.3",
-                    icon: <BorderInnerOutlined />,
+                    icon: <ExclamationCircleOutlined />,
                     label: "Control Sample for IRS52",
                     path: "/stage/rollingControl/rollingControlSampleIRS52"
                   },
                   {
                     key: "2.3.2.2.4",
-                    icon: <CheckCircleOutlined />,
+                    icon: <ThunderboltOutlined />,
                     label: "Control Sample for 60E1A1",
                     path: "/stage/rollingControl/rollingControlSample60E1A1"
                   },
@@ -191,18 +193,18 @@ const items = [
               },
               {
                 key: "2.3.2.3",
-                icon: <DoubleRightOutlined />,
+                icon: <ExperimentOutlined />,
                 label: "Test Sample Marking",
                 children: [
                   {
                     key: "2.3.2.3.1",
-                    icon: <DoubleRightOutlined />,
+                    icon: <AppstoreAddOutlined />,
                     label: "Test Sample List",
                     path: "/stage/testSampleMarkingList"
                   },
                   {
                     key: "2.3.2.3.2",
-                    icon: <BorderOuterOutlined />,
+                    icon: <BookOutlined />,
                     label: "New Sample Declaration",
                     path: "/stage/newTestSampleDeclaration"
                   }
@@ -210,7 +212,7 @@ const items = [
               },
               {
                 key: "2.3.2.4",
-                icon: <DoubleRightOutlined />,
+                icon: <ForkOutlined />,
                 label: "HT Sequence",
                 path: "/stage/htSequence",
               }
@@ -226,7 +228,7 @@ const items = [
           {
             key: "2.4.1",
             icon: <SendOutlined />,
-            label: "Start Duty",
+            label: "NDT Start Duty",
             path: "/ndt/startDuty",
           },
           {
@@ -237,7 +239,7 @@ const items = [
               {
                 key: '2.4.2.1',
                 label: "NDT Duty End Home",
-                icon: <FlagOutlined />,
+                icon: <BankOutlined />,
                 path: "/ndt/home",
               },
               {
@@ -248,7 +250,7 @@ const items = [
               },
               {
                 key: "2.4.2.3",
-                icon: <RetweetOutlined />,
+                icon: <FilePdfOutlined />,
                 label: "Report",
                 path: "/ndt/report",
               },
@@ -260,17 +262,11 @@ const items = [
           //   label: 'Shift Summary',
           //   path: '/ndt/shiftSummary',
           // },
-          // {
-          //   key: '2.3.6',
-          //   icon: <SnippetsOutlined />,
-          //   label: 'Test Sample Marking',
-          //   path: '/stage/testSampleMarkingList',
-          // },
         ],
       },
       {
         key: "2.6",
-        icon: <HddOutlined />,
+        icon: <EyeOutlined />,
         label: "Visual Inspection",
         children: [
           {
@@ -281,12 +277,12 @@ const items = [
           },
           {
             key: "2.6.2",
-            icon: <HomeOutlined />,
+            icon: <FlagOutlined />,
             label: "VI Duty End",
             children: [
               {
                 key: "2.6.2.1",
-                icon: <FlagOutlined />,
+                icon: <BankOutlined />,
                 label: "VI Duty End Home",
                 path: "/visual/home",
               },
@@ -299,44 +295,88 @@ const items = [
               {
                 key: "2.6.2.4",
                 icon: <FileSearchOutlined />,
-                label: "Shift Inspection Summary",
+                label: "Visual Inspection Summary",
                 path: "/visual/summary",
               },
-              // {
-              //   key: "2.6.2.5",
-              //   icon: <SnippetsOutlined />,
-              //   label: "Test Sample Marking",
-              //   path: "/visual/summary",
-              // },
             ],
           },
         ],
       },
       {
         key: "2.7",
+        icon: <BuildOutlined />,
+        label: "Welding Inspection",
+        children: [
+          {
+            key: "2.7.1",
+            icon: <SendOutlined />,
+            label: "Welding Duty Start",
+            path: "/welding/startDuty",
+          },
+          {
+            key: "2.7.2",
+            icon: <FlagOutlined />,
+            label: "Welding Duty End",
+            children: [
+              {
+                key: "2.7.2.1",
+                icon: <BankOutlined />,
+                label: "Welding Duty End Home",
+                path: "/welding/home",
+              },
+              {
+                key: "2.7.2.2",
+                icon: <BranchesOutlined />,
+                label: "New Welding Inspection",
+                path: "/welding/newWeldInspection",
+              },
+              {
+                key: "2.7.2.3",
+                icon: <WarningOutlined />,
+                label: "Held or Rejected Panel Inspection",
+                path: "/welding/heldRejectedPanel",
+              },
+              {
+                key: "2.7.2.4",
+                icon: <WarningOutlined />,
+                label: "Weld Test Sample",
+                path: "/welding/testSample",
+              },
+              {
+                key: "2.7.2.5",
+                icon: <FileSearchOutlined />,
+                label: "Welding Inspection Summary",
+                path: "/welding/shiftSummary",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        key: "2.8",
         icon: <CompassOutlined />,
         label: "Short Rail Inspection",
         children: [
           {
-            key: "2.7.1",
+            key: "2.8.1",
             icon: <FlagOutlined />,
             label: "Short Rail Inspection Home",
             children: [
               {
-                key: "2.7.1.1",
-                icon: <FlagOutlined />,
+                key: "2.8.1.1",
+                icon: <BankOutlined />,
                 label: "SR Inspection Home",
                 path: "/srInspection",
               },
               {
-                key: "2.7.1.2",
+                key: "2.8.1.2",
                 icon: <DeploymentUnitOutlined />,
                 label: "New SR Inspection",
                 path: "/srInspection/addNewInspection",
               },
               {
-                key: "2.7.1.3",
-                icon: <DashboardOutlined />,
+                key: "2.8.1.3",
+                icon: <InfoCircleOutlined />,
                 label: "Other WS Remarks",
                 path: "/srInspection/wsRemarks",
               },
@@ -345,43 +385,43 @@ const items = [
         ],
       },
       {
-        key: "2.8",
+        key: "2.9",
         icon: <DatabaseOutlined />,
         label: "QCT",
         children: [
           {
-            key: "2.8.1",
-            icon: <HistoryOutlined />,
+            key: "2.9.1",
+            icon: <AppstoreAddOutlined />,
             label: "QCT Sample List",
             path: "/qct/sampleList",
           },
           {
-            key: "2.8.2",
-            icon: <TeamOutlined />,
+            key: "2.9.2",
+            icon: <BarsOutlined />,
             label: "New Sample Declaration",
             path: "/qct/newSampleDeclaration",
           },
         ],
       },
       {
-        key: "2.9",
+        key: "2.10",
         icon: <ToolOutlined />,
         label: "Calibration",
         children: [
           {
-            key: "2.9.1",
-            icon: <ClockCircleOutlined />,
+            key: "2.10.1",
+            icon: <AppstoreAddOutlined />,
             label: "Calibration List",
             path: "/calibration/list",
           },
           {
-            key: "2.9.2",
+            key: "2.10.2",
             icon: <FundOutlined />,
             label: "New / Modify Calibration List",
             path: "/calibration/newModifyCalibration",
           },
           {
-            key: "2.9.3",
+            key: "2.10.3",
             icon: <DatabaseOutlined />,
             label: "Bulk Calibration",
             path: "/calibration/bulkCalibration",
@@ -492,7 +532,7 @@ const SideNav = ({ collapsed, toggleCollapse }) => {
       }`}
     >
       <Sider
-        width={360}
+        width={400}
         trigger={null}
         collapsible
         collapsed={collapsed}

@@ -9,6 +9,7 @@ import FormBody from '../../../../../components/DKG_FormBody';
 import FormInputItem from '../../../../../components/DKG_FormInputItem';
 import FormDropdownItem from '../../../../../components/DKG_FormDropdownItem';
 import Btn from '../../../../../components/DKG_Btn';
+import FormNumericInputItem from "../../../../../components/DKG_FormNumericInputItem"
 
 const { smsGeneralInfo } = data;
 
@@ -24,6 +25,8 @@ const bloomIdentificationList = [
 ]
 
 const SmsBloomInspection = () => {
+    const [newHeat, setNewHeat] = useState('')
+    const [bloomLength, setBloomLength] = useState('')
     const [formData, setFormData] = useState({
         castNo: '',
         primeBloomsCount: null,
@@ -51,22 +54,33 @@ const SmsBloomInspection = () => {
     <FormContainer>
     <SubHeader link={'/sms/dutyEnd'} title='SMS - Bloom Inspection' />
     <GeneralInfo data={smsGeneralInfo} />
-    <hr className='bg-black' />
     <section>
         <FormBody
             initialValues={formData}
             className=' md:grid md:grid-cols-2 gap-x-8 bloom-inspection-form'
             onFinish={handleFormSubmit}
         >
-            <FormInputItem label='Cast Number' name='castNo' onChange={handleChange} />
-            <FormInputItem type='number' label='Prime Blooms Count' name='primeBloomsCount' onChange={handleChange} />
-            <FormInputItem type='number' label='CO Blooms Count' name='coBloomsCount' onChange={handleChange} />
-            <FormDropdownItem label='Bloom Identification' name='bloomIdentification' dropdownArray={bloomIdentificationList} visibleField={'value'} valueField={'key'} onChange={handleChange} />
-            <FormInputItem label='Bloom Length' name='bloomLength' onChange={handleChange} />
-            <FormInputItem label='Surface Condition' name='surfaceCondition' onChange={handleChange} />
-            <FormInputItem type='number' label='Prime Blooms Rejected Count' name='primeBloomsRejectedCount' onChange={handleChange} />
-            <FormInputItem type='number' label='CO Blooms Rejected Count' name='coBloomsRejectedCount' onChange={handleChange} />
-            <TextAreaComponent label='Remarks' name='remark' onChange={handleChange} className='col-span-2'/>
+            <FormNumericInputItem
+                label='Cast Number'
+                minLength={6}
+                maxLength={6}
+                value={newHeat}
+                onChange={setNewHeat}
+                required
+            />
+            <FormInputItem type='number' label='Prime Blooms Count' name='primeBloomsCount' onChange={handleChange} required />
+            <FormInputItem type='number' label='CO Blooms Count' name='coBloomsCount' onChange={handleChange} required />
+            <FormDropdownItem label='Bloom Identification' name='bloomIdentification' dropdownArray={bloomIdentificationList} visibleField={'value'} valueField={'key'} onChange={handleChange} required />
+            <FormNumericInputItem
+                label='Bloom Length'
+                value={bloomLength}
+                onChange={setBloomLength}
+                required
+            />
+            <FormInputItem label='Surface Condition' name='surfaceCondition' onChange={handleChange} required />
+            <FormInputItem type='number' label='Prime Blooms Rejected Count' name='primeBloomsRejectedCount' onChange={handleChange} required />
+            <FormInputItem type='number' label='CO Blooms Rejected Count' name='coBloomsRejectedCount' onChange={handleChange} required />
+            <TextAreaComponent label='Remarks' name='remark' onChange={handleChange} className='col-span-2' required />
             <div className="text-center">
                 <Btn htmlType='submit'>Submit</Btn>
             </div>

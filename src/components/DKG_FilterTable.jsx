@@ -6,7 +6,7 @@ const data = [
     key: '1',
     serialNumber: '1',
     railID: 'U240524A013',
-    acceptance: '117 x 1\n13 x 1',
+    acceptance: '117 x 1, 13 x 1',
     acceptancePlus: '',
     rejection: ''
   },
@@ -14,7 +14,7 @@ const data = [
     key: '2',
     serialNumber: '2',
     railID: 'U240524A015',
-    acceptance: '86.67 x 1\n26 x 1',
+    acceptance: '86.67 x 1, 26 x 1',
     acceptancePlus: '',
     rejection: ''
   },
@@ -47,17 +47,20 @@ const DKG_FilterTable = () => {
     {
         title: 'S.No.',
         dataIndex: 'serialNumber',
-        key: 'serialNumber'
+        key: 'serialNumber',
+        align: "center"
     },
     {
         title: 'Rail ID',
         dataIndex: 'railID',
-        key: 'railID'
+        key: 'railID',
+        align: "center"
     },
     {
         title: 'Accp. (A)',
         dataIndex: 'acceptance',
         key: 'acceptance',
+        align: "center",
         filters: [
             {
                 text: '130',
@@ -122,6 +125,7 @@ const DKG_FilterTable = () => {
         title: 'Accp. (A+0.1)',
         dataIndex: 'acceptancePlus',
         key: 'acceptancePlus',
+        align: "center",
         filters: [
             {
                 text: '130',
@@ -186,6 +190,7 @@ const DKG_FilterTable = () => {
         title: 'Rejection',
         dataIndex: 'rejection',
         key: 'rejection',
+        align: "center",
         filters: [
             {
                 text: '13',
@@ -224,6 +229,7 @@ const DKG_FilterTable = () => {
             columns={columns}
             dataSource={data}
             onChange={handleChange}
+            bordered
             scroll={{ x: true }}
             pagination={{
                 pageSize: 5,
