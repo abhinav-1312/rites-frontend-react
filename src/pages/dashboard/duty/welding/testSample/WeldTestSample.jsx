@@ -11,18 +11,20 @@ import { Table } from 'antd';
 import IconBtn from '../../../../../components/DKG_IconBtn';
 import { useNavigate } from "react-router-dom";
 import Btn from '../../../../../components/DKG_Btn';
+import FormInputItem from '../../../../../components/DKG_FormInputItem';
 
-const { weldingInspectionGeneralInfo, railGradeDropdownList, railSectionList, weldNumberList, testDetailsColumns, testDetailsData, samplesDeclaredTableData, checkBoxItems } = data;
+const { weldingInspectionGeneralInfo, railGradeDropdownList, railSectionList, weldNumberList, testDetailsColumns, testDetailsData, samplesDeclaredTableData, checkBoxItems, parameterStatusList } = data;
 
 const WeldTestSample = () => {
     const [checkedValues, setCheckedValues] = useState([])
+    const options = ['TLT', 'Hardness', 'Macro', 'Micro'];
     const [currentTablePage, setCurrentTablePage] = useState(1)
     const [tablePageSize, setTablePageSize] = useState(5)
     const navigate = useNavigate()
     const [showForm, setShowForm] = useState(false);
     const [tableData, setTableData] = useState([]);
     const [formData, setFormData] = useState({
-        railSection: '', railGrade: '', weldNumber: ''
+        railSection: '', railGrade: '', weldNumber: '', jointNumberForTLT: '', jointNumberForHardness: '', jointNumberForMicro: '', jointNumberForMacro: '', parameterStatus: ''
     })
 
     const handleChange = (fieldName, value) => {
@@ -48,13 +50,13 @@ const WeldTestSample = () => {
 
     const handleRowClick = (test) => {
         if(test === "TLT"){
-            navigate('/welding/newWeldInspection')
+            navigate('/welding/tltTestDetails')
         }else if(test === "Hardness"){
-            navigate('/welding/home')
-        }else if(test === "Hardness"){
-            navigate('/welding/home')
+            navigate('/welding/hardnessTestDetails')
+        }else if(test === "Micro"){
+            navigate('/welding/microTestDetails')
         }else{
-            navigate('/welding/home')
+            navigate('/welding/macroTestDetails')
         }
     };
 
@@ -63,7 +65,7 @@ const WeldTestSample = () => {
         setCurrentTablePage(1); // Reset to first page when page size changes
     };
 
-    const handleFormSubmitSec = () => {
+    const handleFormSubmit = () => {
         setShowForm(false);
     }
 
@@ -167,12 +169,12 @@ const WeldTestSample = () => {
             {showForm && (
                 <FormBody
                   initialValues={formData}
-                  onFinish={handleFormSubmitSec}
+                  onFinish={handleFormSubmit}
                 >
                     <div className="!bg-offWhite opacity-80 flex flex-col border p-2 border-gray-100 rounded-md mt-4 mb-4 shadow-[4px_4px_4px_4px_rgba(0,0,0,0.1)]">
                         <div className='grid grid-cols-1'>
                             <Checkbox.Group
-                                options={checkBoxItems.map(item => ({key: item.key, label: item.value, value: item.key }))}
+                                options={options}
                                 value={checkedValues}
                                 onChange={(checkedValues) => setCheckedValues(checkedValues)}
                                 className='mb-4'
@@ -188,11 +190,47 @@ const WeldTestSample = () => {
                             <FormDropdownItem label ='Weld Machine Number' name='weldNumber' dropdownArray={weldNumberList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required />
                         </div>
 
+                        {checkedValues.includes('TLT') && (
+                            <FormBody initialValues={formData}>
+                                <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'> 
+                                    <FormInputItem label='Sample Joint No. (TLT)' name='jointNumberForTLT' value={formData.jointNumberForTLT} onChange={handleChange} required/>     
+                                    <FormDropdownItem label ='Parameter Status' name='parameterStatus' dropdownArray={parameterStatusList} valueField='key' visibleField='value' onChange = {handleChange} required />
+                                </div>
+                            </FormBody>
+                        )}
+
+                        {checkedValues.includes('Hardness') && (
+                            <FormBody initialValues={formData}>
+                                <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'> 
+                                    <FormInputItem label='Sample Joint No. (Hardness)' name='jointNumberForHardness' value={formData.jointNumberForHardness} onChange={handleChange} required/>     
+                                    <FormDropdownItem label ='Parameter Status' name='parameterStatus' dropdownArray={parameterStatusList} valueField='key' visibleField='value' onChange = {handleChange} required />
+                                </div>
+                            </FormBody>
+                        )}
+
+                        {checkedValues.includes('Micro') && (
+                            <FormBody initialValues={formData}>
+                                <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'> 
+                                    <FormInputItem label='Sample Joint No. (Micro)' name='jointNumberForMicro' value={formData.jointNumberForMicro} onChange={handleChange} required/>     
+                                    <FormDropdownItem label ='Parameter Status' name='parameterStatus' dropdownArray={parameterStatusList} valueField='key' visibleField='value' onChange = {handleChange} required />
+                                </div>
+                            </FormBody>
+                        )}
+
+                        {checkedValues.includes('Macro') && (
+                            <FormBody initialValues={formData}>
+                                <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'> 
+                                    <FormInputItem label='Sample Joint No. (Macro)' name='jointNumberForMacro' value={formData.jointNumberForMacro} onChange={handleChange} required/>     
+                                    <FormDropdownItem label ='Parameter Status' name='parameterStatus' dropdownArray={parameterStatusList} valueField='key' visibleField='value' onChange = {handleChange} required />
+                                </div>
+                            </FormBody>
+                        )}
+
                         <div className='flex justify-center'>
                             <Btn htmlType='submit' className='w-36'>Save</Btn>
                         </div>
                     </div>
-                </FormBody>
+                </FormBody> 
             )}
         </FormBody>
     </FormContainer>

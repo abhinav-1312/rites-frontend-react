@@ -7,6 +7,15 @@
         "Welding Line": "L3",
         "railSec": "60E1"
     },
+    "weldingTestGeneralInfo": {
+        "date": "01/01/2024",
+        "shift": "A",
+        "railGrade": "R260",
+        "mill": "URM",
+        "Welding Line": "L3",
+        "railSec": "60E1",
+        "Weld Machine Number": "BSP1"
+    },
     "weldingColumns": [
         {"title": "Counter", "dataIndex": "counter", "key": "counter", "align": "center" },
         {"title": "BSP1", "dataIndex": "bsp1", "key": "bsp1", "align": "center"},
@@ -387,5 +396,35 @@
             "key": "4",
             "value": "Micro"
         }  
+    ],
+    "parameterStatusList": [
+        {
+          "key": "OK",
+          "value": "OK"
+        },
+        {
+          "key": "Not OK",
+          "value": "Not OK"
+        }
+    ],
+    "brokenOrNotList": [
+        {
+          "key": "Broken",
+          "value": "Broken"
+        },
+        {
+            "key": "Not Broken",
+            "value": "Not Broken"
+        }
+    ],
+    "deviationList": [
+        {
+            "key": "Yes",
+            "value": "Yes"
+        },
+        {
+            "key": "No",
+            "value": "No"
+        }
     ]
 }

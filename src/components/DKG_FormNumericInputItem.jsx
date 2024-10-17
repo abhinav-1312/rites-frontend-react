@@ -4,7 +4,7 @@ import { Form, Input, Tooltip } from 'antd';
 const formatNumber = (value) => new Intl.NumberFormat().format(value);
 
 const NumericInput = (props) => {
-  const { value, onChange, label, name, required, placeholder, maxLength, minLength, max, min } = props;
+  const { value, onChange, label, name, required, placeholder, maxLength, minLength, max, min, ref, onBlur, onPressEnter } = props;
   const handleChange = (e) => {
     const { value: inputValue } = e.target;
     const reg = /^\d*\.?\d*$/;
@@ -39,6 +39,8 @@ const NumericInput = (props) => {
                 minLength={minLength}
                 max={max}
                 min={min}
+                ref={ref}
+                onPressEnter={onPressEnter}
             />
         </Tooltip>
     </Form.Item>

@@ -44,6 +44,10 @@ import NewWeldInspection from "../dashboard/duty/welding/newWeld/NewWeldInspecti
 import HeldRejectedPanel from '../dashboard/duty/welding/heldRejectedPanel/HeldRejectedPanel';
 import WeldingSummary from '../dashboard/duty/welding/shiftSummary/WeldingSummary';
 import WeldTestSample from "../dashboard/duty/welding/testSample/WeldTestSample";
+import TLTTestDetails from "../dashboard/duty/welding/TLTTestDetails/TLTTestDetails";
+import HardnessTestDetails from "../dashboard/duty/welding/HardnessTestDetails/HardnessTestDetails";
+import MicroTestDetails from "../dashboard/duty/welding/MicroTestDetails/MicroTestDetails";
+import MacroTestDetails from '../dashboard/duty/welding/MacroTestDetails/MacroTestDetails';
 
 const RoutesComponent = () => {
   return (
@@ -121,6 +125,10 @@ const RoutesComponent = () => {
               <Route path="newWeldInspection" element={<NewWeldInspection />} />
               <Route path="heldRejectedPanel" element={<HeldRejectedPanel />} />
               <Route path="testSample" element={<WeldTestSample />} />
+              <Route path="tltTestDetails" element={<TLTTestDetails />} />
+              <Route path="hardnessTestDetails" element={<HardnessTestDetails />} />
+              <Route path="microTestDetails" element={<MicroTestDetails />} />
+              <Route path="macroTestDetails" element={<MacroTestDetails />} />
               <Route path="shiftSummary" element={<WeldingSummary />} />
             </Route>
           </Route>
