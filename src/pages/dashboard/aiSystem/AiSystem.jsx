@@ -6,6 +6,10 @@ import Btn from '../../../components/DKG_Btn'
 import moment from 'moment'
 import {SearchOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import FormDropdownItem from '../../../components/DKG_FormDropdownItem'
+import info from '../../../utils/frontSharedData/VisualInspection/VI.json'
+
+const { shiftList } = info;
 
 // Sample data
 const data = [
@@ -92,9 +96,11 @@ const AiSystem = () => {
   const [monthEndDate, setMonthEndDate] = useState('')
   const [yearStartDate, setYearStartDate] = useState('')
   const [yearEndDate, setYearEndDate] = useState('')
+  const [shift, setShift] = useState('')
 
   const handleShiftChange = (_, value) => {
-    setShiftDate(value)
+    setShiftDate(value);
+    setShift(value);
   }
 
   const handleWeekEndChange = (_, value) => {
@@ -366,7 +372,8 @@ const AiSystem = () => {
           monthStartDate,
           monthEndDate,
           yearStartDate,
-          yearEndDate
+          yearEndDate,
+          shift
         }
       }
     >
@@ -376,7 +383,7 @@ const AiSystem = () => {
       <h2 className='font-medium md:!text-xl'>
       Time Period
       </h2>
-      <Radio.Group value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} className='flex gap-2 md:gap-8 mb-4'>
+      <Radio.Group value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} className='grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-8 mb-4'>
         <Radio value='shift'>Shift</Radio>
         <Radio value='weekly'>Weekly</Radio>
         <Radio value='monthly'>Monthly</Radio>
@@ -386,7 +393,10 @@ const AiSystem = () => {
       <div className='flex gap-8 items-center'>
     {
       timePeriod === 'shift' &&
-      <CustomDatePicker label='Shift Date' value={shiftDate} name='shiftDate' onChange={handleShiftChange} />
+      <>
+        <CustomDatePicker label='Shift Date' value={shiftDate} name='shiftDate' onChange={handleShiftChange} />
+        <FormDropdownItem label="Shift" name="shift" dropdownArray={shiftList} visibleField="value" valueField="key" onChange={handleShiftChange} className='w-24' required />
+      </>
     }
 
     {
@@ -410,7 +420,7 @@ const AiSystem = () => {
       <CustomDatePicker label='Year Start Date' name='weekStartDate' value={yearStartDate} disabled />
       </>
     }
-    <Btn htmlType='submit'> Search </Btn>
+    <Btn htmlType='submit' className='mt-2'> Search </Btn>
      </div>
     </FormBody>
 
