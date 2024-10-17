@@ -101,7 +101,7 @@ const WeldTestSample = () => {
     ];
 
     const handleClick = () => {
-        navigate('/qct/newSampleDeclaration')
+        navigate('/welding/home')
     }
 
   return (
@@ -171,7 +171,7 @@ const WeldTestSample = () => {
                   initialValues={formData}
                   onFinish={handleFormSubmit}
                 >
-                    <div className="!bg-offWhite opacity-80 flex flex-col border p-2 border-gray-100 rounded-md mt-4 mb-4 shadow-[4px_4px_4px_4px_rgba(0,0,0,0.1)]">
+                    <div className="!bg-offWhite opacity-80 flex flex-col border p-2 border-gray-100 rounded-md mb-4 shadow-[4px_4px_4px_4px_rgba(0,0,0,0.1)]">
                         <div className='grid grid-cols-1'>
                             <Checkbox.Group
                                 options={options}
@@ -232,6 +232,9 @@ const WeldTestSample = () => {
                     </div>
                 </FormBody> 
             )}
+            <div className='flex justify-center mt-6'>
+                <Btn onClick={handleClick} className='w-36'>OK</Btn>
+            </div>
         </FormBody>
     </FormContainer>
   )
