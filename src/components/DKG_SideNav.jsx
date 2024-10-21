@@ -265,6 +265,44 @@ const items = [
         ],
       },
       {
+        key: "2.5",
+        icon: <RadarChartOutlined />,
+        label: "Testing",
+        children: [
+          {
+            key: "2.5.1",
+            icon: <FlagOutlined />,
+            label: "Testing Home",
+            children: [
+              {
+                key: '2.5.1.1',
+                label: "Testing End Duty",
+                icon: <BankOutlined />,
+                path: "/testing/home",
+              },
+              {
+                key: "2.4.2.2",
+                icon: <BarChartOutlined />,
+                label: "Pending Test Samples",
+                path: "/testing/pendingTestSamples",
+              },
+              {
+                key: "2.4.2.3",
+                icon: <FilePdfOutlined />,
+                label: "Report",
+                path: "/ndt/report",
+              },
+            ]
+          },
+          // {
+          //   key: '2.3.4',
+          //   icon: <FileDoneOutlined />,
+          //   label: 'Shift Summary',
+          //   path: '/ndt/shiftSummary',
+          // },
+        ],
+      },
+      {
         key: "2.6",
         icon: <EyeOutlined />,
         label: "Visual Inspection",

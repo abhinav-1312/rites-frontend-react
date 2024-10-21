@@ -48,6 +48,9 @@ import TLTTestDetails from "../dashboard/duty/welding/TLTTestDetails/TLTTestDeta
 import HardnessTestDetails from "../dashboard/duty/welding/HardnessTestDetails/HardnessTestDetails";
 import MicroTestDetails from "../dashboard/duty/welding/MicroTestDetails/MicroTestDetails";
 import MacroTestDetails from '../dashboard/duty/welding/MacroTestDetails/MacroTestDetails';
+import TestingHome from "../dashboard/duty/testing/testHome/TestingHome";
+import PendingTestSamples from "../dashboard/duty/testing/pendingTestSamples/PendingTestSamples";
+import TestingReport from "../dashboard/duty/testing/shiftTestingReport/TestingReport";
 
 const RoutesComponent = () => {
   return (
@@ -91,12 +94,34 @@ const RoutesComponent = () => {
               <Route path="report" element={<NReport />} />
             </Route>
 
+            <Route path="/testing">
+              <Route index element={<TestingHome />} />
+              <Route path="home" element={<TestingHome />} />
+              <Route path="pendingTestSamples" element={<PendingTestSamples />} />
+              <Route path="testingReport" element={<TestingReport />} />
+              <Route path="report" element={<NReport />} />
+            </Route>
+
             <Route path="/visual">
               <Route index element={<VIShiftDetailsForm />} />
               <Route path="startDuty" element={<VIShiftDetailsForm />} />
               <Route path="home" element={<Home />} />
               <Route path="inspection" element={<VisualInspectionForm />} />
               <Route path="summary" element={<VIShiftSummary />} />
+            </Route>
+
+            <Route path="/welding">
+              <Route index element={<WeldingStartDutyForm />} />
+              <Route path="startDuty" element={<WeldingStartDutyForm />} />
+              <Route path="home" element={<WeldingHome />} />
+              <Route path="newWeldInspection" element={<NewWeldInspection />} />
+              <Route path="heldRejectedPanel" element={<HeldRejectedPanel />} />
+              <Route path="testSample" element={<WeldTestSample />} />
+              <Route path="tltTestDetails" element={<TLTTestDetails />} />
+              <Route path="hardnessTestDetails" element={<HardnessTestDetails />} />
+              <Route path="microTestDetails" element={<MicroTestDetails />} />
+              <Route path="macroTestDetails" element={<MacroTestDetails />} />
+              <Route path="shiftSummary" element={<WeldingSummary />} />
             </Route>
 
             <Route path="/srInspection">
@@ -116,20 +141,6 @@ const RoutesComponent = () => {
               <Route path='list' element={<CalibrationList />} />
               <Route path='newModifyCalibration' element={<NewCalibrationForm />} />
               <Route path='bulkCalibration' element={<BulkCalibrationForm  />} />
-            </Route>
-
-            <Route path="/welding">
-              <Route index element={<WeldingStartDutyForm />} />
-              <Route path="startDuty" element={<WeldingStartDutyForm />} />
-              <Route path="home" element={<WeldingHome />} />
-              <Route path="newWeldInspection" element={<NewWeldInspection />} />
-              <Route path="heldRejectedPanel" element={<HeldRejectedPanel />} />
-              <Route path="testSample" element={<WeldTestSample />} />
-              <Route path="tltTestDetails" element={<TLTTestDetails />} />
-              <Route path="hardnessTestDetails" element={<HardnessTestDetails />} />
-              <Route path="microTestDetails" element={<MicroTestDetails />} />
-              <Route path="macroTestDetails" element={<MacroTestDetails />} />
-              <Route path="shiftSummary" element={<WeldingSummary />} />
             </Route>
           </Route>
         </Route>

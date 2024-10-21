@@ -13,18 +13,19 @@ const dutyItemTabs = [
     id: 2,
     title: 'Rolling Stage',
     icon: <AuditOutlined />,
-    link: 'stage/startDuty'
+    link: '/stage/startDuty'
   },
   {
     id: 3,
     title: 'NDT',
     icon: <RadarChartOutlined />,
-    link: 'ndt/startDuty'
+    link: '/ndt/startDuty'
   },
   {
     id: 4,
     title: 'Testing',
-    icon: <ExperimentOutlined />
+    icon: <ExperimentOutlined />,
+    link:  '/testing/home'
   },
   {
     id: 5,
@@ -42,19 +43,19 @@ const dutyItemTabs = [
     id: 7,
     title: 'Short Rail Inspection',
     icon: <CompassOutlined />,
-    link: 'srInspection'
+    link: '/srInspection'
   },
   {
     id: 8,
     title: 'QCT',
     icon: <DatabaseOutlined />,
-    link: 'qct/sampleList'
+    link: '/qct/sampleList'
   },
   {
     id: 9,
     title: 'Calibration',
     icon: <ToolOutlined />,
-    link: 'calibration/list'
+    link: '/calibration/list'
   },
   {
     id: 10,
