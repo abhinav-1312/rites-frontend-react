@@ -270,7 +270,7 @@
     ]
   },
   "visualInspectionDefectData": {
-    "Dimension": [ "HH", "LH", "OHT", "UHT", "NF", "WF", "TF(+)", "TF(-)", "HF(+)", "HF(-)", "HS", "LS", "TNW", "TKW", "Asy(+)", "Asy(-)", "OL", "SL", "OS", "FBC", "FBCX", "CP(+)", "CP(-)", "Other" ],
+    "Dimension": ["HH","LH","OHT","UHT","NF","WF","TF(+)","TF(-)","HF(+)","HF(-)","HS","LS","TNW","TKW","Asy(+)","Asy(-)","OL","SL","OS","FBC","FBCX","CP(+)","CP(-)","Other"],
     "Surface": [ "NMI", "MDF", "MDM", "LAP", "GM", "BR", "Crack", "BNT", "CE", "Other" ],
     "Straightness": [ "KK", "TW", "-C -R/C", "WY", "NS", "BE", "US", "DS", "Other" ],
     "Others": [ "NHN", "RM", "UT", "HNP", "Other" ]

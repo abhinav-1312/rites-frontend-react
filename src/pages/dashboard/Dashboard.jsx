@@ -38,7 +38,7 @@ const dashboardTabItems = [
   {
     id: 5,
     title: 'Data Analysis',
-    icon: <LineChartOutlined />
+    icon: <LineChartOutlined />,
   },
   {
     id: 6,

@@ -51,6 +51,8 @@ import MacroTestDetails from '../dashboard/duty/welding/MacroTestDetails/MacroTe
 import TestingHome from "../dashboard/duty/testing/testHome/TestingHome";
 import PendingTestSamples from "../dashboard/duty/testing/pendingTestSamples/PendingTestSamples";
 import TestingReport from "../dashboard/duty/testing/shiftTestingReport/TestingReport";
+import HeatPending from "../dashboard/duty/testing/pendingHeats/HeatPending";
+import RailDetails from "../dashboard/duty/railDetails/RailDetails";
 
 const RoutesComponent = () => {
   return (
@@ -99,6 +101,7 @@ const RoutesComponent = () => {
               <Route path="home" element={<TestingHome />} />
               <Route path="pendingTestSamples" element={<PendingTestSamples />} />
               <Route path="testingReport" element={<TestingReport />} />
+              <Route path="heatPending" element={<HeatPending />} />
               <Route path="report" element={<NReport />} />
             </Route>
 
@@ -142,6 +145,12 @@ const RoutesComponent = () => {
               <Route path='newModifyCalibration' element={<NewCalibrationForm />} />
               <Route path='bulkCalibration' element={<BulkCalibrationForm  />} />
             </Route>
+
+            {/* <Route path="/railDetails">
+              <Route index element={<SmsDutyStartForm />} />
+              <Route path="railId" element={<SmsHeatSummary />} />
+            </Route> */}
+            <Route path="/railDetails/:railId" element={<RailDetails />} />
           </Route>
         </Route>
 

@@ -8,17 +8,25 @@ import {SearchOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import FormDropdownItem from '../../../components/DKG_FormDropdownItem'
 import info from '../../../utils/frontSharedData/VisualInspection/VI.json'
+import { useNavigate } from "react-router-dom";
 
 const { shiftList } = info;
 
 // Sample data
 const data = [
+  // {
+  //     key: '1',
+  //     railID: 'U110324B001',
+  //     surfaceDefectDetection: { precision: 0.91, recall: 0.89 },
+  //     dimensionalVariationDetection: { precision: 0.88, recall: 0.84 },
+  //     ocr: 'True',
+  // },
   {
-      key: '1',
-      railID: 'U110324B001',
-      surfaceDefectDetection: { precision: 0.91, recall: 0.89 },
-      dimensionalVariationDetection: { precision: 0.88, recall: 0.84 },
-      ocr: 'True',
+    key: '1',
+    railID: 'U191024A025_UHT_(0-13)M',
+    surfaceDefectDetection: { precision: 0.91, recall: 0.89 },
+    dimensionalVariationDetection: { precision: 0.88, recall: 0.84 },
+    ocr: 'True',
   },
   {
       key: '2',
@@ -97,6 +105,7 @@ const AiSystem = () => {
   const [yearStartDate, setYearStartDate] = useState('')
   const [yearEndDate, setYearEndDate] = useState('')
   const [shift, setShift] = useState('')
+  const navigate = useNavigate();
 
   const handleShiftChange = (_, value) => {
     setShiftDate(value);
@@ -251,7 +260,10 @@ const AiSystem = () => {
       dataIndex: 'railID',
       key: 'railID',
       align: 'center',
-      ...getColumnSearchProps('railID')
+      render: (railID) => (
+        <a onClick={() => navigate(`/railDetails/${railID}`)}>{railID}</a>
+      )
+      // ...getColumnSearchProps('railID')
     },
     {
       title: 'Surface Defect Detection',
@@ -431,6 +443,7 @@ const AiSystem = () => {
     <Table
       columns={columns}
       scroll={{ x: true }}
+      rowKey={(record) => record.railId}
       dataSource={data}
       bordered
       pagination={{

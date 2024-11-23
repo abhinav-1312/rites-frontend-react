@@ -289,9 +289,15 @@ const items = [
               {
                 key: "2.4.2.3",
                 icon: <FilePdfOutlined />,
-                label: "Report",
-                path: "/ndt/report",
+                label: "Shift Testing Report",
+                path: "/testing/testingReport"
               },
+              {
+                key: "2.4.2.4",
+                icon: <FilePdfOutlined />,
+                label: "Heat Pending for Testing",
+                path: "/testing/heatPending"
+              }
             ]
           },
           // {

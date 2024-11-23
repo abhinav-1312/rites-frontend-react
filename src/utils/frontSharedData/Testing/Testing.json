@@ -25,6 +25,24 @@
           "value": "880NC"
         }
     ],
+    "resultList": [
+      {
+        "key": "Pending",
+        "value": "Pending"
+      },
+      {
+        "key": "Pass",
+        "value": "Pass"
+      },
+      {
+        "key": "Partially Pass",
+        "value": "Partially Pass"
+      },
+      {
+        "key": "Reject",
+        "value": "Reject"
+      }
+    ],
     "millList": [
         {
           "key": "URM",

@@ -19,7 +19,7 @@ const testingHomeTabs = [
     {
         title: 'Heat Pending for Decision',
         icon: <PieChartOutlined />,
-        link: "/stage/testSampleMarkingList"
+        link: "/testing/heatPending"
     },
 ]
 
