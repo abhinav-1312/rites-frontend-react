@@ -30,19 +30,19 @@ const dutyItemTabs = [
   },
   {
     id: 5,
-    title: 'Visual Inspection Record',
+    title: 'Visual Insp. Record',
     icon: <EyeOutlined />,
     // link: '/visual/startDuty'
   },
   {
     id: 6,
-    title: 'Welding Inspection Record',
+    title: 'Welding Insp. Record',
     icon: <DeploymentUnitOutlined />,
     // link: '/welding/startDuty'
   },
   {
     id: 7,
-    title: 'Short Rail Inspection Record',
+    title: 'Short Rail Insp. Record',
     icon: <CompassOutlined />,
     // link: '/srInspection'
   },
@@ -69,11 +69,16 @@ const dutyItemTabs = [
 const Records = () => {
   const navigate = useNavigate()
   const renderRecordItemTabs = () =>
-    dutyItemTabs.map(item => {
+    dutyItemTabs.map((item) => {
       return (
-        <Tab  title={item.title} icon={item.icon} onClick={()=> navigate(item.link)} />
-      )
-    })
+        <div onClick={() => navigate(item.link)} className="flex justify-between items-center  border border-darkBlueHover w-full p-2 px-4 gap-4 rounded-lg shadow-lg bg-gray-200">
+          <span className="records-tab-icon">{item.icon}</span>
+          <span className="font-medium">
+            {item.title}
+          </span>
+        </div>
+      );
+    });
   return (
     <section>
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
