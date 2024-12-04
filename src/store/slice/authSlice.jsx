@@ -46,13 +46,23 @@ const authSlice = createSlice({
 export const login = createAsyncThunk(
     'auth/login',
     async (formData) => {
-        try{
-            const {data} = await axios.post("/login", formData);
-            return data?.responseData;
-        }
-        catch(error){
+        // try{
+        //     const {data} = await axios.post("/login", formData);
+        //     return data?.responseData;
+        // }
+        // catch(error){
 
+        // }
+        const obj = {
+            firstName: "ABCD",
+            lastName: "ABCD",
+            userId: "ABCD",
+            token: "1234",
+            userType: "ADMIN"
         }
+
+        return obj;
+
     }
 )
 

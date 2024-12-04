@@ -15,8 +15,8 @@ const Login = () => {
   const navigate = useNavigate()
   const handleFormSubmit = async () => {
     await dispatch(login(formData)).unwrap()
-    await dispatch(getOngoingSmsDutyDtls()).unwrap()
-    await dispatch(getOngoingRollingDutyDtls()).unwrap()
+    // await dispatch(getOngoingSmsDutyDtls()).unwrap()
+    // await dispatch(getOngoingRollingDutyDtls()).unwrap()
     navigate('/')
   }
 

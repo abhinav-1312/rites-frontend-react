@@ -155,3 +155,7 @@ label{
 .search-input .ant-btn-primary{
   @apply !bg-darkBlue
 }
+
+.ant-dropdown-trigger.active, .ant-dropdown-trigger.active>*{
+  color:#E74C3C !important
+}
