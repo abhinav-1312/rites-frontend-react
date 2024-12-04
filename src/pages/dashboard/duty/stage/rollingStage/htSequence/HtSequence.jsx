@@ -176,7 +176,7 @@ const HtSequence = () => {
       </div>
       <Modal
         open={isModalOpen}
-        title="Add new Rail"
+        title="Add a new Rail"
         footer={null}
         onCancel={() => setIsModalOpen(false)}
       >
