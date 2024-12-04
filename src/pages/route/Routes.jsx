@@ -34,9 +34,6 @@ import WsRemarks from '../dashboard/duty/srInspection/wsRemarks/WsRemarks';
 import TestSampleList from '../dashboard/duty/stage/testSampleMarking/testSampleList/TestSampleList';
 import NewTestSampleDeclaration from "../dashboard/duty/stage/testSampleMarking/newTestSample/NewTestSampleDeclaration";
 import RollingControlForm from "../dashboard/duty/stage/rollingStage/rollingControl/RollingControlForm";
-import RollingControl60E1 from "../dashboard/duty/stage/rollingStage/rollingControl60E1/RollingControl60E1";
-import RollingControlIRS52 from "../dashboard/duty/stage/rollingStage/rollingControlIRS52/RollingControlIRS52";
-import RollingControl60E1A1 from "../dashboard/duty/stage/rollingStage/rollingControl60E1A1/RollingControl60E1A1";
 import HtSequence from "../dashboard/duty/stage/rollingStage/htSequence/HtSequence";
 import WeldingStartDutyForm from "../dashboard/duty/welding/startDuty/WeldingStartDutyForm";
 import WeldingHome from "../dashboard/duty/welding/home/WeldingHome";
@@ -53,6 +50,13 @@ import PendingTestSamples from "../dashboard/duty/testing/pendingTestSamples/Pen
 import TestingReport from "../dashboard/duty/testing/shiftTestingReport/TestingReport";
 import HeatPending from "../dashboard/duty/testing/pendingHeats/HeatPending";
 import RailDetails from "../dashboard/duty/railDetails/RailDetails";
+import SmsPrivateRoute from "./SmsPrivateRoute";
+import HeatDtl from "../dashboard/duty/sms/heatDtl/HeatDtl";
+import RollingPrivateRoute from "./RollingPrivateRoute";
+import RollingControlSample from "../dashboard/duty/stage/rollingStage/rollingControl60E1/RollingControlSample";
+import RollingVerification from "../dashboard/duty/stage/rollingVerification/RollingVerification";
+import FinishingVerification from "../dashboard/duty/stage/finishingVerification/FinishingVerification";
+import SmsRecord from "../dashboard/records/SmsRecord";
 
 const RoutesComponent = () => {
   return (
@@ -61,31 +65,38 @@ const RoutesComponent = () => {
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<LayoutWithDashboard />}>
             <Route index element={<Dashboard />} />
+            <Route path="/record/sms" element={<SmsRecord />} />
+
             <Route path="/sms">
               <Route index element={<SmsDutyStartForm />} />
-              <Route path="heatSummary" element={<SmsHeatSummary />} />
               <Route path="dutyStart" element={<SmsDutyStartForm />} />
-              <Route path="dutyEnd" element={<SmsDutyEnd />} />
-              <Route path="bloomInspection" element={<SmsBloomInspection />} />
-              <Route path="shiftReports">
-                <Route index element={<ShiftReports />} />
-                <Route path="heatList" element={<SmsHeatList />} />
-                <Route path="checkList" element={<SmsCheckList />} />
-                <Route path="verification" element={<SmsVerification />} />
+              <Route element={<SmsPrivateRoute />}>
+                <Route path="heatSummary" element={<SmsHeatSummary />} />
+                <Route path="heatDtl" element={<HeatDtl />} />
+                <Route path="dutyEnd" element={<SmsDutyEnd />} />
+                <Route path="bloomInspection" element={<SmsBloomInspection />} />
+                <Route path="shiftReports">
+                  <Route index element={<ShiftReports />} />
+                  <Route path="heatList" element={<SmsHeatList />} />
+                  <Route path="checkList" element={<SmsCheckList />} />
+                  <Route path="verification" element={<SmsVerification />} />
+                </Route>
               </Route>
             </Route>
 
             <Route path="/stage">
               <Route index element={<StageShiftDetailsForm />} />
               <Route path="startDuty" element={<StageShiftDetailsForm />} />
-              <Route path="home" element={<StageHome />} />
-              <Route path="rollingControl" element={<RollingControlForm />} />
-              <Route path="rollingControl/rollingControlSample60E1" element={<RollingControl60E1 />} />
-              <Route path="rollingControl/rollingControlSampleIRS52" element={<RollingControlIRS52 />} />
-              <Route path="rollingControl/rollingControlSample60E1A1" element={<RollingControl60E1A1 />} />
-              <Route path="htSequence" element={<HtSequence />} />
-              <Route path="testSampleMarkingList" element={<TestSampleList />} />
-              <Route path="newTestSampleDeclaration" element={<NewTestSampleDeclaration />} />
+              <Route element={<RollingPrivateRoute />}>
+                <Route path="home" element={<StageHome />} />
+                <Route path="rollingControl" element={<RollingControlForm />} />
+                <Route path="rollingControl/rollingControlSample" element={<RollingControlSample />} />
+                <Route path="rollingVerification" element={<RollingVerification />} />
+                <Route path="finishingVerification" element={<FinishingVerification />} />
+                <Route path="htSequence" element={<HtSequence />} />
+                <Route path="testSampleMarkingList" element={<TestSampleList />} />
+                <Route path="newTestSampleDeclaration" element={<NewTestSampleDeclaration />} />
+              </Route>
             </Route>
 
             <Route path="/ndt">
