@@ -31,14 +31,12 @@ import {
   FireOutlined,
   HomeOutlined,
   LogoutOutlined,
-  ThunderboltOutlined,
   FileTextOutlined,
   RobotOutlined,
   LineChartOutlined,
   ProfileOutlined,
   UserOutlined,
   HourglassOutlined,
-  ExclamationCircleOutlined,
   AppstoreAddOutlined,
   IdcardOutlined,
   WarningOutlined
@@ -60,7 +58,7 @@ const items = [
     key: "2",
     icon: <IdcardOutlined />,
     label: "Duty",
-    children: [
+    items: [
       {
         key: "2.1",
         icon: <BankOutlined />,
@@ -72,7 +70,7 @@ const items = [
         key: "2.2",
         icon: <MessageOutlined />,
         label: "SMS",
-        children: [
+        items: [
           {
             key: "2.2.1",
             icon: <SendOutlined />,
@@ -84,7 +82,7 @@ const items = [
             icon: <FlagOutlined />,
             label: "SMS Duty End",
             path: "/sms/dutyEnd",
-            children: [
+            items: [
               {
                 key: "2.2.2.1",
                 icon: <BankOutlined />,
@@ -104,30 +102,30 @@ const items = [
                 path: "/sms/bloomInspection",
               },
               {
-                key: "2.2.2.1",
+                key: "2.2.2.4",
                 icon: <BarChartOutlined />,
                 label: "Shift Reports",
-                children: [
+                items: [
                   {
-                    key: "2.2.2.1.1",
+                    key: "2.2.2.4.1",
                     icon: <ExperimentOutlined />,
                     label: "Shift Reports Home",
                     path: "/sms/shiftReports",
                   },
                   {
-                    key: "2.2.2.1.2",
+                    key: "2.2.2.4.2",
                     icon: <FireOutlined />,
                     label: "Heat List",
                     path: "/sms/shiftReports/heatList",
                   },
                   {
-                    key: "2.2.2.1.3",
+                    key: "2.2.2.4.3",
                     icon: <CheckOutlined />,
                     label: "Check List",
                     path: "/sms/shiftReports/checkList",
                   },
                   {
-                    key: "2.2.2.1.4",
+                    key: "2.2.2.4.4",
                     icon: <FileDoneOutlined />,
                     label: "Verification",
                     path: "/sms/shiftReports/verification",
@@ -142,7 +140,7 @@ const items = [
         key: "2.3",
         icon: <AuditOutlined />,
         label: "Rolling Stage",
-        children: [
+        items: [
           {
             key: "2.3.1",
             icon: <SendOutlined />,
@@ -153,7 +151,7 @@ const items = [
             key: "2.3.2",
             icon: <FlagOutlined />,
             label: "Stage Duty End",
-            children: [
+            items: [
               {
                 key: "2.3.2.1",
                 icon: <BankOutlined />,
@@ -164,7 +162,7 @@ const items = [
                 key: "2.3.2.2",
                 icon: <ControlOutlined />,
                 label: "Rolling Stage Control",
-                children: [
+                items: [
                   {
                     key: "2.3.2.2.1",
                     icon: <ControlOutlined />,
@@ -174,28 +172,40 @@ const items = [
                   {
                     key: "2.3.2.2.2",
                     icon: <HourglassOutlined />,
-                    label: "Control Sample for 60E1",
-                    path: "/stage/rollingControl/rollingControlSample60E1"
+                    label: "Control Sample",
+                    path: "/stage/rollingControl/rollingControlSample"
                   },
-                  {
-                    key: "2.3.2.2.3",
-                    icon: <ExclamationCircleOutlined />,
-                    label: "Control Sample for IRS52",
-                    path: "/stage/rollingControl/rollingControlSampleIRS52"
-                  },
-                  {
-                    key: "2.3.2.2.4",
-                    icon: <ThunderboltOutlined />,
-                    label: "Control Sample for 60E1A1",
-                    path: "/stage/rollingControl/rollingControlSample60E1A1"
-                  },
+                  // {
+                  //   key: "2.3.2.2.3",
+                  //   icon: <ExclamationCircleOutlined />,
+                  //   label: "Control Sample for IRS52",
+                  //   path: "/stage/rollingControl/rollingControlSampleIRS52"
+                  // },
+                  // {
+                  //   key: "2.3.2.2.4",
+                  //   icon: <ThunderboltOutlined />,
+                  //   label: "Control Sample for 60E1A1",
+                  //   path: "/stage/rollingControl/rollingControlSample60E1A1"
+                  // },
                 ]
+              },
+              {
+                key: "2.3.2.5",
+                icon: <ExperimentOutlined />,
+                label: "Rolling Verification",
+                path: "/stage/rollingVerification"
+              },
+              {
+                key: "2.3.2.6",
+                icon: <ExperimentOutlined />,
+                label: "Finishing Verification",
+                path: "/stage/finishingVerification"
               },
               {
                 key: "2.3.2.3",
                 icon: <ExperimentOutlined />,
                 label: "Test Sample Marking",
-                children: [
+                items: [
                   {
                     key: "2.3.2.3.1",
                     icon: <AppstoreAddOutlined />,
@@ -224,7 +234,7 @@ const items = [
         key: "2.4",
         icon: <RadarChartOutlined />,
         label: "NDT",
-        children: [
+        items: [
           {
             key: "2.4.1",
             icon: <SendOutlined />,
@@ -235,7 +245,7 @@ const items = [
             key: "2.4.2",
             icon: <FlagOutlined />,
             label: "NDT Duty End",
-            children: [
+            items: [
               {
                 key: '2.4.2.1',
                 label: "NDT Duty End Home",
@@ -268,12 +278,12 @@ const items = [
         key: "2.5",
         icon: <RadarChartOutlined />,
         label: "Testing",
-        children: [
+        items: [
           {
             key: "2.5.1",
             icon: <FlagOutlined />,
             label: "Testing Home",
-            children: [
+            items: [
               {
                 key: '2.5.1.1',
                 label: "Testing End Duty",
@@ -281,19 +291,19 @@ const items = [
                 path: "/testing/home",
               },
               {
-                key: "2.4.2.2",
+                key: "2.5.1.2",
                 icon: <BarChartOutlined />,
                 label: "Pending Test Samples",
                 path: "/testing/pendingTestSamples",
               },
               {
-                key: "2.4.2.3",
+                key: "2.5.1.3",
                 icon: <FilePdfOutlined />,
                 label: "Shift Testing Report",
                 path: "/testing/testingReport"
               },
               {
-                key: "2.4.2.4",
+                key: "2.5.1.4",
                 icon: <FilePdfOutlined />,
                 label: "Heat Pending for Testing",
                 path: "/testing/heatPending"
@@ -312,7 +322,7 @@ const items = [
         key: "2.6",
         icon: <EyeOutlined />,
         label: "Visual Inspection",
-        children: [
+        items: [
           {
             key: "2.6.1",
             icon: <SendOutlined />,
@@ -323,7 +333,7 @@ const items = [
             key: "2.6.2",
             icon: <FlagOutlined />,
             label: "VI Duty End",
-            children: [
+            items: [
               {
                 key: "2.6.2.1",
                 icon: <BankOutlined />,
@@ -350,7 +360,7 @@ const items = [
         key: "2.7",
         icon: <BuildOutlined />,
         label: "Welding Inspection",
-        children: [
+        items: [
           {
             key: "2.7.1",
             icon: <SendOutlined />,
@@ -361,7 +371,7 @@ const items = [
             key: "2.7.2",
             icon: <FlagOutlined />,
             label: "Welding Duty End",
-            children: [
+            items: [
               {
                 key: "2.7.2.1",
                 icon: <BankOutlined />,
@@ -400,12 +410,12 @@ const items = [
         key: "2.8",
         icon: <CompassOutlined />,
         label: "Short Rail Inspection",
-        children: [
+        items: [
           {
             key: "2.8.1",
             icon: <FlagOutlined />,
             label: "Short Rail Inspection Home",
-            children: [
+            items: [
               {
                 key: "2.8.1.1",
                 icon: <BankOutlined />,
@@ -432,7 +442,7 @@ const items = [
         key: "2.9",
         icon: <DatabaseOutlined />,
         label: "QCT",
-        children: [
+        items: [
           {
             key: "2.9.1",
             icon: <AppstoreAddOutlined />,
@@ -451,7 +461,7 @@ const items = [
         key: "2.10",
         icon: <ToolOutlined />,
         label: "Calibration",
-        children: [
+        items: [
           {
             key: "2.10.1",
             icon: <AppstoreAddOutlined />,
@@ -522,8 +532,8 @@ const SideNav = ({ collapsed, toggleCollapse }) => {
       return item.key;
     }
 
-    if (item.children) {
-      for (const child of item.children) {
+    if (item.items) {
+      for (const child of item.items) {
         const key = getSelectedKey(child);
         if (key) {
           return key;
@@ -545,7 +555,7 @@ const SideNav = ({ collapsed, toggleCollapse }) => {
   };
 
   const displaySideNavItems = (item) => {
-    if (!item.children) {
+    if (!item.items) {
       return (
         <Menu.Item
           key={item.key}
@@ -562,7 +572,7 @@ const SideNav = ({ collapsed, toggleCollapse }) => {
 
     return (
       <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
-        {item.children.map((child) => displaySideNavItems(child))}
+        {item.items.map((child) => displaySideNavItems(child))}
       </Menu.SubMenu>
     );
   };

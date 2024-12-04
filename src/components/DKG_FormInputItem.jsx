@@ -3,14 +3,19 @@ import {Form, Input, InputNumber} from "antd"
 
 const FormInputItem = ({label, name, value, onChange, readOnly, disabled, className, placeholder, required, min, max, type}) => {
   const handleChange = (e) => {
+
     if(onChange)
-      onChange(name, e.target.value)
+      if(typeof name === 'string')
+        onChange(name, e.target.value)
+      else
+        onChange(name[2], e.target.value)
   }
   return (
     <Form.Item label={label} name={name}
       // rules = {rules}
-      rules={[{ required: required ? true : false, message: 'Please input your value!' }]}
+      rules={[{ required: required ? true : false, message: 'Please input a value!' }]}
       // className={`!mb-4 flex flex-col sm:flex-row items-center ${className}`}
+      className={className}
     >
       {
         type === 'number' ? 

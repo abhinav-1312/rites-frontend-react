@@ -9,7 +9,6 @@ import DataAnalysis from './dataAnalysis/DataAnalysis';
 import IsoReports from './isoReports/IsoReports';
 import Admin from './admin/Admin';
 import { ActiveTabContext } from '../../context/dashboardActiveTabContext';
-import { useLocation } from 'react-router-dom';
 
 const { Search } = Input;
 
@@ -55,7 +54,6 @@ const dashboardTabItems = [
 const Dashboard = () => {
   // const [activeTab, setActiveTab] = useState(1)
   const {activeTab, setActiveTab} = useContext(ActiveTabContext)
-  const location = useLocation();
 
   const renderDashboardTabItems = () => 
     dashboardTabItems.map(item=> {

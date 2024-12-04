@@ -1,4 +1,4 @@
-import { FileSearchOutlined, HistoryOutlined, DashboardOutlined, ExperimentOutlined, ForkOutlined, ControlOutlined, EyeOutlined, PieChartOutlined }from '@ant-design/icons';
+import { HistoryOutlined, DashboardOutlined, ForkOutlined, ControlOutlined } from '@ant-design/icons';
 
 const stageHomeTabs = [
     {
@@ -9,17 +9,12 @@ const stageHomeTabs = [
     {
       title: 'URM Rolling Verification',
       icon: <DashboardOutlined />,
-      link: "/stage/urmVerification"
+      link: "/stage/rollingVerification"
     },
     {
       title: 'Rail Finishing Verification',
       icon: <HistoryOutlined />,
       link: "/stage/finishingVerification"
-    },
-    {
-        title: 'Testing Sample Marking',
-        icon: <ExperimentOutlined />,
-        link: "/stage/testSampleMarkingList"
     },
     {
         title: 'HT Sequence',

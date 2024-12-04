@@ -1,163 +1,237 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import FormContainer from '../../../../../../components/DKG_FormContainer'
-import SubHeader from '../../../../../../components/DKG_SubHeader'
-import GeneralInfo from '../../../../../../components/DKG_GeneralInfo'
+import React, { useState, useCallback, useEffect } from "react";
+import FormContainer from "../../../../../../components/DKG_FormContainer";
+import SubHeader from "../../../../../../components/DKG_SubHeader";
+import GeneralInfo from "../../../../../../components/DKG_GeneralInfo";
 import data from "../../../../../../utils/frontSharedData/rollingStage/Stage.json";
-import { Checkbox, Divider, Modal, Table, message } from 'antd';
-import { PlusOutlined, EditOutlined } from '@ant-design/icons';
-import IconBtn from '../../../../../../components/DKG_IconBtn';
-import FormInputItem from '../../../../../../components/DKG_FormInputItem';
-import Btn from '../../../../../../components/DKG_Btn';
-import FormDropdownItem from '../../../../../../components/DKG_FormDropdownItem';
+import { Checkbox, Divider, Form, Modal, Table } from "antd";
+import { PlusOutlined, EditOutlined } from "@ant-design/icons";
+import IconBtn from "../../../../../../components/DKG_IconBtn";
+import FormInputItem from "../../../../../../components/DKG_FormInputItem";
+import Btn from "../../../../../../components/DKG_Btn";
+import FormDropdownItem from "../../../../../../components/DKG_FormDropdownItem";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { apiCall, handleChange } from "../../../../../../utils/CommonFunctions";
+import FormSearchItem from "../../../../../../components/DKG_FormSearchItem";
 
-const { rollingStageGeneralInfo, htSequenceTableData, bloomQualityList, htStatusList } = data;
-
-const checkBoxItems = [
-    { "key": 1, "value": "Is it New Heat treated Rail Campaign" }
-  ]
+const { bloomQualityList, htStatusList } = data;
 
 const HtSequence = () => {
-    const [tableData, setTableData] = useState([]);
-    const [currentTablePage, setCurrentTablePage] = useState(1)
-    const [tablePageSize, setTablePageSize] = useState(5)
-    const [newRailID, setNewRailID] = useState('')
-    const [newBloomQuality, setNewBloomQuality] = useState('')
-    const [newHtStatus, setNewHtStatus] = useState('')
-    const [newTestSampleMarked, setNewTestSampleMarked] = useState('')
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [checkedValues, setCheckedValues] = useState([])
-    const navigate = useNavigate()
 
-    const populateTableData = useCallback(() => {
-        setTableData([...htSequenceTableData]);
-    }, []);
+  const handleRowClick = (record) => {
+    setFormData({
+      railId: record.railId,
+      htStatus: record.htStatus,
+      bloomQuality: record.bloomQuality,
+      testMarked: record.testMarked
+    })
+  }
 
-    const handleRowClick = () => {
-        message.success("clicked");
+  const [form] = Form.useForm();
+  const columns = [
+    {
+      title: "S.No.",
+      dataIndex: "sNo",
+      key: "sNo",
+      render: (_, __, index) => index + 1,
+    },
+    {
+      title: "Rail ID",
+      dataIndex: "railId",
+      key: "railId",
+    },
+    {
+      title: "Bloom Quality",
+      dataIndex: "bloomQuality",
+      key: "bloomQuality",
+    },
+    {
+      title: "HT Status",
+      dataIndex: "htStatus",
+      key: "htStatus",
+      render: (htStatus) => (htStatus ? "OK" : "NOT OK"),
+    },
+    {
+      title: "Test Sample Marked",
+      dataIndex: "testMarked",
+      key: "testMarked",
+      render: (testMarked) => testMarked.join(", "),
+    },
+    {
+      title: "Actions",
+      fixed: "right",
+      render: (_, record) => (
+        <IconBtn
+          icon={EditOutlined}
+          onClick={() => handleRowClick(record)}
+        />
+      ),
+    },
+  ];
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const rollingGeneralInfo = useSelector((state) => state.rollingDuty);
+  const { token } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState(true);
+  const [formData, setFormData] = useState({
+    railId: null,
+    bloomQuality: null,
+    htStatus: null,
+    htStatusDesc: null,
+    testSampleMarked: null,
+  });
+
+  const [tableData, setTableData] = useState([]);
+
+  const populateData = useCallback(async () => {
+    try {
+      const { data } = await apiCall(
+        "GET",
+        "/rolling/htSequence/getOpenBatchDtls",
+        token
+      );
+      setTableData(data.responseData?.railIdDtlList || []);
+    } catch (error) {}
+  }, [token]);
+
+  const handleHtStatusChange = (_, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      htStatus: value,
+      htStatusDesc: value ? "OK" : "NOT OK",
+    }));
+  };
+
+  const addData = async () => {
+    const payload = {
+      dutyId: rollingGeneralInfo.dutyId,
+      railId: formData.railId,
+      htStatus: formData.htStatus,
+      bloomQuality: formData.bloomQuality,
     };
+    try {
+      await apiCall("POST", "/rolling/testing/saveRailDtls", token, payload);
+      populateData();
+    } catch (error) {}
+  };
 
-    const columns = [
-        {
-          title: "S.No.",
-          dataIndex: "sNo",
-          key: "sNo",
-        },
-        {
-          title: "Rail ID",
-          dataIndex: "railID",
-          key: "railID",
-        },
-        {
-          title: "Bloom Quality",
-          dataIndex: "bloomQuality",
-          key: "bloomQuality",
-        },
-        {
-          title: "HT Status",
-          dataIndex: "htStatus",
-          key: "htStatus",
-        },
-        {
-          title: "Test Sample Marked",
-          dataIndex: "testSampleMarked",
-          key: "testSampleMarked",
-        },
-        {
-          title: "Actions",
-          fixed: "right",
-          render: (_, record) => (
-            <IconBtn
-              icon={EditOutlined}
-              onClick={() => handleRowClick(record.heatNo)}
-            />
-          ),
-        },
-    ];
+  const handleRailIdSearch = async () => {
+    try {
+      const { data } = await apiCall(
+        "GET",
+        `/rolling/htSequence/getRailIdMarkedTests?railId=${formData.railId}`,
+        token
+      );
+      setFormData((prev) => ({
+        ...prev,
+        testSampleMarked: data?.responseData?.markedTests,
+      }));
+    } catch (error) {}
+  };
 
-    const handlePageSizeChange = (value) => {
-        setTablePageSize(value);
-        setCurrentTablePage(1); // Reset to first page when page size changes
-    };
-
-    const addNewHtSequence = () => {
-        setTableData(prev => {
-          return [
-            ...prev,
-            {
-              sNo: prev.length+1,
-              railID: newRailID,
-              bloomQuality: newBloomQuality,
-              htStatus: newHtStatus,
-              testSampleMarked: newTestSampleMarked
-            }
-          ]
-        })
-    
-        const lastPage = Math.ceil((tableData.length + 1)/tablePageSize)
-        setCurrentTablePage(lastPage)
-    
-        setNewRailID('')
-        setIsModalOpen(false)
+  const saveHtSequence = async () => {
+    if (checked) {
+      try {
+        await apiCall("POST", "rolling/htSequence/saveBatch", {
+          dutyId: rollingGeneralInfo.dutyId,
+        });
+      } catch (error) {}
     }
 
-    useEffect(() => {
-        populateTableData();
-    }, [populateTableData]);
+    navigate("/stage/home")
+  };
 
-    const handleSave = () => {
-        navigate("/stage/home")
-    }
+  useEffect(() => {
+    populateData();
+  }, [populateData]);
+
+  useEffect(() => {
+    form.setFieldsValue(formData);
+  }, [form, formData]);
 
   return (
     <FormContainer>
-        <SubHeader title="HT Sequence" link="/stage/home" />
-        <GeneralInfo data={rollingStageGeneralInfo} />
-        
-        <Divider className='mt-0 mb-0'/>
+      <SubHeader title="HT Sequence" link="/stage/home" />
+      <GeneralInfo data={rollingGeneralInfo} />
 
-        <Checkbox.Group
-          options={checkBoxItems.map(item => ({key: item.key, label: item.value, value: item.key }))}
-          value={checkedValues}
-          onChange={(checkedValues) => setCheckedValues(checkedValues)}
-          className='mb-4'
+      <Divider className="mt-0 mb-0" />
+
+      <Checkbox
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+      >
+        New rail heat marked
+      </Checkbox>
+
+      <div className="relative">
+        <Table dataSource={tableData} columns={columns} />
+        <IconBtn
+          icon={PlusOutlined}
+          text="add new rail"
+          className="absolute left-0 bottom-16"
+          onClick={() => setIsModalOpen(true)}
         />
-
-        <div className='relative'>
-          <Table
-            columns={columns}
-            dataSource={tableData}
-            scroll={{ x: true }}
-            pagination={{
-              current: currentTablePage,
-              pageSize: tablePageSize,
-              showSizeChanger: true,
-              pageSizeOptions: ["5", "10", "20"],
-              onChange: (page) => setCurrentTablePage(page),
-              onShowSizeChange: (current, size) => handlePageSizeChange(size),
-            }}
+        <Btn onClick={saveHtSequence} className="flex mx-auto"> Save </Btn>
+      </div>
+      <Modal
+        open={isModalOpen}
+        title="Add new Rail"
+        footer={null}
+        onCancel={() => setIsModalOpen(false)}
+      >
+        <Form
+          form={form}
+          initialValues={formData}
+          layout="vertical"
+          onFinish={addData}
+        >
+          <FormSearchItem
+            label="Rail ID"
+            name="railId"
+            onSearch={handleRailIdSearch}
+            onChange={(fieldName, value) =>
+              handleChange(fieldName, value, setFormData)
+            }
+            required
           />
-          <IconBtn 
-            icon={PlusOutlined} 
-            text='Add New HT Sequence' 
-            className='absolute left-0 bottom-4'
-            onClick={() => setIsModalOpen(true)}
+
+          <FormInputItem
+            label="Test Sample Marked"
+            name="testSampleMarked"
+            onChange={(name, value) => handleChange(name, value, setFormData)}
+            required
+            disabled
           />
-        </div>
 
-        <Modal title='Add new HT Sequence' open={isModalOpen} onCancel={()=>setIsModalOpen(false)} footer={null}>
-          <FormInputItem label="Rail ID" value={newRailID} onChange={(_fieldName, value) => setNewRailID(value)} required />
-          <FormDropdownItem label='Bloom Quality' name='bloomQuality' dropdownArray={bloomQualityList} valueField='key' visibleField='value' onChange={(_fieldName, value) => setNewBloomQuality(value)} required />
-          <FormDropdownItem label='HT Status' name='htStatus' dropdownArray={htStatusList} valueField='key' visibleField='value' onChange={(_fieldName, value) => setNewHtStatus(value)} required />
-          <FormInputItem label="Test Sample Marked" value={newTestSampleMarked} onChange={(_fieldName, value) => setNewTestSampleMarked(value)} required/>
-          <Btn onClick={addNewHtSequence}>Add</Btn>
-        </Modal>
-
-        <div className="flex justify-center">
-          <Btn onClick={handleSave}>Save</Btn>
-        </div>
+          <FormDropdownItem
+            label="Bloom Quality"
+            name="bloomQuality"
+            formField="bloomQuality"
+            dropdownArray={bloomQualityList}
+            valueField="key"
+            visibleField="value"
+            onChange={(name, value) => handleChange(name, value, setFormData)}
+            required
+          />
+          <FormDropdownItem
+            label="HT Status"
+            name="htStatusDesc"
+            formField="htStatus"
+            dropdownArray={htStatusList}
+            valueField="key"
+            visibleField="value"
+            onChange={handleHtStatusChange}
+            required
+          />
+          <Btn htmlType="submit" className="flex mx-auto">
+            {" "}
+            Save{" "}
+          </Btn>
+        </Form>
+      </Modal>
     </FormContainer>
-  )
-}
+  );
+};
 
-export default HtSequence
+export default HtSequence;

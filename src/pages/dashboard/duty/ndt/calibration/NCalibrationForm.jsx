@@ -82,14 +82,14 @@ const NCalibrationForm = () => {
             formData.dataList.map((record, index) => (
                 <>                    
                     <div key={index}>
-                        {/* <section className='grid grid-cols-1'>
+                        <section className='grid grid-cols-1'>
                             <Checkbox.Group
                                 options={checkBoxItems.map(item => ({key: item.key, label: item.value, value: item.key }))}
                                 value={checkedValues}
                                 onChange={(fieldName, value) => handleNDTRoundValueChange(checkedValues, index, fieldName, value)}
                                 className='mb-6'
                             />
-                        </section> */}
+                        </section>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 mt-3">
                             <CustomTimePicker label='Cal. Completion Time' name='calTime' key={record.id} value={formData?.calTime} onChange={(fieldName, value) => handleNDTRoundValueChange(index, fieldName, value)} required />

@@ -7,18 +7,22 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/slice/authSlice'
 import { useNavigate } from 'react-router-dom'
 import FormContainer from '../../components/DKG_FormContainer'
+import { getOngoingSmsDutyDtls } from '../../store/slice/smsDutySlice'
+import { getOngoingRollingDutyDtls } from '../../store/slice/rollingDutySlice'
 
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleFormSubmit = async () => {
-    await dispatch(login()).unwrap()
+    await dispatch(login(formData)).unwrap()
+    await dispatch(getOngoingSmsDutyDtls()).unwrap()
+    await dispatch(getOngoingRollingDutyDtls()).unwrap()
     navigate('/')
   }
 
   const [formData, setFormData] = useState(
     {
-      empId: '',
+      userId: '',
       password: ''
     }
   )
@@ -40,7 +44,7 @@ const Login = () => {
       <main className='w-full p-4 flex flex-col h-fit justify-center items-center gap-8 bg-white relative z-20 rounded-md'>
         <Logo width={300} height={200} />
         <FormBody onFinish={handleFormSubmit} initialValues={formData}>
-          <FormInputItem label="Employee ID" placeholder="123456" name='empId' onChange={handleFormValueChange} required />
+          <FormInputItem label="Employee ID" placeholder="123456" name='userId' onChange={handleFormValueChange} required />
           <FormInputItem label="Password" placeholder="*****" name='password' onChange={handleFormValueChange} required />
           <Btn htmlType="submit" text="submit"/>
         </FormBody>

@@ -44,37 +44,37 @@
 //   // Add search and filter capability to columns
 //   const enhancedColumns = columns
 //     .map((column) => {
-//       if (column.searchable) {
-//         return {
-//           ...column,
-//           filterDropdown: () => (
-//             <div style={{ padding: 8 }}>
-//               <Input
-//                 placeholder={`Search ${column.title}`}
-//                 value={searchText[column.key] || ""}
-//                 onChange={(e) => {
-//                   const value = e.target.value.toLowerCase();
-//                   setSearchText((prev) => ({ ...prev, [column.key]: value }));
-//                   setFilteredData(
-//                     dataSource.filter((row) =>
-//                       row[column.dataIndex]
-//                         ?.toString()
-//                         ?.toLowerCase()
-//                         .includes(value)
-//                     )
-//                   );
-//                 }}
-//                 style={{ marginBottom: 8, display: "block" }}
-//               />
-//             </div>
-//           ),
-//           onFilter: (value, record) =>
-//             record[column.dataIndex]
-//               ?.toString()
-//               ?.toLowerCase()
-//               .includes(searchText[column.key] || ""),
-//         };
-//       }
+      // if (column.searchable) {
+      //   return {
+      //     ...column,
+      //     filterDropdown: () => (
+      //       <div style={{ padding: 8 }}>
+      //         <Input
+      //           placeholder={`Search ${column.title}`}
+      //           value={searchText[column.key] || ""}
+      //           onChange={(e) => {
+      //             const value = e.target.value.toLowerCase();
+      //             setSearchText((prev) => ({ ...prev, [column.key]: value }));
+      //             setFilteredData(
+      //               dataSource.filter((row) =>
+      //                 row[column.dataIndex]
+      //                   ?.toString()
+      //                   ?.toLowerCase()
+      //                   .includes(value)
+      //               )
+      //             );
+      //           }}
+      //           style={{ marginBottom: 8, display: "block" }}
+      //         />
+      //       </div>
+      //     ),
+      //     onFilter: (value, record) =>
+      //       record[column.dataIndex]
+      //         ?.toString()
+      //         ?.toLowerCase()
+      //         .includes(searchText[column.key] || ""),
+      //   };
+      // }
 //       if (column.filterable) {
 //         return {
 //           ...column,
@@ -207,10 +207,43 @@ const TableComponent = ({ columns, dataSource }) => {
   // Add search and filter capability to columns
   const enhancedColumns = columns
     .map((column) => {
+      // if (column.searchable) {
+      //   return {
+      //     ...column,
+      //     filterDropdown: ({ confirm }) => (
+      //       <div style={{ padding: 8 }}>
+      //         <Input
+      //           placeholder={`Search ${column.title}`}
+      //           value={searchText[column.key] || ""}
+      //           onChange={(e) => {
+      //             const value = e.target.value.toLowerCase();
+      //             setSearchText((prev) => ({ ...prev, [column.key]: value }));
+      //             setFilteredData(
+      //               dataSource.filter((row) =>
+      //                 row[column.dataIndex]
+      //                   ?.toString()
+      //                   ?.toLowerCase()
+      //                   .includes(value)
+      //               )
+      //             );
+      //             confirm();
+      //           }}
+      //           style={{ marginBottom: 8, display: "block" }}
+      //         />
+      //       </div>
+      //     ),
+      //     onFilter: (value, record) =>
+      //       record[column.dataIndex]
+      //         ?.toString()
+      //         ?.toLowerCase()
+      //         .includes(searchText[column.key] || ""),
+      //   };
+      // }
+
       if (column.searchable) {
         return {
           ...column,
-          filterDropdown: ({ confirm }) => (
+          filterDropdown: () => (
             <div style={{ padding: 8 }}>
               <Input
                 placeholder={`Search ${column.title}`}
@@ -226,7 +259,6 @@ const TableComponent = ({ columns, dataSource }) => {
                         .includes(value)
                     )
                   );
-                  confirm();
                 }}
                 style={{ marginBottom: 8, display: "block" }}
               />

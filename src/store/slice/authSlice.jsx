@@ -1,7 +1,12 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import axios from 'axios'
 
 const initialState = {
-    token: null
+    token: null,
+    firstName: null,
+    lastName: null,
+    userId: null,
+    userType: null
 }
 
 const authSlice = createSlice({
@@ -10,6 +15,10 @@ const authSlice = createSlice({
     reducers: {
         logout(state, action){
             state.token = null
+            state.firstName = null
+            state.lastName = null
+            state.userId = null
+            state.userType = null
         }
     },
     extraReducers: (builder) => {
@@ -20,8 +29,12 @@ const authSlice = createSlice({
         })
         .addCase(login.fulfilled, (state, action) => {
             state.loading = false
-            const {token} = action.payload
-            state.token = token
+            const{payload} = action
+                state.token = payload?.token
+                state.firstName = payload?.firstName;
+                state.lastName = payload?.lastName;
+                state.userId = payload?.userId;
+                state.userType = payload?.userType
         })
         .addCase(login.rejected, (state, action) => {
             state.loading = false
@@ -33,7 +46,13 @@ const authSlice = createSlice({
 export const login = createAsyncThunk(
     'auth/login',
     async (formData) => {
-        return {token: "1234"}
+        try{
+            const {data} = await axios.post("/login", formData);
+            return data?.responseData;
+        }
+        catch(error){
+
+        }
     }
 )
 

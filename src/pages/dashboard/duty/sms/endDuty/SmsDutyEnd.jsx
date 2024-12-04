@@ -9,11 +9,10 @@ import TabList from '../../../../../components/DKG_TabList';
 import FormBody from '../../../../../components/DKG_FormBody';
 import FormInputItem from '../../../../../components/DKG_FormInputItem';
 import Btn from '../../../../../components/DKG_Btn';
-import data from "../../../../../utils/db.json"
 import { useNavigate } from 'react-router-dom';
-
-
-const {smsGeneralInfo }=data;
+import { handleChange } from '../../../../../utils/CommonFunctions';
+import { useDispatch, useSelector } from 'react-redux';
+import { endSmsDuty } from '../../../../../store/slice/smsDutySlice';
 
 const smsDutyEndTabs = [
   {
@@ -34,13 +33,16 @@ const smsDutyEndTabs = [
 ]
 
 const SmsDutyEnd = () => {
-  const [remarks, setRemarks] = useState('')
+  const [formData, setFormData] = useState({shiftRemarks: null})
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleFormSubmit = () => {
-    message.success("Duty End Called")
+  const handleFormSubmit = async () => {
+    await dispatch(endSmsDuty(formData)).unwrap();
     navigate('/')
   }
+
+  const smsGeneralInfo = useSelector(state => state.smsDuty);
   return (
     <FormContainer className='flex flex-col gap-4 md:gap-8'>
     <SubHeader title='SMS - Duty End' link='/' />
@@ -56,10 +58,10 @@ const SmsDutyEnd = () => {
 
       <section>
         <FormBody
-          initialValues={remarks}
+          initialValues={formData}
           onFinish={handleFormSubmit}
         >
-          <FormInputItem placeholder='Enter Remarks' onChange={(_, value) => setRemarks(value)} name='remarks' required/>
+          <FormInputItem placeholder='Enter Remarks' onChange={(field, value) => handleChange(field, value, setFormData)} name='shiftRemarks' required/>
             <div className="text-center">
               <Btn htmlType='submit'>End Duty</Btn>
             </div>

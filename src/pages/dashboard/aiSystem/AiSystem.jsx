@@ -269,7 +269,7 @@ const AiSystem = () => {
       title: 'Surface Defect Detection',
       key: 'surfaceDefectDetection',
       align: 'center',
-      children: [
+      items: [
         {
           title: 'Precision',
           dataIndex: ['surfaceDefectDetection', 'precision'],
@@ -288,7 +288,7 @@ const AiSystem = () => {
       title: 'Dimensional Variation Detection',
       key: 'dimensionalVariationDetection',
       align: 'center',
-      children: [
+      items: [
         {
           title: 'Precision',
           dataIndex: ['dimensionalVariationDetection', 'precision'],

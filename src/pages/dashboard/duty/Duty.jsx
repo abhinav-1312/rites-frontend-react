@@ -1,5 +1,5 @@
 import React from 'react'
-import {LineChartOutlined, EyeOutlined, ExperimentOutlined, ToolOutlined, DatabaseOutlined, CompassOutlined, DeploymentUnitOutlined, HddOutlined, SnippetsOutlined, RadarChartOutlined, AuditOutlined, MessageOutlined } from '@ant-design/icons';
+import {LineChartOutlined, EyeOutlined, ExperimentOutlined, ToolOutlined, DatabaseOutlined, CompassOutlined, DeploymentUnitOutlined, RadarChartOutlined, AuditOutlined, MessageOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Tab from '../../../components/DKG_Tab';
 const dutyItemTabs = [

@@ -29,16 +29,16 @@ label{
 
 .main-content::before{
   content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('./assets/images/BgImage.png'); /* Replace with your image URL */
-    background-size: cover; /* Adjust as needed */
-    background-position: center; /* Adjust as needed */
-    opacity: 0.2; /* Change this value for desired opacity */
-    z-index: 0; /* Ensure it's behind the content */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('./assets/images/BgImage.png'); /* Replace with your image URL */
+  background-size: cover; /* Adjust as needed */
+  background-position: center; /* Adjust as needed */
+  opacity: 0.2; /* Change this value for desired opacity */
+  z-index: 0; /* Ensure it's behind the content */
 }
 
 .ant-menu-item-selected{
@@ -142,4 +142,16 @@ label{
 
 .bloom-inspection-form label{
   @apply !h-fit
+}
+
+.no-border .ant-input{
+  @apply !border-0 focus:ring-0;
+}
+
+.no-border{
+  @apply !m-0;
+}
+
+.search-input .ant-btn-primary{
+  @apply !bg-darkBlue
 }

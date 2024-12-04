@@ -6,10 +6,10 @@ import GeneralInfo from '../../../../../../components/DKG_GeneralInfo';
 import { Divider, Table, message } from 'antd';
 import IconBtn from '../../../../../../components/DKG_IconBtn';
 import Btn from '../../../../../../components/DKG_Btn';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { EditOutlined } from '@ant-design/icons';
 
-const { testSampleDecGeneralInfo, testSampleTableData } = data;
+const { testSampleTableData } = data;
 
 const TestSampleList = () => {
   const [currentTablePage, setCurrentTablePage] = useState(1);
@@ -20,8 +20,14 @@ const TestSampleList = () => {
     message.success(heatNo);
   };
 
+  const location = useLocation();
+  const {state} = location;
+
+  console.log("Stateee: ", location.state);
+
+
   const handleClick = () => {
-    navigate('/stage/newTestSampleDeclaration');
+    navigate('/stage/newTestSampleDeclaration', {state: {module: state?.module, dutyId: state?.dutyId, generalInfo: state?.generalInfo}});
   }
 
   const handlePageSizeChange = (value) => {
@@ -65,7 +71,7 @@ const TestSampleList = () => {
   return (
     <FormContainer>
       <SubHeader title='Test Sample - Declaration' link='/stage/home' />
-      <GeneralInfo data={testSampleDecGeneralInfo} />
+      <GeneralInfo data={state?.generalInfo} />
 
       <Divider>Rail Test Sample Record</Divider>
 

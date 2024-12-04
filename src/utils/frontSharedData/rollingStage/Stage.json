@@ -252,12 +252,12 @@
     ],
     "htStatusList": [
         {
-            "key": "OK",
+            "key": true,
             "value": "OK"
         },
         {
-            "key": "Not OK",
-            "value": "Not OK"
+            "key": false,
+            "value": "NOT OK"
         }
     ]
 }
