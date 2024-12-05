@@ -247,12 +247,12 @@ const SmsHeatSummary = () => {
             onClick={() => setIsModalOpen(true)}
           />
 
-          <IconBtn
+          {/* <IconBtn
             icon={PlusOutlined}
             text="add existing heat"
             className="absolute left-40 bottom-4"
             onClick={() => navigate("/sms/heatDtl")}
-          />
+          /> */}
         </div>
       </section>
 

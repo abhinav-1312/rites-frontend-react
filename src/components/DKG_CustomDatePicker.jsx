@@ -53,7 +53,8 @@ const CustomDatePicker = ({
   onChange,
   readOnly,
   required,
-  placeholder
+  placeholder,
+  className
 }) => {
   const initialValue = defaultValue ? dayjs(defaultValue, dateFormat) : null;
 
@@ -77,9 +78,10 @@ const CustomDatePicker = ({
     <Form.Item
       label={label}
       rules={[
-        { required: required ?? false, message: "Please input value!" },
+        { required: required ? true : false, message: "Please input value!" },
       ]}
       initialValue={initialValue} // Set initial value
+      className={className}
     >
       <DatePicker
       placeholder={placeholder}

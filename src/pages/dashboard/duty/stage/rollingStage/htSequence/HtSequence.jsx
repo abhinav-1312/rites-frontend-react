@@ -73,7 +73,7 @@ const HtSequence = () => {
   const rollingGeneralInfo = useSelector((state) => state.rollingDuty);
   const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
   const [formData, setFormData] = useState({
     railId: null,
     bloomQuality: null,
@@ -133,7 +133,7 @@ const HtSequence = () => {
   const saveHtSequence = async () => {
     if (checked) {
       try {
-        await apiCall("POST", "rolling/htSequence/saveBatch", {
+        await apiCall("POST", "rolling/htSequence/saveBatch", token,  {
           dutyId: rollingGeneralInfo.dutyId,
         });
       } catch (error) {}
@@ -155,7 +155,31 @@ const HtSequence = () => {
       <SubHeader title="HT Sequence" link="/stage/home" />
       <GeneralInfo data={rollingGeneralInfo} />
 
-      <Divider className="mt-0 mb-0" />
+      <Divider className="my-0" />
+
+      <div>
+        <h3 className="font-semibold mb-2 !text-xl">Batch sampling verification:</h3>
+        <div className="flex flex-col gap-y-2">
+          <div className="ml-4">
+            <strong>Tensile (One Sample per 128 Rails): </strong> OK
+          </div>
+          <div className="ml-4">
+            <strong>Tensile Foot (One Sample per 128 Rails): </strong> OK
+          </div>
+          <div className="ml-4">
+            <strong>PH (One sample per 12 Rails): </strong> OK
+          </div>
+          <div className="ml-4">
+            <strong>Microstructure (One Sample per 12 Rails): </strong> OK
+          </div>
+          <div className="ml-4">
+            <strong>Decarb (One Sample per 64 Rails): </strong> OK
+          </div>
+        </div>
+      </div>
+
+      <Divider className="my-0" />
+
 
       <Checkbox
         checked={checked}
