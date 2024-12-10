@@ -30,7 +30,7 @@ const SmsRecord = () => {
       title: "Caster Number",
       dataIndex: "casterNumber",
       key: "casterNumber",
-      filterable: true, // Enable search
+      searchable: true, // Enable search
     },
     {
       title: "Rail Grade",

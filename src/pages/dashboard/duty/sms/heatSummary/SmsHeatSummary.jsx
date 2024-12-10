@@ -36,6 +36,9 @@ const SmsHeatSummary = () => {
   const smsGeneralInfo = useSelector((state) => state.smsDuty);
   const { token } = useSelector((state) => state.auth);
 
+
+  console.log("NEW HEATL : ", newHeat)
+
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
@@ -142,7 +145,7 @@ const SmsHeatSummary = () => {
       const payload = {
         heatNo: newHeat.heatNo,
         turnDownTemp: checkFloatObj.number,
-        turnDownTempWv: checkFloatObj.number,
+        turnDownTempWv: newHeat.turnDownTempWv,
         dutyId: smsGeneralInfo.dutyId
       }
 
@@ -162,7 +165,61 @@ const SmsHeatSummary = () => {
       }
   };
 
+  const [heatRule, setHeatRule] = useState([]);
+  const [tempRule, setTempRule] = useState([]);
+
   const handleNewHeatValChange = (fieldName, value) => {
+    if (fieldName === "heatNo") {
+      const isValid = /^0\d{5}$/.test(value);
+
+      if (!isValid) {
+        setHeatRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Heat Number must start with 0, be 6 digits, and contain only numbers."
+                )
+              ),
+          },
+        ]);
+      } else {
+        setHeatRule([]); // Clear the rule on valid input
+      }
+    }
+
+    if(fieldName === "turnDownTemp"){
+      const isValid = /^\d+$/.test(value);
+
+      if(!isValid){
+        setTempRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Temperature must not contain decimal values."
+                )
+              ),
+          },
+        ]);
+      }
+      else if(isValid && parseInt(value) < 1630){
+        setTempRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Temperature must be greater than or equal to 1630."
+                )
+              ),
+          },
+        ]);
+      }
+      else{
+        setTempRule([])
+      }
+
+    }
     setNewHeat((prev) => {
       return {
         ...prev,
@@ -377,8 +434,9 @@ const SmsHeatSummary = () => {
 
         <FormInputItem
           label="Enter Heat Number"
-          placeholder="734562"
+          placeholder="012345"
           name="heatNo"
+          rules={heatRule}
           // minLength={6}
           // maxLength={6}
           onChange={handleNewHeatValChange}
@@ -386,11 +444,12 @@ const SmsHeatSummary = () => {
           />
         <FormInputItem
           label="Turn Down Temperature"
-          placeholder="45.23"
+          placeholder="1630"
           // minLength={6}
           // maxLength={6}
           name="turnDownTemp"
           onChange={handleNewHeatValChange}
+          rules={tempRule}
           required
           />
 

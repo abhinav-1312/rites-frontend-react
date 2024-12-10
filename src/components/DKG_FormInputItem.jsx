@@ -1,7 +1,7 @@
 import React from 'react'
 import {Form, Input, InputNumber} from "antd"
 
-const FormInputItem = ({label, name, value, onChange, readOnly, disabled, className, placeholder, required, min, max, type}) => {
+const FormInputItem = ({label, name, value, onChange, readOnly, disabled, className, placeholder, required, min, max, type, rules=[], inputStyle}) => {
   const handleChange = (e) => {
 
     if(onChange)
@@ -13,7 +13,7 @@ const FormInputItem = ({label, name, value, onChange, readOnly, disabled, classN
   return (
     <Form.Item label={label} name={name}
       // rules = {rules}
-      rules={[{ required: required ? true : false, message: 'Please input a value!' }]}
+      rules={[{ required: required ? true : false, message: 'Please input a value!' }, ...rules]}
       // className={`!mb-4 flex flex-col sm:flex-row items-center ${className}`}
       className={className}
     >
@@ -28,7 +28,7 @@ const FormInputItem = ({label, name, value, onChange, readOnly, disabled, classN
         style={{ width: '100%' }} // Adjust width as needed
       />
       :
-        <Input value={value} onChange={handleChange} readOnly={readOnly} disabled={disabled} placeholder={placeholder}/>
+        <Input value={value} onChange={handleChange} readOnly={readOnly} disabled={disabled} placeholder={placeholder} style={inputStyle || {}}/>
       }
     </Form.Item>
   )

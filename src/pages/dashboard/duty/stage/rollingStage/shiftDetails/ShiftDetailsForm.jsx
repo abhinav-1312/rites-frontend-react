@@ -10,6 +10,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { startRollingDuty } from "../../../../../../store/slice/rollingDutySlice";
 import { message } from "antd";
+import dayjs from "dayjs";
+
+const currentDate = dayjs();
+const dateFormat = "DD/MM/YYYY";
 
 const { millList, shiftList, railGradeList } = data;
 
@@ -35,7 +39,7 @@ const ShiftDetailsForm = () => {
   const { dutyId } = useSelector((state) => state.rollingDuty);
 
   const [formData, setFormData] = useState({
-    startDate: null,
+    startDate: currentDate.format(dateFormat),
     shift: null,
     mill: null,
     railGrade: null,
@@ -57,8 +61,6 @@ const ShiftDetailsForm = () => {
     });
   };
 
-  console.log("Formdata: ", formData)
-
   if (dutyId) {
     message.error("Rolling duty in progress. Cannot start new duty.");
     return <Navigate to="/stage/home" />;
@@ -76,6 +78,7 @@ const ShiftDetailsForm = () => {
             defaultValue={formData.startDate}
             onChange={handleChange}
             required
+            disabled
           />
           <FormDropdownItem
             label="Shift"

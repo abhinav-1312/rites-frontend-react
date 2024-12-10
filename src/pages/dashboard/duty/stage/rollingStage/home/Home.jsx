@@ -24,7 +24,6 @@ const Home = () => {
         navigate('/')
     }
 
-    const[generalInfo, setGeneralInfo] = useState(null);
 
     const rollingGeneralInfo = useSelector(state => state.rollingDuty);
 
@@ -41,10 +40,6 @@ const Home = () => {
         }
     }
 
-
-    useEffect(() => {
-        setGeneralInfo(rollingGeneralInfo)
-    }, [rollingGeneralInfo])
 
   return (
     <FormContainer>

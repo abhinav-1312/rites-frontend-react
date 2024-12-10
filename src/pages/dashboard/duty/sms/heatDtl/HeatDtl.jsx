@@ -10,6 +10,7 @@ import Btn from "../../../../../components/DKG_Btn";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import IconBtn from "../../../../../components/DKG_IconBtn";
+import { regexMatch } from "../../../../../utils/Constants";
 
 const wvDropDown = [
   {
@@ -46,7 +47,7 @@ const casterNoDropDownSms2 = [
     key: "M/c V",
     value: "M/c V",
   },
-]
+];
 const casterNoDropDownSms3 = [
   {
     key: "CV1",
@@ -56,7 +57,7 @@ const casterNoDropDownSms3 = [
     key: "CV2",
     value: "CV2",
   },
-]
+];
 
 const heatStageObj = {
   Converter: 1,
@@ -73,7 +74,7 @@ const HeatDtl = () => {
   const [completedHeatStage, setCompletedHeatStage] = useState(0);
   const [currentStage, setCurrentStage] = useState(1);
 
-  const {sms} = useSelector(state => state.smsDuty)
+  const { sms } = useSelector((state) => state.smsDuty);
 
   const navigate = useNavigate();
 
@@ -113,7 +114,7 @@ const HeatDtl = () => {
     isDiverted: false,
     heatRemark: null,
   });
-  console.log("FormcasterL ", formData.casterNo)
+  console.log("FormcasterL ", formData.casterNo);
 
   const stageValidationRules = useMemo(
     () => ({
@@ -136,7 +137,12 @@ const HeatDtl = () => {
     []
   );
 
-  const csVal = sms === "SMS 3" ? 0.1005 : (sms === "SMS 3" && formData.casterNo === "M/c IV" ? 0.1088 : 0.102 )
+  const csVal =
+    sms === "SMS 3"
+      ? 0.1005
+      : sms === "SMS 3" && formData.casterNo === "M/c IV"
+      ? 0.1088
+      : 0.102;
 
   const validateStage = useCallback(
     (stage) => {
@@ -234,7 +240,7 @@ const HeatDtl = () => {
         dutyId,
       });
       message.success("SMS heat details updated successfully.");
-      navigate("/sms/heatSummary")
+      navigate("/sms/heatSummary");
     } catch (error) {}
   };
 
@@ -364,6 +370,20 @@ const HeatDtl = () => {
     }));
   };
 
+  const [showLabCheckbox, setShowLabCheckbox] = useState(false);
+
+  const handleChemChange = (fieldName, value) => {
+    console.log("Called: ", value);
+    if (value === "Send To Lab") {
+      console.log("INSIDEEEE");
+      setShowLabCheckbox(true);
+    } else {
+      setShowLabCheckbox(false);
+    }
+
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  };
+
   const handleRejectedBloomDtlChange = (fieldName, value) => {
     let rejectedBloomWt = 0;
 
@@ -421,6 +441,8 @@ const HeatDtl = () => {
     }));
   };
 
+  const [hydrisRuleObj, setHydrisRuleObj] = useState([]);
+
   useEffect(() => {
     form.setFieldsValue(formData);
   }, [formData, form]);
@@ -437,6 +459,201 @@ const HeatDtl = () => {
       handleHeatNoSearch(heatNo);
     }
   }, [handleHeatNoSearch, heatNo]);
+
+  const [degVacRule, setDegVacRule] = useState([]);
+  const [degDurRule, setDegDurRule] = useState([]);
+  const [castTempRule, setCastTempRule] = useState([]);
+
+  const handleCastTempChange = (fieldName, value) => {
+    const isInteger = regexMatch.intRegex.test(value);
+
+    if (!isInteger) {
+      setCastTempRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(
+              new Error("Temperature must not contain decimal values.")
+            ),
+        },
+      ]);
+    } else if (isInteger && parseInt(value) < 1480) {
+      setCastTempRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(
+              new Error("Temperature must be greater than or equal to 1480.")
+            ),
+        },
+      ]);
+    } else {
+      setCastTempRule([]);
+    }
+
+    setFormData(prev => ({...prev, [fieldName]: value}))
+  };
+
+  const handleDegVacChange = (fieldName, value) => {
+    const isFloat = regexMatch.floatRegex.test(value);
+
+    if (!isFloat) {
+      setDegVacRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(new Error("Value must be numeric.")),
+        },
+      ]);
+    } else if (isFloat && parseFloat(value) > 3) {
+      setDegVacRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(new Error("Value must be smaller than 3.0 ")),
+        },
+      ]);
+    } else {
+      setDegVacRule([]);
+    }
+
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  };
+
+  const [heatRemarkDisabled, setHeatRemarkDisabled] = useState(false);
+
+  const handleDegDurChange = (fieldName, value) => {
+    const isFloat = /^-?\d+(\.\d+)?$/.test(value);
+
+    if (!isFloat) {
+      setDegDurRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(new Error("Value must be numeric.")),
+        },
+      ]);
+    } else if (isFloat && parseFloat(value) > 10.0) {
+      setDegDurRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(new Error("Value must be smaller than 10.0")),
+        },
+      ]);
+    } else {
+      setDegDurRule([]);
+    }
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  };
+  const handleHydrisChange = (fieldName, value) => {
+    const isFloat = regexMatch.floatRegex.test(value);
+
+    if (!isFloat) {
+      setHydrisRuleObj([
+        {
+          validator: (_, value) =>
+            Promise.reject(new Error("Value must be numeric.")),
+        },
+      ]);
+    } else {
+      setHydrisRuleObj([]);
+
+      if (parseFloat(value) > 1.6) {
+        message.warning("Value must be smaller or equal to 1.6");
+        setFormData((prev) => ({
+          ...prev,
+          heatRemark: "Reject for hydrogen.",
+          hydris: value,
+        }));
+        setHeatRemarkDisabled(true);
+      }
+      else{
+        setHeatRemarkDisabled(false);
+        setFormData((prev) => ({
+          ...prev,
+          heatRemark: null,
+          hydris: value,
+        }));
+      }
+    }
+
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  };
+
+  const [nitrogenRule, setNitrogenRule] = useState([]);
+
+  const handleNitrogenChange = (fieldName, value) => {
+    const isFloat = regexMatch.floatRegex.test(value);
+
+    if(!isFloat){
+      setNitrogenRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(new Error("Value must be numeric.")),
+          
+        },
+      ]);
+    }
+    else{
+      setNitrogenRule([]);
+
+      if(parseFloat(value) > 0.009){
+        message.warning("Value must be less than 0.009");
+
+        setFormData((prev) => ({
+          ...prev,
+          heatRemark: "Reject for nitrogen.",
+          nitrogen: value,
+        }));
+        setHeatRemarkDisabled(true);
+      }
+      else{
+        setHeatRemarkDisabled(false);
+        setFormData((prev) => ({
+          ...prev,
+          heatRemark: null,
+          nitrogen: value,
+        }));
+      }
+    }
+
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+
+  }
+
+  const [oxygenRule, setOxygenRule] = useState([]);
+
+  const handleOxygenChange = (fieldName, value) => {
+    const isFloat = regexMatch.floatRegex.test(value)
+
+    if(!isFloat){
+      setOxygenRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(new Error("Value must be numeric.")),
+          
+        },
+      ]);
+    }
+    else{
+      setOxygenRule([]);
+      if(parseFloat(value) > 20){
+        message.warning("Value must be less than or equal to 20.0");
+
+        setFormData((prev) => ({
+          ...prev,
+          heatRemark: "Reject for oxygen.",
+          oxygen: value,
+        }));
+        setHeatRemarkDisabled(true);
+      }
+      else{
+        setHeatRemarkDisabled(false);
+        setFormData((prev) => ({
+          ...prev,
+          heatRemark: null,
+          oxygen: value,
+        }));
+      }
+    }
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+
+  }
 
   return (
     <FormContainer>
@@ -500,9 +717,9 @@ const HeatDtl = () => {
           <FormInputItem
             label="Degassing Vacuum(m bar)"
             name="degassingVacuum"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            placeholder="2.5"
+            rules={degVacRule}
+            onChange={handleDegVacChange}
             disabled={isFieldDisabled(2)}
           />
           <FormDropdownItem
@@ -520,9 +737,9 @@ const HeatDtl = () => {
           <FormInputItem
             label="Degassing Duration(min)"
             name="degassingDuration"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            placeholder="10.0"
+            rules={degDurRule}
+            onChange={handleDegDurChange}
             disabled={isFieldDisabled(2)}
           />
           <FormDropdownItem
@@ -546,9 +763,8 @@ const HeatDtl = () => {
           <FormInputItem
             label="Casting Temperature (&deg;C)"
             name="castingTemp"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            onChange={handleCastTempChange}
+            rules={castTempRule}
             disabled={isFieldDisabled(3)}
           />
           {/* <FormInputItem
@@ -560,10 +776,20 @@ const HeatDtl = () => {
             disabled={isFieldDisabled(3)}
           /> */}
 
-          <FormDropdownItem label="Caster Number" name="casterNo" formField="casterNo" dropdownArray={sms === "SMS 2" ? casterNoDropDownSms2 : casterNoDropDownSms3} visibleField="value" valueField="key" onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)} 
-              disabled={isFieldDisabled(3)}
-              />
+          <FormDropdownItem
+            label="Caster Number"
+            name="casterNo"
+            formField="casterNo"
+            dropdownArray={
+              sms === "SMS 2" ? casterNoDropDownSms2 : casterNoDropDownSms3
+            }
+            visibleField="value"
+            valueField="key"
+            onChange={(fieldName, value) =>
+              handleChange(fieldName, value, setFormData)
+            }
+            disabled={isFieldDisabled(3)}
+          />
           <FormInputItem
             label="Sequence Number "
             name="sequenceNo"
@@ -575,9 +801,8 @@ const HeatDtl = () => {
           <FormInputItem
             label="Hydris"
             name="hydris"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            rules={hydrisRuleObj}
+            onChange={handleHydrisChange}
             disabled={isFieldDisabled(3)}
           />
         </div>
@@ -613,17 +838,15 @@ const HeatDtl = () => {
           <FormInputItem
             label="Nitrogen (ppm)"
             name="nitrogen"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            rules={nitrogenRule}
+            onChange={handleNitrogenChange}
             disabled={isFieldDisabled(4)}
           />
           <FormInputItem
             label="Oxygen (ppm)"
             name="oxygen"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            rules={oxygenRule}
+            onChange={handleOxygenChange}
             disabled={isFieldDisabled(4)}
           />
 
@@ -634,11 +857,17 @@ const HeatDtl = () => {
             dropdownArray={ladleChemDropDown}
             visibleField="value"
             valueField="key"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            onChange={handleChemChange}
             disabled={isFieldDisabled(4)}
           />
+
+          {showLabCheckbox && (
+            <div className="flex flex-col">
+              <Checkbox className="">Chemical</Checkbox>
+              <Checkbox className="">Nitrogen</Checkbox>
+              <Checkbox className="">Oxygen</Checkbox>
+            </div>
+          )}
         </div>
 
         <Divider />
@@ -760,7 +989,12 @@ const HeatDtl = () => {
           Mark as diverted heat.
         </Checkbox>
 
-        <FormInputItem name="heatRemark" placeholder="Heat Remark" onChange={(name, value) => handleChange(name, value, setFormData)}/>
+        <FormInputItem
+          name="heatRemark"
+          placeholder="Heat Remark"
+          disabled={heatRemarkDisabled}
+          onChange={(name, value) => handleChange(name, value, setFormData)}
+        />
         <Btn htmlType="submit" className="flex mx-auto">
           {" "}
           Save{" "}

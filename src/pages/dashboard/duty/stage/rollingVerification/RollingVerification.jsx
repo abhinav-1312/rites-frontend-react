@@ -10,6 +10,7 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import IconBtn from "../../../../../components/DKG_IconBtn";
 import Btn from "../../../../../components/DKG_Btn";
 import { apiCall } from "../../../../../utils/CommonFunctions";
+import { regexMatch } from "../../../../../utils/Constants";
 
 const satUnsatDropdown = [
   {
@@ -218,7 +219,121 @@ const RollingVerification = () => {
     }
   };
 
+  const [soakingZoneTempRule, setSoakingZoneTempRule] = useState([]);
+  const [finishingTempRule, setFinishingTempRule] = useState([]);
+
   const handleTempObsDtlChange = (fieldName, value, index) => {
+
+    if(fieldName === "soakingZoneTemp"){
+      const isInteger = regexMatch.intRegex.test(value);
+
+      if(!isInteger){
+        setSoakingZoneTempRule(prev => {
+          const deepClone = [...prev];
+          deepClone[index] = [
+            {
+              validator: (_, value) =>
+                Promise.reject(new Error(`Value must be numeric.`)),
+            },
+          ]
+
+          return deepClone;
+        })
+      }
+      else{
+        let floor = null;
+        let ceil = null;
+        if(mill === "URM"){
+          if(value < 1230 || value > 1270){
+            floor = 1230;
+            ceil = 1270;
+          }
+        }
+        else if(mill === "RSM"){
+          if(value < 1260 || value > 1300){
+            floor = 1260;
+            ceil = 1300;
+          }
+        }
+  
+        if(floor && ceil){
+          console.log("Floor and ceil")
+          setSoakingZoneTempRule(prev => {
+            const deepClone = [...prev];
+            deepClone[index] = [
+              {
+                validator: (_, value) =>
+                  Promise.reject(new Error(`Value must be in range of ${floor} - ${ceil}`)),
+              },
+            ]
+  
+            return deepClone;
+          })
+        }
+        else{
+          setSoakingZoneTempRule(prev => {
+            const deepClone = [...prev];
+            deepClone[index] = [];
+            return deepClone;
+          })
+        }
+      }
+    }
+    else if(fieldName === "finishingTemp"){
+
+      const isInteger = regexMatch.intRegex.test(value);
+
+      if(!isInteger){
+        setFinishingTempRule(prev => {
+          const deepClone = [...prev];
+          deepClone[index] = [
+            {
+              validator: (_, value) =>
+                Promise.reject(new Error(`Value must be numeric.`)),
+            },
+          ]
+
+          return deepClone;
+        })
+      }
+      else{
+        let floor = null;
+        let ceil = null;
+        if(mill === "URM"){
+          if(value < 900 || value > 950){
+            floor = 900;
+            ceil = 950;
+          }
+        }
+        else if(mill === "RSM"){
+          if(value < 870 || value > 930){
+            floor = 870;
+            ceil = 930;
+          }
+        }
+  
+        if(floor && ceil){
+          setFinishingTempRule(prev => {
+            const deepClone = [...prev];
+            deepClone[index] = [
+              {
+                validator: (_, value) =>
+                  Promise.reject(new Error(`Value must be in range of ${floor} - ${ceil}`)),
+              },
+            ]
+  
+            return deepClone;
+          })
+        }
+        else{
+          setFinishingTempRule(prev => {
+            const deepClone = [...prev];
+            deepClone[index] = [];
+            return deepClone;
+          })
+        }
+      }
+    }
     setFormData(prev => {
         const tempObsDtlsUpdated = prev.tempObservationDtls;
         tempObsDtlsUpdated[index][fieldName] = value;
@@ -415,7 +530,7 @@ const RollingVerification = () => {
 
           <div className="border grid grid-cols-3 divide-x divide-y divide-gray-300">
             <div className="p-2">Time of Observation</div>
-            <div className="p-2">Soaking Zone Temp (1260 +/- 20)</div>
+            <div className="p-2">Soaking Zone Temp.</div>
             <div className="p-2">Finishing Temp</div>
             {formData.tempObservationDtls?.map((record, index) => (
               <>
@@ -436,10 +551,10 @@ const RollingVerification = () => {
                   </Form.Item>
                 </div>
                 <div className="p-2">
-                  <FormInputItem name={["tempObservationDtls", index, "soakingZoneTemp"]} className="no-border" required onChange={(name, value) => handleTempObsDtlChange(name, value, index)} />
+                  <FormInputItem name={["tempObservationDtls", index, "soakingZoneTemp"]} rules={soakingZoneTempRule[index]} className="no-border" required onChange={(name, value) => handleTempObsDtlChange(name, value, index)} />
                 </div>
                 <div className="p-2">
-                  <FormInputItem name={["tempObservationDtls", index, "finishingTemp"]} className="no-border" onChange={(name, value) => handleTempObsDtlChange(name, value, index)} />
+                  <FormInputItem name={["tempObservationDtls", index, "finishingTemp"]} rules={finishingTempRule[index]} className="no-border" onChange={(name, value) => handleTempObsDtlChange(name, value, index)} />
                 </div>
               </>
             ))}

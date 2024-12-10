@@ -54,9 +54,27 @@ const CustomDatePicker = ({
   readOnly,
   required,
   placeholder,
-  className
+  className,
+  disablePastDate,
+  disableFutureDate,
+  disabled
 }) => {
   const initialValue = defaultValue ? dayjs(defaultValue, dateFormat) : null;
+
+  const disablePastDates = (current) => {
+    if(disablePastDate){
+      return current && current < dayjs().startOf("day");
+    }
+    return false;
+  };
+  const disableFutureDates = (current) => {
+    if(disableFutureDate){
+      return current && current > dayjs().startOf("day");
+    }
+    return false;
+  };
+
+
 
   const handleDateChange = (date) => {
     if (date) {
@@ -84,6 +102,8 @@ const CustomDatePicker = ({
       className={className}
     >
       <DatePicker
+      disabledDate={disablePastDates || disableFutureDates}
+      disabled={disabled}
       placeholder={placeholder}
         style={{ width: "100%" }}
         format={dateFormat}

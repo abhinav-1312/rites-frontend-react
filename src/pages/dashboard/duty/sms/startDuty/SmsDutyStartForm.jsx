@@ -10,6 +10,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import FormContainer from "../../../../../components/DKG_FormContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { startSmsDuty } from "../../../../../store/slice/smsDutySlice";
+import dayjs from "dayjs";
+
+const currentDate = dayjs();
+const dateFormat = "DD/MM/YYYY";
 
 const railGradeList = [
   {
@@ -33,7 +37,7 @@ const SmsDutyStartForm = () => {
   const dispatch = useDispatch();
   const { dutyId } = useSelector((state) => state.smsDuty);
   const [formData, setFormData] = useState({
-    startDate: "",
+    startDate: currentDate.format(dateFormat),
     shift: "",
     sms: "",
     railGrade: "",
@@ -82,6 +86,7 @@ const SmsDutyStartForm = () => {
             name="startDate"
             defaultValue={formData.startDate}
             onChange={handleChange}
+            disabled
             required
           />
 
