@@ -37,6 +37,27 @@ const ladleChemDropDown = [
   },
 ];
 
+const casterNoDropDownSms2 = [
+  {
+    key: "M/c IV",
+    value: "M/c IV",
+  },
+  {
+    key: "M/c V",
+    value: "M/c V",
+  },
+]
+const casterNoDropDownSms3 = [
+  {
+    key: "CV1",
+    value: "CV1",
+  },
+  {
+    key: "CV2",
+    value: "CV2",
+  },
+]
+
 const heatStageObj = {
   Converter: 1,
   Degassing: 2,
@@ -51,6 +72,8 @@ const HeatDtl = () => {
   const { dutyId } = useSelector((state) => state.smsDuty);
   const [completedHeatStage, setCompletedHeatStage] = useState(0);
   const [currentStage, setCurrentStage] = useState(1);
+
+  const {sms} = useSelector(state => state.smsDuty)
 
   const navigate = useNavigate();
 
@@ -90,6 +113,7 @@ const HeatDtl = () => {
     isDiverted: false,
     heatRemark: null,
   });
+  console.log("FormcasterL ", formData.casterNo)
 
   const stageValidationRules = useMemo(
     () => ({
@@ -112,6 +136,8 @@ const HeatDtl = () => {
     []
   );
 
+  const csVal = sms === "SMS 3" ? 0.1005 : (sms === "SMS 3" && formData.casterNo === "M/c IV" ? 0.1088 : 0.102 )
+
   const validateStage = useCallback(
     (stage) => {
       const fields = stageValidationRules[`stage${stage}`];
@@ -126,7 +152,7 @@ const HeatDtl = () => {
   );
 
   const isFieldDisabled = (stage) => {
-    return stage <= completedHeatStage;
+    return stage <= completedHeatStage || stage > currentStage;
   };
 
   const handleHeatNoSearch = useCallback(
@@ -208,6 +234,7 @@ const HeatDtl = () => {
         dutyId,
       });
       message.success("SMS heat details updated successfully.");
+      navigate("/sms/heatSummary")
     } catch (error) {}
   };
 
@@ -255,7 +282,7 @@ const HeatDtl = () => {
       primeBloomWt =
         (fieldName === "noOfPrimeBlooms" ? value : noOfPrimeBlooms) *
         (fieldName === "primeBloomsLength" ? value : primeBloomsLength) *
-        75;
+        csVal;
     } else if (fieldName === "primeBloomsTotalLength") {
       if (!value) {
         setPrimeBloomsFieldState({
@@ -270,7 +297,7 @@ const HeatDtl = () => {
           primeBloomsTotalLength: false,
         });
       }
-      primeBloomWt = value * 75;
+      primeBloomWt = value * csVal;
     }
 
     // Update form data
@@ -309,7 +336,7 @@ const HeatDtl = () => {
       coBloomWt =
         (fieldName === "noOfCoBlooms" ? value : noOfCoBlooms) *
         (fieldName === "coBloomsLength" ? value : coBloomsLength) *
-        75;
+        csVal;
     } else if (fieldName === "coBloomsTotalLength") {
       if (!value) {
         setCoBloomsFieldState({
@@ -324,7 +351,7 @@ const HeatDtl = () => {
           coBloomsTotalLength: false,
         });
       }
-      coBloomWt = value * 75;
+      coBloomWt = value * csVal;
     }
 
     // Update form data
@@ -366,7 +393,7 @@ const HeatDtl = () => {
       rejectedBloomWt =
         (fieldName === "noOfRejectedBlooms" ? value : noOfRejectedBlooms) *
         (fieldName === "rejectedBloomsLength" ? value : rejectedBloomsLength) *
-        75;
+        csVal;
     } else if (fieldName === "rejectedBloomsTotalLength") {
       if (!value) {
         setRejectedBloomsFieldState({
@@ -381,7 +408,7 @@ const HeatDtl = () => {
           rejectedBloomsTotalLength: false,
         });
       }
-      rejectedBloomWt = value * 75;
+      rejectedBloomWt = value * csVal;
     }
 
     // Update form data
@@ -461,6 +488,7 @@ const HeatDtl = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
+            disabled
             // disabled={currentStage !== 1}
             // disabled={isFieldDisabled(1)}
           />
@@ -487,6 +515,7 @@ const HeatDtl = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
+            disabled={isFieldDisabled(2)}
           />
           <FormInputItem
             label="Degassing Duration(min)"
@@ -506,6 +535,7 @@ const HeatDtl = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
+            disabled={isFieldDisabled(2)}
           />
         </div>
 
@@ -521,14 +551,19 @@ const HeatDtl = () => {
             }
             disabled={isFieldDisabled(3)}
           />
-          <FormInputItem
+          {/* <FormInputItem
             label="Caster Number "
             name="casterNo"
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
             disabled={isFieldDisabled(3)}
-          />
+          /> */}
+
+          <FormDropdownItem label="Caster Number" name="casterNo" formField="casterNo" dropdownArray={sms === "SMS 2" ? casterNoDropDownSms2 : casterNoDropDownSms3} visibleField="value" valueField="key" onChange={(fieldName, value) =>
+              handleChange(fieldName, value, setFormData)} 
+              disabled={isFieldDisabled(3)}
+              />
           <FormInputItem
             label="Sequence Number "
             name="sequenceNo"
@@ -543,7 +578,7 @@ const HeatDtl = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
-            disabled={isFieldDisabled(4)}
+            disabled={isFieldDisabled(3)}
           />
         </div>
 
@@ -718,14 +753,14 @@ const HeatDtl = () => {
             setFormData((prev) => ({
               ...prev,
               isDiverted: e.target.checked,
-              heatRemark: e.target.checked ? "Divereted" : null,
+              heatRemark: e.target.checked ? "Diverted" : null,
             }))
           }
         >
           Mark as diverted heat.
         </Checkbox>
 
-        <FormInputItem name="heatRemark" placeholder="Heat Remark" disabled />
+        <FormInputItem name="heatRemark" placeholder="Heat Remark" onChange={(name, value) => handleChange(name, value, setFormData)}/>
         <Btn htmlType="submit" className="flex mx-auto">
           {" "}
           Save{" "}

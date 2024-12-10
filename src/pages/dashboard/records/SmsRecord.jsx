@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TableComponent from "../../../components/DKG_Table";
 import SubHeader from "../../../components/DKG_SubHeader";
 import { apiCall } from "../../../utils/CommonFunctions";
@@ -8,8 +8,6 @@ import Btn from "../../../components/DKG_Btn";
 import { Button, Form, message } from "antd";
 import {
   CloseCircleOutlined,
-  DownOutlined,
-  ExportOutlined,
 } from "@ant-design/icons";
 
 const SmsRecord = () => {
@@ -32,7 +30,7 @@ const SmsRecord = () => {
       title: "Caster Number",
       dataIndex: "casterNumber",
       key: "casterNumber",
-      searchable: true, // Enable search
+      filterable: true, // Enable search
     },
     {
       title: "Rail Grade",
@@ -123,7 +121,7 @@ const SmsRecord = () => {
 
   return (
     <div className="flex flex-col gap-4 md:gap-2 bg-white p-4 w-full md:w-4/5 mx-auto h-[100vh] md:h-fit">
-      <SubHeader title="SMS Record" link="/" />
+      <SubHeader title="SMS Summary" link="/record/sms" />
 
     <div className="mt-4 border border-darkBlueHover p-2 py-4">
 

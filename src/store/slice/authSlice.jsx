@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import { message } from 'antd'
 import axios from 'axios'
 
 const initialState = {
@@ -51,7 +52,7 @@ export const login = createAsyncThunk(
             return data?.responseData;
         }
         catch(error){
-
+            message.error("Error logging.")
         }
     }
 )

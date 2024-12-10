@@ -57,6 +57,9 @@ import RollingControlSample from "../dashboard/duty/stage/rollingStage/rollingCo
 import RollingVerification from "../dashboard/duty/stage/rollingVerification/RollingVerification";
 import FinishingVerification from "../dashboard/duty/stage/finishingVerification/FinishingVerification";
 import SmsRecord from "../dashboard/records/SmsRecord";
+import SmsRecordMain from "../dashboard/records/SmsRecordMain";
+import SmsHeatReport from "../dashboard/records/SmsHeatReport";
+import NdtReport from "../dashboard/records/NdtReport";
 
 const RoutesComponent = () => {
   return (
@@ -65,7 +68,10 @@ const RoutesComponent = () => {
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<LayoutWithDashboard />}>
             <Route index element={<Dashboard />} />
-            <Route path="/record/sms" element={<SmsRecord />} />
+            <Route path="/record/sms" element={<SmsRecordMain />} />
+            <Route path="/record/sms/summary" element={<SmsRecord />} />
+            <Route path="/record/sms/heat" element={<SmsHeatReport />} />
+            <Route path="/record/ndt" element={<NdtReport />} />
 
             <Route path="/sms">
               <Route index element={<SmsDutyStartForm />} />

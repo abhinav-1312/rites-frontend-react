@@ -238,7 +238,7 @@ const RollingVerification = () => {
     <FormContainer>
       <SubHeader
         title={`Rail Rolling Verification - ${mill}`}
-        link="/stage/rollingControl"
+        link="/stage/home"
       />
       <GeneralInfo data={rollingGeneralInfo} />
 

@@ -22,9 +22,12 @@ const HtSequence = () => {
     setFormData({
       railId: record.railId,
       htStatus: record.htStatus,
+      htStatusDesc: record.htStatus ? "OK" : "NOT OK",
       bloomQuality: record.bloomQuality,
-      testMarked: record.testMarked
+      testSampleMarked: record.testMarked
     })
+
+    setIsModalOpen(true);
   }
 
   const [form] = Form.useForm();
@@ -112,6 +115,7 @@ const HtSequence = () => {
     };
     try {
       await apiCall("POST", "/rolling/testing/saveRailDtls", token, payload);
+      setIsModalOpen(false);
       populateData();
     } catch (error) {}
   };
@@ -192,7 +196,7 @@ const HtSequence = () => {
         <Table dataSource={tableData} columns={columns} />
         <IconBtn
           icon={PlusOutlined}
-          text="add new rail"
+          text="add"
           className="absolute left-0 bottom-16"
           onClick={() => setIsModalOpen(true)}
         />

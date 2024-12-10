@@ -10,11 +10,24 @@ import Btn from "../../../../../components/DKG_Btn";
 import FormContainer from "../../../../../components/DKG_FormContainer";
 import { apiCall, checkAndConvertToFLoat, handleChange } from "../../../../../utils/CommonFunctions";
 import { useSelector } from "react-redux";
+import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
+
+const wvDropDown = [
+  {
+    key: "Witnessed",
+    value: "Witnessed",
+  },
+  {
+    key: "Verified",
+    value: "Verified",
+  },
+];
 
 const SmsHeatSummary = () => {
   const [newHeat, setNewHeat] = useState({
     heatNo: "",
     turnDownTemp: "",
+    turnDownTempWv: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTablePage, setCurrentTablePage] = useState(1);
@@ -129,6 +142,7 @@ const SmsHeatSummary = () => {
       const payload = {
         heatNo: newHeat.heatNo,
         turnDownTemp: checkFloatObj.number,
+        turnDownTempWv: checkFloatObj.number,
         dutyId: smsGeneralInfo.dutyId
       }
 
@@ -138,7 +152,8 @@ const SmsHeatSummary = () => {
         message.success("New heat added successfully.")
         setNewHeat({
           heatNo: "",
-          turnDownTemp: ""
+          turnDownTemp: "",
+          turnDownTempWv: ""
         })
         populateTableData();
       }
@@ -378,6 +393,17 @@ const SmsHeatSummary = () => {
           onChange={handleNewHeatValChange}
           required
           />
+
+<FormDropdownItem
+            label="Witnessed / Verified"
+            name="turnDownTempWv"
+            formField="turnDownTempWv"
+            dropdownArray={wvDropDown}
+            visibleField="value"
+            valueField="key"
+            onChange={handleNewHeatValChange}
+            required
+            />
         <Btn htmlType="submit">Add</Btn>
           </Form>
       </Modal>

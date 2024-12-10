@@ -106,8 +106,13 @@ export const getOngoingSmsDutyDtls = createAsyncThunk(
     "smsDuty/getOngoingSmsDutyDtls",
     async (_, {getState}) => {
         const {token} = getState().auth;
-        const {data} = await apiCall("GET", "/sms/getOngoingDutyDtls", token);
-        return data?.responseData;
+        try{
+            const {data} = await apiCall("GET", "/sms/getOngoingDutyDtls", token);
+            return data?.responseData;
+        }
+        catch(error){
+            
+        }
     }
 )
 

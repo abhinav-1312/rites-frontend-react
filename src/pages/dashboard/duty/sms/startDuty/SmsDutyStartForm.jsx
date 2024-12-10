@@ -88,6 +88,7 @@ const SmsDutyStartForm = () => {
           <FormDropdownItem
             label="Shift"
             dropdownArray={shiftList}
+            formField="shift"
             name="shift"
             onChange={handleChange}
             valueField="key"
@@ -98,6 +99,7 @@ const SmsDutyStartForm = () => {
         <FormDropdownItem
           label="SMS"
           name="sms"
+          formField="sms"
           dropdownArray={smsList}
           visibleField="value"
           valueField="key"
@@ -107,6 +109,7 @@ const SmsDutyStartForm = () => {
         <FormDropdownItem
           label="Rail Grade"
           name="railGrade"
+          formField="railGrade"
           dropdownArray={railGradeList}
           visibleField="value"
           valueField="key"
