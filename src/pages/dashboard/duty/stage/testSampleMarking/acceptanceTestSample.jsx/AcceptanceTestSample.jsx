@@ -114,7 +114,7 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
 
   const handleChange = (fieldName, value) => {
     if(fieldName === "sampleId"){
-      if(value === "" || value === null || !value.startsWith("H")){
+      if((value !== "" || value !== null) && !value.startsWith("H")){
         setSampleIdRule([
           {
             validator: (_, value) =>
