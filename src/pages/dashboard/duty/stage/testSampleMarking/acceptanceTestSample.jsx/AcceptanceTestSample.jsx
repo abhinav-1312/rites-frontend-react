@@ -110,7 +110,24 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
 
   const { token } = useSelector((state) => state.auth);
 
+  const [sampleIdRule, setSampleIdRule] = useState([]);
+
   const handleChange = (fieldName, value) => {
+    if(fieldName === "sampleId"){
+      if(value === "" || value === null || !value.startsWith("H")){
+        setSampleIdRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error("Sampe ID should start with H.")
+              ),
+          },
+        ]);
+      }
+      else{
+        setSampleIdRule([]);
+      }
+    }
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
   };
 
@@ -222,6 +239,7 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
         <FormInputItem
           label="Sample ID"
           name="sampleId"
+          rules={sampleIdRule}
           onChange={handleChange}
           disabled={railGrade === "880" || railGrade === "R260"}
         />
