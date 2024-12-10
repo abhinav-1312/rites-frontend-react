@@ -63,6 +63,7 @@ const RollingControlSample = () => {
     if (fieldName === "height") {
       const isFloat = regexMatch.floatRegex.test(value);
       if (!isFloat) {
+        console.log("HEIGHT IS NOT FLOAT: ", fieldName, value)
         setHeightRule(
           [
           {
@@ -72,8 +73,9 @@ const RollingControlSample = () => {
         ]
       );
       } else if (isFloat) {
+        console.log("FLOAT: ", value)
         let floor = null;
-        let ceil;
+        let ceil = null;
         if (railSection === "IRS 52") {
           if (value < 155.6 || value > 156.8) {
             floor = 155.6;
@@ -92,6 +94,7 @@ const RollingControlSample = () => {
         }
 
         if (ceil && floor) {
+          console.log("CEIL AND FLOOR")
           setHeightRule([
             {
               validator: (_, value) =>
@@ -101,9 +104,10 @@ const RollingControlSample = () => {
             },
           ]);
         }
-      } else {
-        setHeightRule([]);
-      }
+        else {
+          setHeightRule([]);
+        }
+      } 
     } else if (fieldName === "flange") {
       const isFloat = regexMatch.floatRegex.test(value);
       if (!isFloat) {
@@ -242,6 +246,8 @@ const RollingControlSample = () => {
     });
   };
 
+  console.log("Formdata: ", formData.height)
+
   const handleFormSubmit = async () => {
     try {
       await apiCall("POST", "/rolling/saveControlHeat", token, {
@@ -251,6 +257,9 @@ const RollingControlSample = () => {
       message.success("Data saved successfully");
     } catch (error) {}
   };
+
+  // console.log("Height rule: ", heightRule);
+  // console.log("Flange rule: ", flangeRule);
 
   const handleDtlSearch = useCallback(
     async (heatNo, sampleNo) => {
