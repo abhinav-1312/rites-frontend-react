@@ -123,7 +123,7 @@ const NdtReport = () => {
 
 
   return <div className="container">
-    <SubHeader title="SMS Heat Summary" link="/" />
+    <SubHeader title="NDT" link="/" />
 
     <div className="mt-4 border border-darkBlueHover p-2 py-4">
         <div>

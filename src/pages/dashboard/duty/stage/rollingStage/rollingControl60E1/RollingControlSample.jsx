@@ -94,7 +94,6 @@ const RollingControlSample = () => {
         }
 
         if (ceil && floor) {
-          console.log("CEIL AND FLOOR")
           setHeightRule([
             {
               validator: (_, value) =>
