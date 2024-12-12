@@ -7,18 +7,26 @@ import CustomDatePicker from "../../../../../components/DKG_CustomDatePicker";
 import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
 import Btn from "../../../../../components/DKG_Btn";
 import FormContainer from "../../../../../components/DKG_FormContainer";
-import { useNavigate } from 'react-router-dom'
-
+import { useNavigate, Navigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { startNdtDuty } from '../../../../../store/slice/ndtDutySlice';
+import dayjs from "dayjs";
 
 const { millMapingSec: sampleData, shiftList, railGradeList, railSectionList } = data;
 
+const currentDate = dayjs();
+const dateFormat = "DD/MM/YYYY";
+
 const StartDutyForm = () => {
+    const dispatch = useDispatch();
+    const { dutyId } = useSelector((state) => state.ndtDuty);
+
     const [millDropdownList, setMillDropdownList] = useState([]);
     const [ndtDropdownList, setNdtDropdownList] = useState([]);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        date: '', shift: '', mill: '', ndt: '', railGrade: '', railSection: ''
+        startDate: currentDate.format(dateFormat), shift: "", mill: "", ndt: "", railGrade: "", railSection: ""
     });
 
     const populateData = () => {
@@ -47,10 +55,15 @@ const StartDutyForm = () => {
     }
     }, [formData.mill, millDropdownList])
 
-    const handleFormSubmit = () => {
-        message.success("Form submission triggered.");
+    const handleFormSubmit = async () => {
+        await dispatch(startNdtDuty(formData)).unwrap();
         navigate('/ndt/home');
     };
+
+    if (dutyId) {
+        message.error("Duty already in progress. Cannot start new duty.");
+        return <Navigate to="/ndt/home" />;
+    }
 
     const handleChange = (fieldName, value) => {
         setFormData((prev) => {
@@ -61,24 +74,26 @@ const StartDutyForm = () => {
         });
     };
 
+    console.log(formData)
+
   return (
     <FormContainer>
         <SubHeader title="NDT - Shift Details" link="/" />
 
         <FormBody initialValues={formData} onFinish={handleFormSubmit}>
             <div className="grid grid-cols-2 gap-x-2">
-                <CustomDatePicker label="Date" name="date" value={formData.date} onChange={handleChange} required />
-                <FormDropdownItem label="Shift" name="shift" dropdownArray={shiftList} visibleField="value" valueField="key" onChange={handleChange} required />
+                <CustomDatePicker label="Date" name="startDate" defaultValue={formData.startDate} onChange={handleChange} disabled required />
+                <FormDropdownItem label="Shift" name="shift" formField='shift' dropdownArray={shiftList} visibleField="value" valueField="key" onChange={handleChange} required />
             </div>
 
             <div className="grid grid-cols-2 gap-x-2">
-                <FormDropdownItem label='Mill' name='mill' dropdownArray={millDropdownList} valueField={'key'} visibleField={'value'} onChange={handleChange} required />
-                <FormDropdownItem label ='NDT' name='ndt' dropdownArray={ndtDropdownList} valueField={'key'} visibleField={'value'} onChange = {handleChange} required />
+                <FormDropdownItem label='Mill' name='mill' formField='mill' dropdownArray={millDropdownList} valueField='key' visibleField='value' onChange={handleChange} required />
+                <FormDropdownItem label ='NDT' name='ndt' formField='ndt' dropdownArray={ndtDropdownList} valueField='key' visibleField='value' onChange = {handleChange} required />
             </div>
 
             <div className="grid grid-cols-2 gap-x-2">
-                <FormDropdownItem label="Rail Grade" name='railGrade' dropdownArray={railGradeList} visibleField='value' valueField='key' onChange={handleChange} required/>
-                <FormDropdownItem label="Rail Section" name='railSection' dropdownArray={railSectionList} visibleField='value' valueField='key' onChange={handleChange} required />
+                <FormDropdownItem label="Rail Grade" name='railGrade' formField='railGrade' dropdownArray={railGradeList} visibleField='value' valueField='key' onChange={handleChange} required/>
+                <FormDropdownItem label="Rail Section" name='railSection' formField='railSection' dropdownArray={railSectionList} visibleField='value' valueField='key' onChange={handleChange} required />
             </div>
 
             <Btn htmlType="submit" className="flex justify-center mx-auto">

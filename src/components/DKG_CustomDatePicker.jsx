@@ -53,9 +53,28 @@ const CustomDatePicker = ({
   onChange,
   readOnly,
   required,
-  placeholder
+  placeholder,
+  className,
+  disablePastDate,
+  disableFutureDate,
+  disabled
 }) => {
   const initialValue = defaultValue ? dayjs(defaultValue, dateFormat) : null;
+
+  const disablePastDates = (current) => {
+    if(disablePastDate){
+      return current && current < dayjs().startOf("day");
+    }
+    return false;
+  };
+  const disableFutureDates = (current) => {
+    if(disableFutureDate){
+      return current && current > dayjs().startOf("day");
+    }
+    return false;
+  };
+
+
 
   const handleDateChange = (date) => {
     if (date) {
@@ -77,11 +96,14 @@ const CustomDatePicker = ({
     <Form.Item
       label={label}
       rules={[
-        { required: required ?? false, message: "Please input value!" },
+        { required: required ? true : false, message: "Please input value!" },
       ]}
       initialValue={initialValue} // Set initial value
+      className={className}
     >
       <DatePicker
+      disabledDate={disablePastDates || disableFutureDates}
+      disabled={disabled}
       placeholder={placeholder}
         style={{ width: "100%" }}
         format={dateFormat}

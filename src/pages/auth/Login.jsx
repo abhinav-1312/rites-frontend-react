@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom'
 import FormContainer from '../../components/DKG_FormContainer'
 import { getOngoingSmsDutyDtls } from '../../store/slice/smsDutySlice'
 import { getOngoingRollingDutyDtls } from '../../store/slice/rollingDutySlice'
+import { getOngoingCalibrationDutyDtls } from '../../store/slice/calibrationDutySlice'
+import { getOngoingNdtDutyDtls } from '../../store/slice/ndtDutySlice'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -16,7 +18,9 @@ const Login = () => {
   const handleFormSubmit = async () => {
     await dispatch(login(formData)).unwrap()
     await dispatch(getOngoingSmsDutyDtls()).unwrap()
-    await dispatch(getOngoingRollingDutyDtls()).unwrap()
+    // await dispatch(getOngoingRollingDutyDtls()).unwrap()
+    await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
+    await dispatch(getOngoingNdtDutyDtls()).unwrap()
     navigate('/')
   }
 

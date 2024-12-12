@@ -9,13 +9,13 @@ const ndtHomeTabs = [
     {
       title: 'Shift Summary',
       icon: <FileSearchOutlined />,
-      link: "/ndt/summary"
+      link: "/ndt/shiftSummary"
     },
-    {
-      title: 'NDT Report',
-      icon: <PieChartOutlined />,
-      link: "/ndt/report"
-    },
+    // {
+    //   title: 'NDT Report',
+    //   icon: <PieChartOutlined />,
+    //   link: "/ndt/report"
+    // },
     {
         title: 'Test Sample Marking',
         icon: <ExperimentOutlined />,

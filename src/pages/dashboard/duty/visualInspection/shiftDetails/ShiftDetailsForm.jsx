@@ -8,8 +8,10 @@ import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
 import Btn from "../../../../../components/DKG_Btn";
 import FormContainer from "../../../../../components/DKG_FormContainer";
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import SelectSearch from "../../../../../components/DKG_SelectSearch";
+import { startViDuty } from '../../../../../store/slice/viDutySlice';
+import { useDispatch, useSelector } from "react-redux";
 
 const { millMaping: sampleData, millsMaping: secSampleData, shiftList, railGradeList, railSectionList } = data;
 
@@ -18,6 +20,9 @@ const ShiftDetailsForm = () => {
     const [lineNumberDropdownList, setLineNumberDropdownList] = useState([]);
     const [stdRailLengthList, setStdRailLengthList] = useState([])
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+    const { dutyId } = useSelector((state) => state.viDuty);
 
     const [formData, setFormData] = useState({
         date: '', shift: '', mill: '', lineNumber: '', railGrade: '', railSection: '', stdRailLength: '', otherIE: '', otherIE2: '', otherIE3: '', rclIE: '', rclIE2: '', rclIE3: ''
@@ -49,11 +54,6 @@ const ShiftDetailsForm = () => {
     }
     }, [formData.mill, millDropdownList])
 
-    const handleFormSubmit = () => {
-        message.success("Form submission triggered.");
-        navigate('/visual/home');
-    };
-
     useEffect(()=>{
         if(secSampleData[formData.mill]){
           const stdRailLengthList = secSampleData[formData.mill].map(mill => {
@@ -74,6 +74,16 @@ const ShiftDetailsForm = () => {
           };
         });
     };
+
+    const handleFormSubmit = async () => {
+      await dispatch(startViDuty(formData)).unwrap();
+      navigate('/visual/home');
+    };
+
+    if (dutyId) {
+      message.error("Duty already in progress. Cannot start new duty.");
+      return <Navigate to="/visual/home" />;
+    }
 
   return (
     <FormContainer>

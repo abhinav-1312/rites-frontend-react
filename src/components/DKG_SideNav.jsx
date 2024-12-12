@@ -258,20 +258,20 @@ const items = [
                 label: "Calibration",
                 path: "/ndt/calibration",
               },
+              // {
+              //   key: "2.4.2.3",
+              //   icon: <FilePdfOutlined />,
+              //   label: "Report",
+              //   path: "/ndt/report",
+              // },
               {
-                key: "2.4.2.3",
-                icon: <FilePdfOutlined />,
-                label: "Report",
-                path: "/ndt/report",
+                key: '2.4.2.3',
+                icon: <FileDoneOutlined />,
+                label: 'Shift Summary',
+                path: '/ndt/shiftSummary',
               },
             ]
-          },
-          // {
-          //   key: '2.3.4',
-          //   icon: <FileDoneOutlined />,
-          //   label: 'Shift Summary',
-          //   path: '/ndt/shiftSummary',
-          // },
+          }
         ],
       },
       {
@@ -309,13 +309,7 @@ const items = [
                 path: "/testing/heatPending"
               }
             ]
-          },
-          // {
-          //   key: '2.3.4',
-          //   icon: <FileDoneOutlined />,
-          //   label: 'Shift Summary',
-          //   path: '/ndt/shiftSummary',
-          // },
+          }
         ],
       },
       {
@@ -465,17 +459,23 @@ const items = [
           {
             key: "2.10.1",
             icon: <AppstoreAddOutlined />,
+            label: "Calibration Start Duty",
+            path: "/calibration/startDuty",
+          },
+          {
+            key: "2.10.2",
+            icon: <AppstoreAddOutlined />,
             label: "Calibration List",
             path: "/calibration/list",
           },
           {
-            key: "2.10.2",
+            key: "2.10.3",
             icon: <FundOutlined />,
             label: "New / Modify Calibration List",
             path: "/calibration/newModifyCalibration",
           },
           {
-            key: "2.10.3",
+            key: "2.10.4",
             icon: <DatabaseOutlined />,
             label: "Bulk Calibration",
             path: "/calibration/bulkCalibration",

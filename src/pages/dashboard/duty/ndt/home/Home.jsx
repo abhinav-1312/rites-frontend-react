@@ -10,17 +10,25 @@ import FormBody from "../../../../../components/DKG_FormBody";
 import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import Btn from "../../../../../components/DKG_Btn";
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { handleChange } from "../../../../../utils/CommonFunctions";
+import { endNdtDuty } from '../../../../../store/slice/ndtDutySlice';
 
-const { ndtGeneralInfo } = data;
+// const { ndtGeneralInfo } = data;
 
 const Home = () => {
     const navigate = useNavigate();
-    const [remarks, setRemarks] = useState('')
+    const [formData, setFormData] = useState({shiftRemarks: null})
+    const dispatch = useDispatch();
 
-    const handleFormSubmit = () => {
-        message.success("Duty End Called")
+    const handleFormSubmit = async () => {
+        await dispatch(endNdtDuty(formData)).unwrap();
         navigate('/')
     }
+
+    const ndtGeneralInfo = useSelector(state => state.ndtDuty);
+
+    console.log(ndtGeneralInfo)
 
   return (
     <FormContainer>
@@ -33,8 +41,8 @@ const Home = () => {
 
         <Divider className="mt-2 mb-0" />
 
-        <FormBody initialValues={remarks} onFinish={handleFormSubmit}>            
-            <FormInputItem placeholder='Enter Remarks' onChange={(_, value) => setRemarks(value)} name='remarks' required/>
+        <FormBody initialValues={formData} onFinish={handleFormSubmit}>            
+            <FormInputItem placeholder='Enter Remarks' onChange={(field, value) => handleChange(field, value, setFormData)} name='shiftRemarks' required/>
 
             <div className='flex justify-center'>
                 <Btn htmlType='submit' className='w-36'>End Duty</Btn>

@@ -7,7 +7,7 @@
         "Measuring Instrument": ["Vernier", "Micrometer", "Feeler Gauge", "Weighing Scale", "Measuring Tape", "Measuring Scale"],
         "Testing Machines": ["Hydris", "Leco / Gas Analyser", "Spectro", "Tensile Testing Machine", "Hardness", "TLT Machine", "FWT System", "FBW M/c"],
         "Gauge (Working)": [ "Head & Web Gauge", "Height Gauge", "Fish Gauge", "Foot Gauge", "Asymmetry +", "Asymmetry -", "Toe Thk +", "Toe Thk -", "Crown (F)", "Crown (M)", "Foot Concavity", "Hole - Base", "Hole - End", "Right Angle", "FWT Bearer Head", "FWT Striker Head" ],
-        "Gauge (Master)": [],
+        "Gauge (Master)": ["NA"],
         "Straight Edge": ["3m","2m","1.5m","1m","0.85m","100mm"],
         "Templates": ["FWT Bearer Head", "FWT Striker Head"]
     },

@@ -67,7 +67,6 @@ const SmsDutyEnd = () => {
             </div>
         </FormBody>
       </section>
-      
     </FormContainer>
   )
 }

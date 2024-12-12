@@ -168,7 +168,7 @@ const SmsRecord = () => {
   return (
     <div className='flex flex-col gap-4 md:gap-2 bg-white p-4 w-full md:w-4/5 mx-auto h-[100vh] md:h-fit'>
       <SubHeader title='SMS Record' link='/' />
-            <TableComponent dataSource={dataSource} columns={columns} />
+      <TableComponent dataSource={dataSource} columns={columns} />
     </div>
   )
 }

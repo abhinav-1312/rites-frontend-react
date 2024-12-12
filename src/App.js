@@ -4,6 +4,9 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { getOngoingSmsDutyDtls } from './store/slice/smsDutySlice';
 import { getOngoingRollingDutyDtls } from './store/slice/rollingDutySlice';
+import { getOngoingNdtDutyDtls } from './store/slice/ndtDutySlice';
+import { getOngoingCalibrationDutyDtls } from './store/slice/calibrationDutySlice';
+import { getOngoingViDutyDtls } from './store/slice/viDutySlice';
 
 axios.defaults.baseURL="http://localhost:8080"
 
@@ -12,7 +15,10 @@ function App() {
 
   useEffect(() => {
     dispatch(getOngoingSmsDutyDtls());
-    dispatch(getOngoingRollingDutyDtls());
+    // dispatch(getOngoingRollingDutyDtls());
+    dispatch(getOngoingNdtDutyDtls());
+    dispatch(getOngoingCalibrationDutyDtls());
+    // dispatch(getOngoingViDutyDtls());
   }, [dispatch])
 
   return (
