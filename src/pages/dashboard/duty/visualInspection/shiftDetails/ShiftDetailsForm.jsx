@@ -8,9 +8,9 @@ import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
 import Btn from "../../../../../components/DKG_Btn";
 import FormContainer from "../../../../../components/DKG_FormContainer";
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import dayjs from "dayjs"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startViDuty } from "../../../../../store/slice/viDutySlice";
 
 const { millMaping: sampleData, millsMaping: secSampleData, shiftList, railGradeList, railSectionList } = data;
@@ -20,11 +20,13 @@ const dateFormat = "DD/MM/YYYY";
 
 const ShiftDetailsForm = () => {
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
     const [millDropdownList, setMillDropdownList] = useState([]);
     const [lineNumberDropdownList, setLineNumberDropdownList] = useState([]);
     const [stdRailLengthList, setStdRailLengthList] = useState([])
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+    const { dutyId } = useSelector((state) => state.viDuty);
 
     const [formData, setFormData] = useState({
         startDate: currentDate.format(dateFormat), shift: '', mill: '', lineNo: '', railGrade: '', railSection: '', stdOffLength: '', ieName1: '', ieName2: '', ieName3: '', rclIeName1: '', rclIeName2: '', rclIeName3: ''
@@ -38,10 +40,10 @@ const ShiftDetailsForm = () => {
           }
         })
         setMillDropdownList([...millDropdownList])
-    }
-
+      }
+    
     useEffect(()=> {
-        populateData()
+      populateData()
     }, [])
     
     useEffect(()=>{
@@ -101,7 +103,10 @@ const ShiftDetailsForm = () => {
       form.setFieldsValue(formData)
     }, [formData])
 
-    console.log("Formdata: ", formData);
+    if (dutyId) {
+      message.error("Duty already in progress. Cannot start new duty.");
+      return <Navigate to="/visual/home" />;
+    }
 
   return (
     <FormContainer>

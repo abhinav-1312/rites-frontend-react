@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { endRollingDuty } from "../../../../../../store/slice/rollingDutySlice";
 import { ExperimentOutlined }from '@ant-design/icons';
 
-
 const Home = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({shiftRemarks: null});
@@ -40,6 +39,9 @@ const Home = () => {
         }
     }
 
+    // useEffect(() => {
+    //     setGeneralInfo(rollingGeneralInfo)
+    // }, [rollingGeneralInfo])
 
   return (
     <FormContainer>

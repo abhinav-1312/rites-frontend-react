@@ -47,7 +47,6 @@ const viDutySlice = createSlice({
             state.rclIeName1 = payload?.rclIeName1;
             state.rclIeName2 = payload?.rclIeName2;
             state.rclIeName3 = payload?.rclIeName3;
-
         })
         .addCase(startViDuty.rejected, (state, action) => {
             state.loading = false;
@@ -101,7 +100,6 @@ const viDutySlice = createSlice({
             state.rclIeName1 = payload?.rclIeName1;
             state.rclIeName2 = payload?.rclIeName2;
             state.rclIeName3 = payload?.rclIeName3;
-
         })
         .addCase(getOngoingViDutyDtls.rejected, (state, action) => {
             state.loading = false;

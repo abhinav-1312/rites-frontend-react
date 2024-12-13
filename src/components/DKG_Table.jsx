@@ -309,10 +309,10 @@ const TableComponent = ({ columns, dataSource }) => {
         scroll={{ x: true }}
         pagination={true}
         rowKey={(record) => record.id || record.key || JSON.stringify(record)}
+        bordered
       />
     </>
   );
 };
 
 export default TableComponent;
-

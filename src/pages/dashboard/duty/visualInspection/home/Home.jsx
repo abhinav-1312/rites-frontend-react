@@ -26,7 +26,7 @@ const Home = () => {
     const handleFormSubmit = async () => {
         try{
             await dispatch(endViDuty(formData)).unwrap();
-            // navigate('/')
+            navigate('/');
         }
         catch(error){}
     }

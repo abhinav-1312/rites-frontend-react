@@ -112,6 +112,7 @@ const VisualInspectionForm = () => {
     try {
       await apiCall("POST", "/vi/saveViDtls", token, {...formData, dutyId: dutyId});
       navigate('/visual/home')
+      message.success("Data saved successfully.")
     }
     catch(error){}
   };

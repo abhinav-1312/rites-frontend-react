@@ -2,32 +2,27 @@ import React, { useState } from "react";
 import SubHeader from "../../../../../components/DKG_SubHeader";
 import FormContainer from "../../../../../components/DKG_FormContainer";
 import GeneralInfo from "../../../../../components/DKG_GeneralInfo";
-import data from "../../../../../utils/frontSharedData/ndt/ndt.json";
-import { message, Divider, Checkbox } from 'antd';
-import FormBody from "../../../../../components/DKG_FormBody";
+import { message, Form, Checkbox, TimePicker } from 'antd';
 import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import Btn from "../../../../../components/DKG_Btn";
 import { useNavigate } from 'react-router-dom'
-import CustomTimePicker from "../../../../../components/DKG_CustomTimePicker"
 import { PlusOutlined }from '@ant-design/icons';
 import IconBtn from '../../../../../components/DKG_IconBtn';
-import FormNumericInputItem from '../../../../../components/DKG_FormNumericInputItem'
-
-const { ndtGeneralInfo, checkBoxItems } = data;
+import { useSelector } from 'react-redux';
+import { apiCall } from '../../../../../utils/CommonFunctions';
+import { DeleteOutlined } from '@ant-design/icons';
 
 const NCalibrationForm = () => {
-  const [checkedValues, setCheckedValues] = useState([]);
-  const [value, setValue] = useState('');
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(
     {
-      dataList: [
+      calibrationList: [
         {
-          checkedValues: [], calTime: '', rclRep: "", remarks: ''
+          ut: false, ct: false, fmg: false, osiris: false, calibrationCompletionTimeDayjs: null, calibrationCompletionTime: null, calibrationSpeed: null, rclRepName: null, calibrationRoundRemarks: null
         }
       ],
-      shiftRemarks: ''
+      calibrationRemarks: null
     }
   );
 
@@ -40,82 +35,141 @@ const NCalibrationForm = () => {
     })
   }
 
-  const handleFormSubmit = () => {
-    navigate('/ndt/home')
-    message.success('Form Submit Called')
+  const ndtGeneralInfo = useSelector((state) => state.ndtDuty);
+  const { token } = useSelector((state) => state.auth);
+  const [form] = Form.useForm();
+
+  const handleFormSubmit = async () => {
+    const payload = {
+      calibrationList: formData?.calibrationList,
+      calibrationRemarks: formData?.calibrationRemarks,
+      dutyId: ndtGeneralInfo.dutyId,
+    };
+
+    console.log(payload)
+
+    try {
+      await apiCall("POST", "/ndt/calibration/saveBulkCalibration", token, payload);
+      message.success("NDT Calibration Round(s) Data saved succesfully.");
+      navigate('/ndt/home');
+    } catch (error) {
+      console.log("error: ", error)
+    }
   }
 
-  const handleAddCalibrationFields = () => {
-    setFormData(prev => {
+  const handleCalDtlChange = (fieldName, value, index) => {
+    setFormData((prev) => {
+      const calListUpdated = prev.calibrationList.map((item, idx) => 
+        idx === index ? { ...item, [fieldName]: value } : item
+      );
       return {
         ...prev,
-        dataList: [
-          ...prev.dataList,
-          { checkedValues: [], calTime: '', rclRep: '', remarks: '' }
-        ]
-      }
+        calibrationList: calListUpdated,
+      };
     });
-
-    setCheckedValues(checkedValues);
   };
+  
 
-  const handleNDTRoundValueChange = (index, fieldName, value) => {
-    setFormData(prev => {
-      const prevDataList = [...prev.dataList]
-      prevDataList[index][fieldName] = value
+  const addCalRound = () => {
+    setFormData((prev) => {
+      const calListUpdated = [
+        ...prev.calibrationList,
+        {
+          ut: false, ct: false, fmg: false, osiris: false, calibrationCompletionTimeDayjs: null, calibrationCompletionTime: null, calibrationSpeed: null, rclRepName: null, calibrationRoundRemarks: null
+        },
+      ];
+
       return {
-        ...prev, 
-        dataList: [...prevDataList]
-      }
+        ...prev,
+        calibrationList: calListUpdated,
+      };
     });
-
-    setCheckedValues(checkedValues)
   };
+
+  const deleteCalRound = (index) => {
+    setFormData((prev) => {
+      const calListUpdated = prev.calibrationList.filter((_, idx) => idx !== index);
+      return {
+        ...prev,
+        calibrationList: calListUpdated,
+      };
+    });
+  };
+
+  const handleTimingChange = (time, timeString, index) => {
+
+    if (time) {
+      // Directly use timeString because it's already in the correct format
+      setFormData((prev) => {
+        const tempObsvDtlsUpdated = prev.calibrationList;
+        tempObsvDtlsUpdated[index]["calibrationCompletionTime"] = timeString;
+        tempObsvDtlsUpdated[index]["calibrationCompletionTimeDayjs"] = time;
+        return {
+            ...prev,
+            calibrationList: tempObsvDtlsUpdated
+        }
+      })
+    } else {
+        setFormData((prev) => {
+            const tempObsvDtlsUpdated = prev.calibrationList;
+            tempObsvDtlsUpdated[index]["calibrationCompletionTime"] = null;
+            tempObsvDtlsUpdated[index]["calibrationCompletionTimeDayjs"] = null;
+            return {
+                ...prev,
+                calibrationList: tempObsvDtlsUpdated
+            }
+          })
+    }
+  };
+  
 
   return (
     <FormContainer>
         <SubHeader title="NDT - Calibration" link="/ndt/home" />
         <GeneralInfo data={ndtGeneralInfo} />
 
-        <FormBody initialValues={formData} onFinish={handleFormSubmit} >
+        <Form initialValues={formData} onFinish={handleFormSubmit} form={form} layout="vertical" >
             {
-            formData.dataList.map((record, index) => (
-                <>                    
-                    <div key={index}>
-                        <section className='grid grid-cols-1'>
-                            <Checkbox.Group
-                                options={checkBoxItems.map(item => ({key: item.key, label: item.value, value: item.key }))}
-                                value={checkedValues}
-                                onChange={(fieldName, value) => handleNDTRoundValueChange(checkedValues, index, fieldName, value)}
-                                className='mb-6'
-                            />
-                        </section>
+              formData.calibrationList?.map((record, index) => (
+                <div className="relative grid gap-x-4 border p-4 pb-0">                    
+                  <section className='flex gap-2'>
+                    <Checkbox name={["dataList", index, "ut"]} onChange={(e) => handleCalDtlChange("ut", e.target.checked, index)}>UT</Checkbox>
+                    <Checkbox name={["dataList", index, "ct"]} onChange={(e) => handleCalDtlChange("ct", e.target.checked, index)}>CT</Checkbox>
+                    <Checkbox name={["dataList", index, "fmg"]} onChange={(e) => handleCalDtlChange("fmg", e.target.checked, index)}>FMG</Checkbox>
+                    <Checkbox name={["dataList", index, "osiris"]} onChange={(e) => handleCalDtlChange("osiris", e.target.checked, index)}>OSIRIS</Checkbox>
+                  </section>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 mt-3">
-                            <CustomTimePicker label='Cal. Completion Time' name='calTime' key={record.id} value={formData?.calTime} onChange={(fieldName, value) => handleNDTRoundValueChange(index, fieldName, value)} required />
-                            <FormNumericInputItem label='Calibration Speed (m/s)' value={value} onChange={setValue} required />
-                        </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 mt-3">
+                    <Form.Item label="Calibration Time" name={["calibrationList", index, "calibrationCompletionTimeDayjs"]} rules={[{ required: true, message: "Please select a time!" }]}>
+                      <TimePicker onChange={(time, timeString) => handleTimingChange(time, timeString, index)} format="HH:mm:ss" placeholder="Select Time" className="w-full" />
+                    </Form.Item>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2">
-                            <FormInputItem label='RCL Rep.' name='rclRep' placeholder='Enter RCL Rep. name' key={record.id} value={formData.rclRep} onChange={(fieldName, value) => handleNDTRoundValueChange(index, fieldName, value)} required/>
-                            <FormInputItem label='Remarks for this round' key={record.id} placeholder='Enter Remarks' onChange={(fieldName, value) => handleNDTRoundValueChange(index, fieldName, value)} name='remarks' required/>
-                        </div>
+                    <FormInputItem label='Calibration Speed (m/s)' placeholder="0.00" name={["calibrationList", index, "calibrationSpeed"]} onChange={(name, value) => handleCalDtlChange(name, value, index)} required />
+                  </div>
 
-                        <Divider className="mt-0 mb-0" />
-                    </div>
-                </>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2">
+                    <FormInputItem label='RCL Rep.' name={["calibrationList", index, "rclRepName"]} placeholder='Enter RCL Rep. name' onChange={(name, value) => handleCalDtlChange(name, value, index)} required/>
+                    <FormInputItem label='Remarks for this round' name={["calibrationList", index, "calibrationRoundRemarks"]} placeholder='Enter Remarks' onChange={(name, value) => handleCalDtlChange(name, value, index)} required/>
+                  </div>
+
+                  <IconBtn
+                    icon={DeleteOutlined}
+                    className="shadow-none absolute right-0"
+                    onClick={() => deleteCalRound(index)}
+                  />
+                </div>
             ))
             }
             
-            <IconBtn icon={PlusOutlined} text='Add Calibration Round' onClick={handleAddCalibrationFields} className='mt-2' />
+            <IconBtn icon={PlusOutlined} text="Add Calibration Round" className="relative" onClick={addCalRound} />
 
             <div className='mt-4'>
-                <FormInputItem label='Remarks' placeholder='Enter Remarks' onChange={handleChange} name='shiftRemarks' required/>
-                <div className='flex justify-center mt-8'>
-                    <Btn htmlType='submit'>Save</Btn>
-                </div>
+              <FormInputItem label='Remarks' placeholder='Enter Remarks' onChange={handleChange} name='calibrationRemarks' required/>
+              <div className='flex justify-center mt-8'>
+                <Btn htmlType='submit'>Save</Btn>
+              </div>
             </div>
-        </FormBody>
+        </Form>
     </FormContainer>
   )
 }

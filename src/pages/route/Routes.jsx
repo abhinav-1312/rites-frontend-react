@@ -60,6 +60,11 @@ import SmsRecord from "../dashboard/records/SmsRecord";
 import SmsRecordMain from "../dashboard/records/SmsRecordMain";
 import SmsHeatReport from "../dashboard/records/SmsHeatReport";
 import NdtReport from "../dashboard/records/NdtReport";
+import CalShiftDetailsForm from '../dashboard/duty/calibration/shiftDetails/ShiftDetailsForm';
+import ShiftSummary from "../dashboard/duty/ndt/shiftSummary/ShiftSummary";
+import NdtPrivateRoute from './NdtPrivateRoute';
+import CalibrationPrivateRoute from './CalibrationPrivateRoute';
+import VIPrivateRoute from "./VIPrivateRoute";
 
 const RoutesComponent = () => {
   return (
@@ -108,9 +113,12 @@ const RoutesComponent = () => {
             <Route path="/ndt">
               <Route index element={<NDTStartDutyForm />} />
               <Route path="startDuty" element={<NDTStartDutyForm />} />
-              <Route path="home" element={<NDTHome />} />
-              <Route path="calibration" element={<NCalibrationForm />} />
-              <Route path="report" element={<NReport />} />
+              <Route element={<NdtPrivateRoute />}>
+                <Route path="home" element={<NDTHome />} />
+                <Route path="calibration" element={<NCalibrationForm />} />
+                <Route path="report" element={<NReport />} />
+                <Route path="shiftSummary" element={<ShiftSummary />}/>
+              </Route>
             </Route>
 
             <Route path="/testing">
@@ -123,11 +131,13 @@ const RoutesComponent = () => {
             </Route>
 
             <Route path="/visual">
-              <Route index element={<VIShiftDetailsForm />} />
               <Route path="startDuty" element={<VIShiftDetailsForm />} />
-              <Route path="home" element={<Home />} />
-              <Route path="inspection" element={<VisualInspectionForm />} />
-              <Route path="summary" element={<VIShiftSummary />} />
+              <Route index element={<VIShiftDetailsForm />} />
+              <Route element={<VIPrivateRoute />}>
+                <Route path="home" element={<Home />} />
+                <Route path="inspection" element={<VisualInspectionForm />} />
+                <Route path="summary" element={<VIShiftSummary />} />
+              </Route>
             </Route>
 
             <Route path="/welding">
@@ -157,10 +167,13 @@ const RoutesComponent = () => {
             </Route>
 
             <Route path='/calibration'>
-              <Route index element={<CalibrationList />} />
-              <Route path='list' element={<CalibrationList />} />
-              <Route path='newModifyCalibration' element={<NewCalibrationForm />} />
-              <Route path='bulkCalibration' element={<BulkCalibrationForm  />} />
+              <Route index element={<CalShiftDetailsForm />} />
+              <Route path='startDuty' element={<CalShiftDetailsForm />} />
+              <Route element={<CalibrationPrivateRoute />}>
+                <Route path='list' element={<CalibrationList />} />
+                <Route path='newModifyCalibration' element={<NewCalibrationForm />} />
+                <Route path='bulkCalibration' element={<BulkCalibrationForm  />} />
+              </Route>
             </Route>
 
             {/* <Route path="/railDetails">

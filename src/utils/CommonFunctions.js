@@ -34,7 +34,6 @@ export const apiCall = async (method, url, token, payload = null) => {
   }
 };
 
-
   export const handleChange = (fieldName, value, setFormData) => {
     setFormData(prev => {
       return {
