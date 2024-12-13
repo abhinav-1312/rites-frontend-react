@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOngoingSmsDutyDtls } from './store/slice/smsDutySlice';
 import { getOngoingRollingDutyDtls } from './store/slice/rollingDutySlice';
+import { getOngoingViDutyDtls } from './store/slice/viDutySlice';
 
 axios.defaults.baseURL="http://localhost:8080"
 
@@ -15,9 +16,9 @@ function App() {
 
   useEffect(() => {
     if(token){
-      console.log("Token mc")
       dispatch(getOngoingSmsDutyDtls());
       dispatch(getOngoingRollingDutyDtls());
+      dispatch(getOngoingViDutyDtls());
     }
   }, [dispatch, token])
 

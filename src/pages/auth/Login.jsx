@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import FormContainer from '../../components/DKG_FormContainer'
 import { getOngoingSmsDutyDtls } from '../../store/slice/smsDutySlice'
 import { getOngoingRollingDutyDtls } from '../../store/slice/rollingDutySlice'
+import { getOngoingViDutyDtls } from '../../store/slice/viDutySlice'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -43,6 +44,7 @@ const Login = () => {
     try{
       await dispatch(getOngoingSmsDutyDtls()).unwrap();
       await dispatch(getOngoingRollingDutyDtls()).unwrap();
+      await dispatch(getOngoingViDutyDtls()).unwrap();
       navigate("/");
     }
     catch(error){

@@ -145,7 +145,8 @@ const SmsRecord = () => {
             />
           <Btn htmlType="submit" className="w-full">
             {" "}
-            Search{" "}
+            Search
+            {" "}
           </Btn>
           <Button className="flex gap-2 items-center border-darkBlue text-darkBlue" onClick={() => window.location.reload()}>
             <span>
