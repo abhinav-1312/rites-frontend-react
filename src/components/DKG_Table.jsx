@@ -149,16 +149,13 @@
 // export default TableComponent;
 
 
-import React, { useState } from "react";
-import { Table, Input, Button, Dropdown, Menu, Checkbox, Space } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, Input, Button, Dropdown, Menu, Checkbox, Divider } from "antd";
 import {
-  CloseCircleOutlined,
   DownOutlined,
   ExportOutlined,
 } from "@ant-design/icons";
 import * as XLSX from "xlsx";
-import CustomDatePicker from "./DKG_CustomDatePicker";
-import Btn from "./DKG_Btn";
 
 const TableComponent = ({ columns, dataSource }) => {
   const [hiddenColumns, setHiddenColumns] = useState([]);
@@ -207,39 +204,6 @@ const TableComponent = ({ columns, dataSource }) => {
   // Add search and filter capability to columns
   const enhancedColumns = columns
     .map((column) => {
-      // if (column.searchable) {
-      //   return {
-      //     ...column,
-      //     filterDropdown: ({ confirm }) => (
-      //       <div style={{ padding: 8 }}>
-      //         <Input
-      //           placeholder={`Search ${column.title}`}
-      //           value={searchText[column.key] || ""}
-      //           onChange={(e) => {
-      //             const value = e.target.value.toLowerCase();
-      //             setSearchText((prev) => ({ ...prev, [column.key]: value }));
-      //             setFilteredData(
-      //               dataSource.filter((row) =>
-      //                 row[column.dataIndex]
-      //                   ?.toString()
-      //                   ?.toLowerCase()
-      //                   .includes(value)
-      //               )
-      //             );
-      //             confirm();
-      //           }}
-      //           style={{ marginBottom: 8, display: "block" }}
-      //         />
-      //       </div>
-      //     ),
-      //     onFilter: (value, record) =>
-      //       record[column.dataIndex]
-      //         ?.toString()
-      //         ?.toLowerCase()
-      //         .includes(searchText[column.key] || ""),
-      //   };
-      // }
-
       if (column.searchable) {
         return {
           ...column,
@@ -312,21 +276,15 @@ const TableComponent = ({ columns, dataSource }) => {
     </Menu>
   );
 
+  useEffect(() => {
+    setFilteredData(dataSource)
+  }, [dataSource])
+
   return (
-    <div className="mt-4 border border-darkBlueHover p-2 py-4">
-      <div style={{ marginBottom: 16 }}>
-        <div className="grid md:grid-cols-4 grid-cols-2 gap-x-2">
-          <CustomDatePicker placeholder="From date" />
-          <CustomDatePicker placeholder="To date" />
-          <Btn className="w-full"> Search </Btn>
-          <Button className="flex gap-2 items-center border-darkBlue text-darkBlue">
-            <span>
-              <CloseCircleOutlined />
-            </span>
-            <span>Reset</span>
-          </Button>
-        </div>
-        <div className="flex justify-end gap-4 mt-4">
+    <>
+      <div>
+        <Divider className="m-0"/>
+        <div className="flex justify-end gap-4 my-4">
           <Dropdown
             overlay={columnOptions}
             trigger={["click"]}
@@ -353,7 +311,7 @@ const TableComponent = ({ columns, dataSource }) => {
         rowKey={(record) => record.id || record.key || JSON.stringify(record)}
         bordered
       />
-    </div>
+    </>
   );
 };
 

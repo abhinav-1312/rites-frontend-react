@@ -110,8 +110,13 @@ export const getOngoingRollingDutyDtls = createAsyncThunk(
     "rollingDuty/getOngoingRollingDutyDtls",
     async (_, {getState}) => {
         const {token} = getState().auth;
-        const {data} = await apiCall("GET", "/rolling/getOngoingDutyDtls", token);
-        return data?.responseData;
+        try{
+            const {data} = await apiCall("GET", "/rolling/getOngoingDutyDtls", token);
+            return data?.responseData;
+        }
+        catch(error){
+            
+        }
     }
 )
 

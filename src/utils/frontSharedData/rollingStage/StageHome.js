@@ -7,7 +7,7 @@ const stageHomeTabs = [
       link: "/stage/rollingControl"
     },
     {
-      title: 'URM Rolling Verification',
+      title: 'Rolling Verification',
       icon: <DashboardOutlined />,
       link: "/stage/rollingVerification"
     },

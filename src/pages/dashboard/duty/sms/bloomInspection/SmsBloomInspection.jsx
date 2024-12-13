@@ -63,8 +63,8 @@ const SmsBloomInspection = () => {
       );
       setFormData({
         castNo: data.responseData?.castNo,
-        noOfPrimeBlooms: data.responseData?.noOfPrimeBlooms,
-        noOfCoBlooms: data.responseData?.noOfCoBlooms,
+        noOfPrimeBlooms: data.responseData?.noOfPrimeBlooms || 0,
+        noOfCoBlooms: data.responseData?.noOfCoBlooms || 0,
       });
     } catch (error) {}
   };
@@ -99,6 +99,7 @@ const SmsBloomInspection = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
+            disabled
             required
           />
           <FormInputItem
@@ -107,6 +108,7 @@ const SmsBloomInspection = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
+            disabled
             required
           />
           <FormDropdownItem

@@ -5,6 +5,12 @@ import FormInputItem from "../../../../../../components/DKG_FormInputItem";
 import { useSelector } from "react-redux";
 import { apiCall } from "../../../../../../utils/CommonFunctions";
 import Btn from "../../../../../../components/DKG_Btn";
+import {
+  RG_1080HH,
+  RG_880,
+  RG_R260,
+  RG_R350HT,
+} from "../../../../../../utils/Constants";
 
 const AcceptanceTestSample = ({ railGrade, dutyId }) => {
   const [form] = Form.useForm();
@@ -27,17 +33,19 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
     tensileFoot: false,
     micro: false,
     decarb: false,
+    rsh: false,
+    tensile: false,
+    ph: false
   });
 
   const onFinish = async () => {
-    try{
-      await apiCall("POST", "rolling/saveAcceptanceTestSample", token, {...formData, dutyId})
-      message.success("Data saved successfully.")
-    }
-    catch(error){
-
-    }
-
+    try {
+      await apiCall("POST", "rolling/saveAcceptanceTestSample", token, {
+        ...formData,
+        dutyId,
+      });
+      message.success("Data saved successfully.");
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -76,77 +84,106 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
   const strandDd = [
     {
       key: 1,
-      value: 1
+      value: 1,
     },
     {
       key: 2,
-      value: 2
+      value: 2,
     },
     {
       key: 3,
-      value: 3
+      value: 3,
     },
     {
       key: 4,
-      value: 4
+      value: 4,
     },
     {
       key: 5,
-      value: 5
+      value: 5,
     },
     {
       key: 6,
-      value: 6
+      value: 6,
     },
-  ]
+  ];
 
-  const {token} = useSelector(state => state.auth)
+  const { token } = useSelector((state) => state.auth);
+
+  const [sampleIdRule, setSampleIdRule] = useState([]);
 
   const handleChange = (fieldName, value) => {
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
-  };
-  
-
-  const populateDtl = useCallback(async (payload) => {
-    try {
-      const {data} = await apiCall("POST", "/rolling/getHeatAcptTestDtls", token, payload);
-      if(data.responseData?.heatNo){
-        message.success("Test data present for provided details.")
-        setFormData(data.responseData);
+    if(fieldName === "sampleId"){
+      if((value !== "" || value !== null) && !value.startsWith("H")){
+        setSampleIdRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error("Sampe ID should start with H.")
+              ),
+          },
+        ]);
       }
       else{
-        message.error("Test data not present for provided details.")
+        setSampleIdRule([]);
       }
     }
-    catch(error){
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  };
 
-    }
-  }, [token]);
-
-  console.log("Formdata: ", formData)
+  const populateDtl = useCallback(
+    async (payload) => {
+      try {
+        const { data } = await apiCall(
+          "POST",
+          "/rolling/getHeatAcptTestDtls",
+          token,
+          payload
+        );
+        if (data.responseData?.heatNo) {
+          message.success("Test data present for provided details.");
+          setFormData(data.responseData);
+        } else {
+          message.error("Test data not present for provided details.");
+        }
+      } catch (error) {}
+    },
+    [token]
+  );
 
   useEffect(() => {
-    if(formData.heatNo && formData.sampleLot && formData.sampleType && formData.strand){
+    if (
+      formData.heatNo &&
+      formData.sampleLot &&
+      formData.sampleType &&
+      formData.strand
+    ) {
       const payload = {
         heatNo: formData.heatNo,
         sampleLot: formData.sampleLot,
         sampleType: formData.sampleType,
         strand: formData.strand,
-      }
-      if(railGrade === "880" || railGrade === "R260"){
+      };
+      if (railGrade === RG_880 || railGrade === RG_R260) {
         payload.sampleId = null;
-        setFormData(prev => ({...prev, sampleId: null}))
+        setFormData((prev) => ({ ...prev, sampleId: null }));
         populateDtl(payload);
-      }
-      else{
-        if(formData.sampleId){
-          payload.sampleId = formData.sampleId
+      } else {
+        if (formData.sampleId) {
+          payload.sampleId = formData.sampleId;
           populateDtl(payload);
         }
       }
-
     }
-  }, [formData.heatNo, formData.sampleId, formData.sampleLot, formData.sampleType, formData.strand, railGrade, populateDtl])
+  }, [
+    formData.heatNo,
+    formData.sampleId,
+    formData.sampleLot,
+    formData.sampleType,
+    formData.strand,
+    railGrade,
+    populateDtl,
+  ]);
 
   useEffect(() => {
     form.setFieldsValue(formData);
@@ -194,101 +231,136 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-x-4">
-        <FormInputItem label="Heat number" name="heatNo" onChange={handleChange} />
-        <FormInputItem label="Sample ID" name="sampleId" onChange={handleChange} disabled={railGrade === "880" || railGrade === "R260"} />
+        <FormInputItem
+          label="Heat number"
+          name="heatNo"
+          onChange={handleChange}
+        />
+        <FormInputItem
+          label="Sample ID"
+          name="sampleId"
+          rules={sampleIdRule}
+          onChange={handleChange}
+          disabled={railGrade === "880" || railGrade === "R260"}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-y-4">
+        <Checkbox
+          checked={formData.chemical || false}
+          onChange={(e) => handleChange("chemical", e.target.checked)}
+        >
+          Chemical
+        </Checkbox>
 
-      <Checkbox
-        checked={formData.chemical || false}
-        onChange={(e) => handleChange("chemical", e.target.checked)}
-      >
-        Chemical
-      </Checkbox>
+        <Checkbox
+          checked={formData.n2 || false}
+          onChange={(e) => handleChange("n2", e.target.checked)}
+        >
+          N2
+        </Checkbox>
 
-      <Checkbox
-        checked={formData.n2 || false}
-        onChange={(e) => handleChange("n2", e.target.checked)}
-      >
-        N2
-      </Checkbox>
-
-      <Checkbox
-        checked={formData.fwtSt || false}
-        onChange={(e) => handleChange("fwtSt", e.target.checked)}
-      >
-        FWT (St.)
-      </Checkbox>
-
-      <Checkbox
-        checked={formData.mechanical || false}
-        onChange={(e) => handleChange("mechanical", e.target.checked)}
-      >
-        Mechanical
-      </Checkbox>
-
-      <Checkbox
-        checked={formData.sp || false}
-        onChange={(e) => handleChange("sp", e.target.checked)}
-      >
-        SP
-      </Checkbox>
-
-      <Checkbox
-        checked={formData.ir || false}
-        onChange={(e) => handleChange("ir", e.target.checked)}
-      >
-        IR
-      </Checkbox>
-
-      <Checkbox
-        checked={formData.o2 || false}
-        onChange={(e) => handleChange("o2", e.target.checked)}
-      >
-        O2
-      </Checkbox>
-
-      <Checkbox
-        checked={formData.fwtHs || false}
-        onChange={(e) => handleChange("fwtHs", e.target.checked)}
-      >
-        FWT (HS)
-      </Checkbox>
-
+        <Checkbox
+          checked={formData.fwtSt || false}
+          onChange={(e) => handleChange("fwtSt", e.target.checked)}
+        >
+          FWT (St.)
+        </Checkbox>
       {
-        (railGrade === "880" || railGrade === "R260") && 
+        (railGrade === RG_880 || railGrade === RG_R260) && 
+        <Checkbox
+          checked={formData.mechanical || false}
+          onChange={(e) => handleChange("mechanical", e.target.checked)}
+        >
+          Mechanical
+        </Checkbox>
+      }
+
+        <Checkbox
+          checked={formData.sp || false}
+          onChange={(e) => handleChange("sp", e.target.checked)}
+        >
+          SP
+        </Checkbox>
+
+        <Checkbox
+          checked={formData.ir || false}
+          onChange={(e) => handleChange("ir", e.target.checked)}
+        >
+          IR
+        </Checkbox>
+
+        <Checkbox
+          checked={formData.o2 || false}
+          onChange={(e) => handleChange("o2", e.target.checked)}
+        >
+          O2
+        </Checkbox>
+
+        <Checkbox
+          checked={formData.fwtHs || false}
+          onChange={(e) => handleChange("fwtHs", e.target.checked)}
+        >
+          FWT (HS)
+        </Checkbox>
+
+        {(railGrade === RG_880 || railGrade === RG_R260) && (
           <Checkbox
             checked={formData.fwtStSr || false}
             onChange={(e) => handleChange("fwtStSr", e.target.checked)}
           >
             FWT (St.) - Sr
           </Checkbox>
-      }
+        )}
 
-      <Checkbox
-        checked={formData.tensileFoot || false}
-        onChange={(e) => handleChange("tensileFoot", e.target.checked)}
-      >
-        Tensile Foot
-      </Checkbox>
+        <Checkbox
+          checked={formData.tensileFoot || false}
+          onChange={(e) => handleChange("tensileFoot", e.target.checked)}
+        >
+          Tensile Foot
+        </Checkbox>
 
-      <Checkbox
-        checked={formData.micro || false}
-        onChange={(e) => handleChange("micro", e.target.checked)}
-      >
-        Micro
-      </Checkbox>
+        <Checkbox
+          checked={formData.micro || false}
+          onChange={(e) => handleChange("micro", e.target.checked)}
+        >
+          Micro
+        </Checkbox>
 
-      <Checkbox
-        checked={formData.decarb || false}
-        onChange={(e) => handleChange("decarb", e.target.checked)}
-      >
-        Decarb
-      </Checkbox>
+        <Checkbox
+          checked={formData.decarb || false}
+          onChange={(e) => handleChange("decarb", e.target.checked)}
+        >
+          Decarb
+        </Checkbox>
+        {(railGrade === RG_1080HH || railGrade === RG_R350HT) && (
+          <>
+            <Checkbox
+              checked={formData.rsh || false}
+              onChange={(e) => handleChange("rsh", e.target.checked)}
+            >
+              RSH
+            </Checkbox>
+            <Checkbox
+              checked={formData.tensile || false}
+              onChange={(e) => handleChange("tensile", e.target.checked)}
+            >
+              Tensile
+            </Checkbox>
+            <Checkbox
+              checked={formData.ph || false}
+              onChange={(e) => handleChange("ph", e.target.checked)}
+            >
+              PH
+            </Checkbox>
+          </>
+        )}
       </div>
 
-      <Btn htmlType="submit" className="flex mx-auto mt-4"> Save </Btn>
+      <Btn htmlType="submit" className="flex mx-auto mt-4">
+        {" "}
+        Save{" "}
+      </Btn>
     </Form>
   );
 };

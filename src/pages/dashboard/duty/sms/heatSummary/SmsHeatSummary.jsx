@@ -10,11 +10,24 @@ import Btn from "../../../../../components/DKG_Btn";
 import FormContainer from "../../../../../components/DKG_FormContainer";
 import { apiCall, checkAndConvertToFLoat, handleChange } from "../../../../../utils/CommonFunctions";
 import { useSelector } from "react-redux";
+import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
+
+const wvDropDown = [
+  {
+    key: "Witnessed",
+    value: "Witnessed",
+  },
+  {
+    key: "Verified",
+    value: "Verified",
+  },
+];
 
 const SmsHeatSummary = () => {
   const [newHeat, setNewHeat] = useState({
     heatNo: "",
     turnDownTemp: "",
+    turnDownTempWv: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTablePage, setCurrentTablePage] = useState(1);
@@ -22,6 +35,9 @@ const SmsHeatSummary = () => {
 
   const smsGeneralInfo = useSelector((state) => state.smsDuty);
   const { token } = useSelector((state) => state.auth);
+
+
+  console.log("NEW HEATL : ", newHeat)
 
   const [form] = Form.useForm();
 
@@ -129,6 +145,7 @@ const SmsHeatSummary = () => {
       const payload = {
         heatNo: newHeat.heatNo,
         turnDownTemp: checkFloatObj.number,
+        turnDownTempWv: newHeat.turnDownTempWv,
         dutyId: smsGeneralInfo.dutyId
       }
 
@@ -138,7 +155,8 @@ const SmsHeatSummary = () => {
         message.success("New heat added successfully.")
         setNewHeat({
           heatNo: "",
-          turnDownTemp: ""
+          turnDownTemp: "",
+          turnDownTempWv: ""
         })
         populateTableData();
       }
@@ -147,7 +165,61 @@ const SmsHeatSummary = () => {
       }
   };
 
+  const [heatRule, setHeatRule] = useState([]);
+  const [tempRule, setTempRule] = useState([]);
+
   const handleNewHeatValChange = (fieldName, value) => {
+    if (fieldName === "heatNo") {
+      const isValid = /^0\d{5}$/.test(value);
+
+      if (!isValid) {
+        setHeatRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Heat Number must start with 0, be 6 digits, and contain only numbers."
+                )
+              ),
+          },
+        ]);
+      } else {
+        setHeatRule([]); // Clear the rule on valid input
+      }
+    }
+
+    if(fieldName === "turnDownTemp"){
+      const isValid = /^\d+$/.test(value);
+
+      if(!isValid){
+        setTempRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Temperature must not contain decimal values."
+                )
+              ),
+          },
+        ]);
+      }
+      else if(isValid && parseInt(value) < 1630){
+        setTempRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Temperature must be greater than or equal to 1630."
+                )
+              ),
+          },
+        ]);
+      }
+      else{
+        setTempRule([])
+      }
+
+    }
     setNewHeat((prev) => {
       return {
         ...prev,
@@ -247,12 +319,12 @@ const SmsHeatSummary = () => {
             onClick={() => setIsModalOpen(true)}
           />
 
-          <IconBtn
+          {/* <IconBtn
             icon={PlusOutlined}
             text="add existing heat"
             className="absolute left-40 bottom-4"
             onClick={() => navigate("/sms/heatDtl")}
-          />
+          /> */}
         </div>
       </section>
 
@@ -362,8 +434,9 @@ const SmsHeatSummary = () => {
 
         <FormInputItem
           label="Enter Heat Number"
-          placeholder="734562"
+          placeholder="012345"
           name="heatNo"
+          rules={heatRule}
           // minLength={6}
           // maxLength={6}
           onChange={handleNewHeatValChange}
@@ -371,13 +444,25 @@ const SmsHeatSummary = () => {
           />
         <FormInputItem
           label="Turn Down Temperature"
-          placeholder="45.23"
+          placeholder="1630"
           // minLength={6}
           // maxLength={6}
           name="turnDownTemp"
           onChange={handleNewHeatValChange}
+          rules={tempRule}
           required
           />
+
+<FormDropdownItem
+            label="Witnessed / Verified"
+            name="turnDownTempWv"
+            formField="turnDownTempWv"
+            dropdownArray={wvDropDown}
+            visibleField="value"
+            valueField="key"
+            onChange={handleNewHeatValChange}
+            required
+            />
         <Btn htmlType="submit">Add</Btn>
           </Form>
       </Modal>

@@ -13,19 +13,28 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { apiCall, handleChange } from "../../../../../../utils/CommonFunctions";
 import FormSearchItem from "../../../../../../components/DKG_FormSearchItem";
+import {
+  DECARB,
+  MICRO,
+  PH,
+  TENSILE,
+  TENSILE_FOOT,
+} from "../../../../../../utils/Constants";
 
 const { bloomQualityList, htStatusList } = data;
 
 const HtSequence = () => {
-
   const handleRowClick = (record) => {
     setFormData({
       railId: record.railId,
       htStatus: record.htStatus,
+      htStatusDesc: record.htStatus ? "OK" : "NOT OK",
       bloomQuality: record.bloomQuality,
-      testMarked: record.testMarked
-    })
-  }
+      testSampleMarked: record.testMarked,
+    });
+
+    setIsModalOpen(true);
+  };
 
   const [form] = Form.useForm();
   const columns = [
@@ -61,10 +70,7 @@ const HtSequence = () => {
       title: "Actions",
       fixed: "right",
       render: (_, record) => (
-        <IconBtn
-          icon={EditOutlined}
-          onClick={() => handleRowClick(record)}
-        />
+        <IconBtn icon={EditOutlined} onClick={() => handleRowClick(record)} />
       ),
     },
   ];
@@ -73,7 +79,7 @@ const HtSequence = () => {
   const rollingGeneralInfo = useSelector((state) => state.rollingDuty);
   const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
   const [formData, setFormData] = useState({
     railId: null,
     bloomQuality: null,
@@ -81,6 +87,12 @@ const HtSequence = () => {
     htStatusDesc: null,
     testSampleMarked: null,
   });
+
+  const [tensileStatus, setTensileStatus] = useState(null);
+  const [tensileFootStatus, setTensileFootStatus] = useState(null);
+  const [phStatus, setPhStatus] = useState(null);
+  const [microStatus, setMicroStatus] = useState(null);
+  const [decarbStatus, setDecarbStatus] = useState(null);
 
   const [tableData, setTableData] = useState([]);
 
@@ -92,6 +104,57 @@ const HtSequence = () => {
         token
       );
       setTableData(data.responseData?.railIdDtlList || []);
+
+      const batch = data.responseData?.railIdDtlList;
+      const tensileBatchCount = batch.length % 128;
+      const phMicroBatchCount = batch.length % 12;
+      const decarbBatchCount = batch.length % 64;
+
+      let tensileStatus = false;
+      let tensileFootStatus = false;
+      let phStatus = false;
+      let microStatus = false;
+      let decarbStatus = false;
+
+      for (let i = 0; i < tensileBatchCount; i++) {
+        console.log("CALLEDDDDDDD")
+        const record = batch[i];
+        const { testMarked: testList = [] } = record;
+        if(!record.htStatus) continue;
+        tensileStatus =
+          testList.some((test) => test === TENSILE) || tensileStatus;
+        tensileFootStatus =
+          testList.some((test) => test === TENSILE_FOOT) || tensileFootStatus;
+
+        if (tensileStatus && tensileFootStatus) break;
+      }
+      for (let i = 0; i < phMicroBatchCount; i++) {
+        const record = batch[i];
+        const { testMarked: testList = [] } = record;
+
+        if(!record.htStatus) continue;
+
+        phStatus = testList.some((test) => test === PH) || phStatus;
+        microStatus = testList.some((test) => test === MICRO) || microStatus;
+
+        if (phStatus && microStatus) break;
+      }
+      for (let i = 0; i < decarbBatchCount; i++) {
+        const record = batch[i];
+        const { testMarked: testList = [] } = record;
+
+        if(!record.htStatus) continue;
+
+        decarbStatus = testList.some((test) => test === DECARB) || decarbStatus;
+
+        if (decarbStatus) break;
+      }
+
+      setTensileStatus(tensileStatus);
+      setTensileFootStatus(tensileFootStatus);
+      setPhStatus(phStatus);
+      setMicroStatus(microStatus);
+      setDecarbStatus(decarbStatus);
     } catch (error) {}
   }, [token]);
 
@@ -112,6 +175,7 @@ const HtSequence = () => {
     };
     try {
       await apiCall("POST", "/rolling/testing/saveRailDtls", token, payload);
+      setIsModalOpen(false);
       populateData();
     } catch (error) {}
   };
@@ -133,13 +197,13 @@ const HtSequence = () => {
   const saveHtSequence = async () => {
     if (checked) {
       try {
-        await apiCall("POST", "rolling/htSequence/saveBatch", {
+        await apiCall("POST", "rolling/htSequence/saveBatch", token, {
           dutyId: rollingGeneralInfo.dutyId,
         });
       } catch (error) {}
     }
 
-    navigate("/stage/home")
+    navigate("/stage/home");
   };
 
   useEffect(() => {
@@ -155,7 +219,32 @@ const HtSequence = () => {
       <SubHeader title="HT Sequence" link="/stage/home" />
       <GeneralInfo data={rollingGeneralInfo} />
 
-      <Divider className="mt-0 mb-0" />
+      <Divider className="my-0" />
+
+      <div>
+        <h3 className="font-semibold mb-2 !text-xl">
+          Batch sampling verification:
+        </h3>
+        <div className="flex flex-col gap-y-2">
+          <div className="ml-4">
+            <strong>Tensile (One Sample per 128 Rails): </strong> {tensileStatus ? "OK" : "NOT OK"}
+          </div>
+          <div className="ml-4">
+            <strong>Tensile Foot (One Sample per 128 Rails): </strong> {tensileFootStatus ? "OK" : "NOT OK"}
+          </div>
+          <div className="ml-4">
+            <strong>PH (One sample per 12 Rails): </strong> {phStatus ? "OK" : "NOT OK"}
+          </div>
+          <div className="ml-4">
+            <strong>Microstructure (One Sample per 12 Rails): </strong> {microStatus ? "OK" : "NOT OK"}
+          </div>
+          <div className="ml-4">
+            <strong>Decarb (One Sample per 64 Rails): </strong> {decarbStatus ? "OK" : "NOT OK"}
+          </div>
+        </div>
+      </div>
+
+      <Divider className="my-0" />
 
       <Checkbox
         checked={checked}
@@ -168,15 +257,18 @@ const HtSequence = () => {
         <Table dataSource={tableData} columns={columns} />
         <IconBtn
           icon={PlusOutlined}
-          text="add new rail"
+          text="add"
           className="absolute left-0 bottom-16"
           onClick={() => setIsModalOpen(true)}
         />
-        <Btn onClick={saveHtSequence} className="flex mx-auto"> Save </Btn>
+        <Btn onClick={saveHtSequence} className="flex mx-auto">
+          {" "}
+          Save{" "}
+        </Btn>
       </div>
       <Modal
         open={isModalOpen}
-        title="Add new Rail"
+        title="Add a new Rail"
         footer={null}
         onCancel={() => setIsModalOpen(false)}
       >

@@ -155,3 +155,11 @@ label{
 .search-input .ant-btn-primary{
   @apply !bg-darkBlue
 }
+
+.ant-dropdown-trigger.active, .ant-dropdown-trigger.active>*{
+  color:#E74C3C !important
+}
+
+.container{
+  @apply flex flex-col gap-4 md:gap-2 bg-white p-4 w-full md:w-4/5 mx-auto h-[100vh] md:h-fit;
+}

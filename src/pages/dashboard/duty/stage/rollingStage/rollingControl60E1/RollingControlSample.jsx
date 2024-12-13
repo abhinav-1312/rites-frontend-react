@@ -11,6 +11,7 @@ import Btn from "../../../../../../components/DKG_Btn";
 import { useSelector } from "react-redux";
 import { apiCall } from "../../../../../../utils/CommonFunctions";
 import dayjs from "dayjs";
+import { regexMatch } from "../../../../../../utils/Constants";
 
 const {
   sampleLocationList,
@@ -24,11 +25,10 @@ const {
 
 const RollingControlSample = () => {
   const location = useLocation();
-  const {state} = location;
+  const { state } = location;
 
-  const heatNo = state?.heatNo || null
-  const sampleNo = state?.sampleNo || null
-
+  const heatNo = state?.heatNo || null;
+  const sampleNo = state?.sampleNo || null;
 
   const [form] = Form.useForm();
 
@@ -54,7 +54,189 @@ const RollingControlSample = () => {
     remark: null,
   });
 
+  const [heightRule, setHeightRule] = useState([]);
+  const [flangeRule, setFlangeRule] = useState([]);
+  const [weightRule, setWeightRule] = useState([]);
+  const [webRule, setWebRule] = useState([]);
+
   const handleChange = (fieldName, value) => {
+    if (fieldName === "height") {
+      const isFloat = regexMatch.floatRegex.test(value);
+      if (!isFloat) {
+        console.log("HEIGHT IS NOT FLOAT: ", fieldName, value)
+        setHeightRule(
+          [
+          {
+            validator: (_, value) =>
+              Promise.reject(new Error("Value must be numeric.")),
+          },
+        ]
+      );
+      } else if (isFloat) {
+        console.log("FLOAT: ", value)
+        let floor = null;
+        let ceil = null;
+        if (railSection === "IRS 52") {
+          if (value < 155.6 || value > 156.8) {
+            floor = 155.6;
+            ceil = 156.8;
+          }
+        } else if (railSection === "60E1") {
+          if (value < 171.4 || value > 172.6) {
+            floor = 171.4;
+            ceil = 172.6;
+          }
+        } else if (railSection === "60E1A1") {
+          if (value < 133.3 || value > 134.7) {
+            floor = 133.3;
+            ceil = 134.7;
+          }
+        }
+
+        if (ceil && floor) {
+          setHeightRule([
+            {
+              validator: (_, value) =>
+                Promise.reject(
+                  new Error(`Value must be in the range of ${floor} - ${ceil}`)
+                ),
+            },
+          ]);
+        }
+        else {
+          setHeightRule([]);
+        }
+      } 
+    } else if (fieldName === "flange") {
+      const isFloat = regexMatch.floatRegex.test(value);
+      if (!isFloat) {
+        setFlangeRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(new Error("Value must be numeric.")),
+          },
+        ]);
+      } else {
+        let ceil = null;
+        let floor = null;
+        if (railSection === "60E1") {
+          if (value < 149.0 || value > 151.0) {
+            floor = 149.0;
+            ceil = 151.0;
+          }
+        } else if (railSection === "IRS 52") {
+          if (value < 135.0 || value > 137.0) {
+            floor = 135.0;
+            ceil = 137.0;
+          }
+        } else if (railSection === "60E1A1") {
+          if (value < 139.0 || value > 141.0) {
+            floor = 139.0;
+            ceil = 141.0;
+          }
+        }
+
+        if (ceil && floor) {
+          setFlangeRule([
+            {
+              validator: (_, value) =>
+                Promise.reject(
+                  new Error(`Value must be in the range of ${floor} - ${ceil}`)
+                ),
+            },
+          ]);
+        } else {
+          setFlangeRule([]);
+        }
+      }
+    } else if (fieldName === "weight") {
+      const isFloat = regexMatch.floatRegex.test(value);
+      if (!isFloat) {
+        setWeightRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(new Error("Value must be numeric.")),
+          },
+        ]);
+      } else {
+        let ceil = null;
+        let floor = null;
+
+        if (railSection === "IRS 52") {
+          if (value < 51.63055 || value > 52.66835) {
+            floor = 51.63055;
+            ceil = 52.66835;
+          }
+        } else if (railSection === "60E1") {
+          if (value < 51.63055 || value > 52.66835) {
+            floor = 51.63055;
+            ceil = 52.66835;
+          }
+        } else if (railSection === "60E1A1") {
+          if (value < 72.60515 || value > 74.06455) {
+            floor = 72.60515;
+            ceil = 74.06455;
+          }
+        }
+
+        if (floor && ceil) {
+          setWeightRule([
+            {
+              validator: (_, value) =>
+                Promise.reject(
+                  new Error(`Value must be in the range of ${floor} - ${ceil}`)
+                ),
+            },
+          ]);
+        } else {
+          setWeightRule([]);
+        }
+      }
+    } else if (fieldName === "web") {
+      const isFloat = regexMatch.floatRegex.test(value);
+      if(!isFloat){
+        setWebRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(new Error("Value must be numeric.")),
+          },
+        ]);
+      }
+      else {
+        let ceil = null;
+        let floor = null;
+
+        if (railSection === "IRS 52") {
+          if (value < 15.0 || value > 16.5) {
+            floor = 15.0;
+            ceil = 16.5;
+          }
+        } else if (railSection === "60E1") {
+          if (value < 16.0 || value > 17.5) {
+            floor = 16.0;
+            ceil = 17.5;
+          }
+        } else if (railSection === "60E1A1") {
+          if (value < 43.3 || value > 44.7) {
+            floor = 43.3;
+            ceil = 44.7;
+          }
+        }
+
+        if (floor && ceil) {
+          setWebRule([
+            {
+              validator: (_, value) =>
+                Promise.reject(
+                  new Error(`Value must be in the range of ${floor} - ${ceil}`)
+                ),
+            },
+          ]);
+        } else {
+          setWebRule([]);
+        }
+      }
+    }
     setFormData((prev) => {
       return {
         ...prev,
@@ -62,6 +244,8 @@ const RollingControlSample = () => {
       };
     });
   };
+
+  console.log("Formdata: ", formData.height)
 
   const handleFormSubmit = async () => {
     try {
@@ -73,36 +257,42 @@ const RollingControlSample = () => {
     } catch (error) {}
   };
 
-  const handleDtlSearch = useCallback(async (heatNo, sampleNo) => {
-    try {
-      const { data } = await apiCall(
-        "POST",
-        "/rolling/getControlSampleDtls",
-        token,
-        { heatNo, sampleNo }
-      );
+  // console.log("Height rule: ", heightRule);
+  // console.log("Flange rule: ", flangeRule);
 
-      const { responseData } = data;
+  const handleDtlSearch = useCallback(
+    async (heatNo, sampleNo) => {
+      try {
+        const { data } = await apiCall(
+          "POST",
+          "/rolling/getControlSampleDtls",
+          token,
+          { heatNo, sampleNo }
+        );
 
-      setFormData({
-        sampleNo: responseData?.sampleNo,
-        heatNo: responseData?.heatNo,
-        timing: responseData?.timing,
-        sampleLocation: responseData?.sampleLocation,
-        height: responseData?.height,
-        flange: responseData?.flange,
-        weight: responseData?.weight,
-        web: responseData?.web,
-        head: responseData?.head,
-        asy: responseData?.asy,
-        footToe: responseData?.footToe,
-        crownProfile: responseData?.crownProfile,
-        fishingHeight: responseData?.fishingHeight,
-        footFlatness: responseData?.footFlatness,
-        remark: responseData?.remark,
-      });
-    } catch (error) {}
-  }, [token]);
+        const { responseData } = data;
+
+        setFormData({
+          sampleNo: responseData?.sampleNo,
+          heatNo: responseData?.heatNo,
+          timing: responseData?.timing,
+          sampleLocation: responseData?.sampleLocation,
+          height: responseData?.height,
+          flange: responseData?.flange,
+          weight: responseData?.weight,
+          web: responseData?.web,
+          head: responseData?.head,
+          asy: responseData?.asy,
+          footToe: responseData?.footToe,
+          crownProfile: responseData?.crownProfile,
+          fishingHeight: responseData?.fishingHeight,
+          footFlatness: responseData?.footFlatness,
+          remark: responseData?.remark,
+        });
+      } catch (error) {}
+    },
+    [token]
+  );
 
   const handleTimingChange = (time, timeString) => {
     if (time) {
@@ -123,10 +313,10 @@ const RollingControlSample = () => {
   }, [formData, form, timingDayJs]);
 
   useEffect(() => {
-    if(heatNo && sampleNo){
+    if (heatNo && sampleNo) {
       handleDtlSearch(heatNo, sampleNo);
     }
-  }, [heatNo, sampleNo, handleDtlSearch])
+  }, [heatNo, sampleNo, handleDtlSearch]);
 
   return (
     <FormContainer>
@@ -186,20 +376,28 @@ const RollingControlSample = () => {
           <FormInputItem
             label="Height"
             name="height"
+            rules={heightRule}
             onChange={handleChange}
             required
           />
           <FormInputItem
             label="Flange"
             name="flange"
+            rules={flangeRule}
             onChange={handleChange}
             required
           />
 
-          <FormInputItem label="Weight" name="weight" onChange={handleChange} />
+          <FormInputItem
+            label="Weight"
+            name="weight"
+            onChange={handleChange}
+            rules={weightRule}
+          />
           <FormInputItem
             label="Web (mm)"
             name="web"
+            rules={webRule}
             onChange={handleChange}
             required
           />
