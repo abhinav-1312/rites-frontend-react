@@ -58,7 +58,6 @@ const rollingDutySlice = createSlice({
             state.error = null;
         })
         .addCase(getOngoingRollingDutyDtls.fulfilled, (state, action) => {
-            console.log("Calledddddd")
             state.loading = false;
             const {payload} = action;
             state.date = payload?.date;

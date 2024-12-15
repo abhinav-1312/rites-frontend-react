@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { handleChange } from "../../../../../utils/CommonFunctions";
 import { endNdtDuty } from '../../../../../store/slice/ndtDutySlice';
+import { ExperimentOutlined }from '@ant-design/icons';
 
 // const { ndtGeneralInfo } = data;
 
@@ -28,7 +29,19 @@ const Home = () => {
 
     const ndtGeneralInfo = useSelector(state => state.ndtDuty);
 
-    console.log(ndtGeneralInfo)
+    const testSampleMarkingTab = {
+        title: 'Testing Sample Marking',
+        icon: <ExperimentOutlined />,
+        link: "/stage/testSampleMarkingList",
+        state: {
+            state: {
+                module: 'ndt',
+                dutyId: ndtGeneralInfo.dutyId,
+                generalInfo: ndtGeneralInfo,
+                redirectTo: "/ndt/home"
+            }
+        }
+    }
 
   return (
     <FormContainer>
@@ -36,7 +49,7 @@ const Home = () => {
         <GeneralInfo data={ndtGeneralInfo} />
 
         <section className="mt-6">
-            <TabList tabList={ndtHomeTabs} />
+            <TabList tabList={[...ndtHomeTabs, testSampleMarkingTab]} />
         </section>
 
         <Divider className="mt-2 mb-0" />

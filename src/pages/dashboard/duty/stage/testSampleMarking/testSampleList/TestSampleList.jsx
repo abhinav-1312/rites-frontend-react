@@ -70,7 +70,7 @@ const TestSampleList = () => {
   
   return (
     <FormContainer>
-      <SubHeader title='Test Sample - Declaration' link='/stage/home' />
+      <SubHeader title='Test Sample - Declaration' link={state?.redirectTo} />
       <GeneralInfo data={state?.generalInfo} />
 
       <Divider>Rail Test Sample Record</Divider>

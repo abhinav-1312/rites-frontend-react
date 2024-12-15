@@ -13,10 +13,27 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { handleChange } from "../../../../../utils/CommonFunctions";
 import { endViDuty } from "../../../../../store/slice/viDutySlice";
+import { ExperimentOutlined }from '@ant-design/icons';
 
 const Home = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const viGeneralInfo = useSelector(state => state.viDuty);
+
+    const testSampleMarkingTab = {
+        title: 'Testing Sample Marking',
+        icon: <ExperimentOutlined />,
+        link: "/stage/testSampleMarkingList",
+        state: {
+            state: {
+                module: 'vi',
+                dutyId: viGeneralInfo.dutyId,
+                generalInfo: viGeneralInfo,
+                redirectTo: "/visual/home"
+            }
+        }
+    }
 
     const [formData, setFormData] = useState({
         shiftRemarks: null,
@@ -31,15 +48,13 @@ const Home = () => {
         catch(error){}
     }
 
-    const viGeneralInfo = useSelector(state => state.viDuty);
-
   return (
     <FormContainer>
         <SubHeader title="Visual - Home" link="/" />
         <GeneralInfo data={viGeneralInfo} />
 
         <section className="mt-6">
-            <TabList tabList={visualHomeTabs} />
+            <TabList tabList={[...visualHomeTabs, testSampleMarkingTab]} />
         </section>
 
         <Divider className="mt-0 mb-0" />

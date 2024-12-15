@@ -11,11 +11,11 @@ const visualHomeTabs = [
       icon: <FileSearchOutlined />,
       link: "/visual/summary"
     },
-    {
-      title: 'Test Sample Marking',
-      icon: <PieChartOutlined />,
-      link: "/stage/testSampleMarkingList"
-    },
+    // {
+    //   title: 'Test Sample Marking',
+    //   icon: <PieChartOutlined />,
+    //   link: "/stage/testSampleMarkingList"
+    // },
 ]
 
 export default visualHomeTabs;

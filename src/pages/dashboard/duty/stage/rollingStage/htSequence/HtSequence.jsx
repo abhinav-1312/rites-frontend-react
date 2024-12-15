@@ -117,7 +117,6 @@ const HtSequence = () => {
       let decarbStatus = false;
 
       for (let i = 0; i < tensileBatchCount; i++) {
-        console.log("CALLEDDDDDDD")
         const record = batch[i];
         const { testMarked: testList = [] } = record;
         if(!record.htStatus) continue;

@@ -16,11 +16,11 @@ const ndtHomeTabs = [
     //   icon: <PieChartOutlined />,
     //   link: "/ndt/report"
     // },
-    {
-        title: 'Test Sample Marking',
-        icon: <ExperimentOutlined />,
-        link: "/stage/testSampleMarkingList"
-    },
+    // {
+    //     title: 'Test Sample Marking',
+    //     icon: <ExperimentOutlined />,
+    //     link: "/stage/testSampleMarkingList"
+    // },
 ]
 
 export default ndtHomeTabs;

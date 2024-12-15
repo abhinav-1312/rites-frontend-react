@@ -34,7 +34,8 @@ const Home = () => {
             state: {
                 module: 'rolling',
                 dutyId: rollingGeneralInfo.dutyId,
-                generalInfo: rollingGeneralInfo
+                generalInfo: rollingGeneralInfo,
+                redirectTo: "/stage/home"
             }
         }
     }
