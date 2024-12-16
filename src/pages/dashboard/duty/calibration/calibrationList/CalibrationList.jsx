@@ -2,11 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import FormContainer from '../../../../../components/DKG_FormContainer'
 import SubHeader from '../../../../../components/DKG_SubHeader'
 import data from "../../../../../utils/frontSharedData/calibration/calibration.json";
-import FormBody from '../../../../../components/DKG_FormBody';
-import FormDropdownItem from '../../../../../components/DKG_FormDropdownItem';
-import CustomDatePicker from "../../../../../components/DKG_CustomDatePicker"
-import Search from "../../../../../components/DKG_Search"
-import { Divider, Table, Modal, Form, Input, Button, Dropdown, Menu, Checkbox, Space } from 'antd';
+import { Divider, Modal, Form } from 'antd';
 import Btn from "../../../../../components/DKG_Btn"
 import { useNavigate } from 'react-router-dom';
 import { FilterFilled, EditOutlined } from '@ant-design/icons';
@@ -18,7 +14,7 @@ import { apiCall } from "../../../../../utils/CommonFunctions";
 import GeneralInfo from '../../../../../components/DKG_GeneralInfo';
 import TableComponent from '../../../../../components/DKG_Table';
 
-const { instrumentMapping: sampleData, railSectionList, reportInfo } = data;
+const { instrumentMapping: sampleData } = data;
 
 const CalibrationList = () => {
   const [form] = Form.useForm();
@@ -27,15 +23,8 @@ const CalibrationList = () => {
   const [instrumentList, setInstrumentList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false)
   const navigate = useNavigate();
-  const datasource = [
-    {
 
-    }
-  ]
-
-  const [formData, setFormData] = useState({
-    instrumentCategory: null, instrument: null,  instrumentDetail: null, railSection: null, serialNumber: null, calibrationDate: null, calibrationUptoDate: null, calibrationList: [],
-  })
+  const [formData, setFormData] = useState([])
 
   const calibrationGeneralInfo = useSelector((state) => state.calibrationDuty);
   console.log(calibrationGeneralInfo);
@@ -59,18 +48,7 @@ const CalibrationList = () => {
       );
       const { responseData } = data;
 
-      setFormData({
-        instrumentCategory: responseData?.instrumentCategory,
-        instrument: responseData?.instrument,
-        instrumentDetail: responseData?.instrumentDetail,
-        railSection: responseData?.railSection,
-        serialNumber: responseData?.serialNumber,
-        calibrationDate: responseData?.calibrationDate,
-        calibrationUptoDate: responseData?.calibrationUptoDate,
-        calibrationList: responseData?.calibrationList?.map(
-          (record) => record
-        ),
-      });
+      setFormData(responseData || [])
     } catch (error) {}
   }, [token, calibrationGeneralInfo.dutyId]);
 
@@ -149,22 +127,22 @@ const CalibrationList = () => {
     },
     {
         title: "Serial Number",
-        dataIndex: "sNumber",
-        key: "sNumber",
+        dataIndex: "serialNumber",
+        key: "serialNumber",
         align: "center",
         searchable: true
     },
-    {
-        title: "Gauge Status",
-        dataIndex: "gaugeStatus",
-        key: "gaugeStatus",
-        align: "center",
-        filterable: true
-    },
+    // {
+    //     title: "Gauge Status",
+    //     dataIndex: "gaugeStatus",
+    //     key: "gaugeStatus",
+    //     align: "center",
+    //     filterable: true
+    // },
     {
         title: "Calibration Due Date",
-        dataIndex: "dueDate",
-        key: "dueDate",
+        dataIndex: "calibrationValidUpto",
+        key: "calibrationValidUpto",
         align: "center",
         filterable: true
     },
@@ -174,7 +152,13 @@ const CalibrationList = () => {
       render: (_, record) => (
         <IconBtn 
           icon={EditOutlined} 
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => navigate("/calibration/newModifyCalibration", 
+            {
+              state: {
+                serialNumber: record.serialNumber
+              }
+            }
+          )}
         />
       ),
     },
@@ -185,49 +169,7 @@ const CalibrationList = () => {
       <SubHeader title="Calibration - List" link="/" />
       <GeneralInfo data={calibrationGeneralInfo} />
 
-      {/* <Table
-        columns={columns}
-        dataSource={formData.calibrationList}
-        scroll={{ x: true }}
-        bordered
-        pagination={{
-            pageSize: 5,
-            showSizeChanger: true,
-            pageSizeOptions: ['5', '10', '20'],
-        }}
-      /> */}
-
-      <TableComponent dataSource={datasource} columns={columns} />
-
-      {/* <FormBody initialValues={formData}>
-        <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
-          <div className='flex items-center gap-x-2'>
-            <FilterFilled />
-            <FormDropdownItem label='Instrument Category' name='instrumentCategory' formField='instrumentCategory' dropdownArray={instrumentCategoryList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' required />
-          </div>
-
-          <div className='flex items-center gap-x-2'>
-            <FilterFilled />         
-            <FormDropdownItem label ='Instrument' name='instrument' formField='instrument' dropdownArray={instrumentList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required />
-          </div>
-        </div>
-
-        <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
-          {
-            (formData.instrumentCategory === 'Gauge (Working)' || formData.instrumentCategory === 'Gauge (Master)') && 
-              <div className='flex items-center gap-x-2'>
-                <FilterFilled />
-                  <FormDropdownItem label='Rail Section' name='railSection' formField='railSection' dropdownArray={railSectionList} visibleField='value' valueField='key' onChange={handleChange} className='w-full' required />
-              </div>
-          }
-
-          <CustomDatePicker label='Calibration Valid upto Date' name='calibrationUptoDate' formField='calibrationUptoDate' value={formData?.calibrationUptoDate} onChange={handleChange} required />
-        </div>
-
-        <div className='flex justify-center mt-2'>
-          <Search placeholder='Search by S. No.' />
-        </div>
-      </FormBody> */}
+      <TableComponent dataSource={formData} columns={columns} />
 
       <Divider className='mt-0 mb-2' />
 
@@ -243,8 +185,6 @@ const CalibrationList = () => {
 
       <Divider className='mt-0 mb-2' />
 
-      
-      
       <div className='flex justify-center'>
         <Btn onClick={handleClickTer}>End Duty</Btn>
       </div>

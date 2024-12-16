@@ -3,7 +3,7 @@ import FormContainer from '../../../../../components/DKG_FormContainer'
 import SubHeader from '../../../../../components/DKG_SubHeader'
 import GeneralInfo from '../../../../../components/DKG_GeneralInfo'
 import data from "../../../../../utils/frontSharedData/calibration/calibration.json";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { message, Form } from 'antd'
 import FormDropdownItem from '../../../../../components/DKG_FormDropdownItem';
 import FormInputItem from '../../../../../components/DKG_FormInputItem';
@@ -12,12 +12,21 @@ import Btn from '../../../../../components/DKG_Btn';
 import { apiCall, handleChange } from '../../../../../utils/CommonFunctions';
 import { useSelector } from 'react-redux';
 import dayjs from "dayjs";
+import FormSearchItem from '../../../../../components/DKG_FormSearchItem';
 
 const { instrumentMapping: sampleData, railSectionList, calResultList } = data;
 const currentDate = dayjs();
 const dateFormat = "DD/MM/YYYY";
 
 const NewCalibrationForm = () => {
+
+  const location = useLocation();
+
+  const serialNumber = location.state?.serialNumber || null;
+
+  console.log("SERIAL NUMER: ", serialNumber)
+
+  
   const [instrumentCategoryList, setInstrumentCategoryList] = useState([])
   const [instrumentList, setInstrumentList] = useState([]);
   const navigate = useNavigate();
@@ -91,8 +100,10 @@ const NewCalibrationForm = () => {
   }, [token, formData.serialNumber])
 
   useEffect(()=> {
-    populateInfo()
-  }, [populateInfo])
+    if(serialNumber){
+      populateInfo(serialNumber)
+    }
+  }, [populateInfo, serialNumber])
 
   useEffect(() => {
     form.setFieldsValue(formData);
@@ -118,7 +129,15 @@ const NewCalibrationForm = () => {
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
-          <FormInputItem label='Serial Number' name='serialNumber' placeholder='Enter S. No.' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
+
+        <FormSearchItem
+            label="Serial Number"
+            name="serialNumber"
+            onSearch={populateInfo}
+            onChange={(fieldName, value) =>
+              handleChange(fieldName, value, setFormData)
+            }
+          />
           <CustomDatePicker label="Calibration Date" name="calibrationDate" defaultValue={formData?.calibrationDate} onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
         </div>
 
