@@ -6,7 +6,7 @@ import GeneralInfo from '../../../../../../components/DKG_GeneralInfo';
 import { Divider, Table, message } from 'antd';
 import IconBtn from '../../../../../../components/DKG_IconBtn';
 import Btn from '../../../../../../components/DKG_Btn';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { EditOutlined } from '@ant-design/icons';
 
 const { testSampleTableData } = data;
@@ -67,6 +67,11 @@ const TestSampleList = () => {
       ),
     },
   ];
+
+  if(!state || !state.dutyId){
+    message.error("Reach the page from an ongoing duty in a module.")
+    return <Navigate to="/" />
+  }
   
   return (
     <FormContainer>

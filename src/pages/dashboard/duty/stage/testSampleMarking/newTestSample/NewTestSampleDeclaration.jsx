@@ -4,7 +4,7 @@ import SubHeader from "../../../../../../components/DKG_SubHeader";
 import data from "../../../../../../utils/frontSharedData/testSampleDec/testSampleDec.json";
 import GeneralInfo from "../../../../../../components/DKG_GeneralInfo";
 import FormBody from "../../../../../../components/DKG_FormBody";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { message, Form } from "antd";
 import FormDropdownItem from "../../../../../../components/DKG_FormDropdownItem";
 import AcceptanceTestSample from "../acceptanceTestSample.jsx/AcceptanceTestSample";

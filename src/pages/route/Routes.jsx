@@ -105,9 +105,9 @@ const RoutesComponent = () => {
                 <Route path="rollingVerification" element={<RollingVerification />} />
                 <Route path="finishingVerification" element={<FinishingVerification />} />
                 <Route path="htSequence" element={<HtSequence />} />
+              </Route>
                 <Route path="testSampleMarkingList" element={<TestSampleList />} />
                 <Route path="newTestSampleDeclaration" element={<NewTestSampleDeclaration />} />
-              </Route>
             </Route>
 
             <Route path="/ndt">
