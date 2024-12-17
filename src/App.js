@@ -10,6 +10,8 @@ import { getOngoingCalibrationDutyDtls } from './store/slice/calibrationDutySlic
 
 axios.defaults.baseURL="http://localhost:8080"
 
+// console.log("accd")
+
 function App() {
   const dispatch = useDispatch();
   const {token} = useSelector(state => state.auth);
