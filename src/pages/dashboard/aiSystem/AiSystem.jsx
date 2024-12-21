@@ -302,6 +302,9 @@ const AiSystem = () => {
 
   const populateData = async () => {
     let payload;
+    let arr1;
+    let arr2;
+    let combinedArr;
   
     if (timePeriod === 'shift') {
       payload = {
@@ -336,9 +339,8 @@ const AiSystem = () => {
         token,
         payload
       );
-      setDataSource(data?.responseData.filter(
-        (item, index, self) => index === self.findIndex(el => el.railId === item.railId)
-      ));
+
+      arr1 = data?.responseData;
     } catch (error) {
       console.error("Error fetching data:", error, payload);
     }
@@ -350,15 +352,16 @@ const AiSystem = () => {
         token,
         payload
       );
-      setDataSource(data?.responseData.filter(
-        (item, index, self) => index === self.findIndex(el => el.railId === item.railId)
-      ));
+
+      arr2 = data?.responseData;
     } catch (error) {
       console.error("Error fetching data:", error, payload);
     }
+
+    combinedArr = [...arr1, ...arr2];
+    setDataSource(Array.from(new Map(combinedArr.map(item => [item.railId, item])).values()));
   };
   
-
   return (
     <>
       <Form initialValues={{ timePeriod, startDate, weekStartDate, weekEndDate, monthStartDate, monthEndDate, yearStartDate, yearEndDate, inspectionShift}} form={form} layout='vertical' onFinish={populateData}>
