@@ -11,7 +11,41 @@ import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import Btn from "../../../../../components/DKG_Btn";
 import { useNavigate } from 'react-router-dom'
 
+
 const { weldingInspectionGeneralInfo, weldingData, weldingColumns } = data;
+
+const machineWiseCountColumns = [
+  {
+    title: 'Machine No.',
+    dataIndex: 'machineNo',
+    key: 'machineNo',
+    align: 'center',
+  },
+  {
+    title: "TLT",
+    dataIndex: 'tltCount',
+    key: 'tltCount',
+    align: 'center',
+  },
+  {
+    title:"Hardness",
+    dataIndex: 'hardnessCount',
+    key: 'hardnessCount',
+    align: 'center',
+  },
+  {
+    title: 'Micro',
+    dataIndex: 'microCount',
+    key: 'microCount',
+    align: 'center',
+  },
+  {
+    title: 'Macro',
+    dataIndex: 'macroCount',
+    key: 'macroCount',
+    align: 'center',
+  }
+]
 
 const WeldingHome = () => {
     const navigate = useNavigate();

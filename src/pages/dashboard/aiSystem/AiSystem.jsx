@@ -107,9 +107,13 @@ const AiSystem = () => {
   const [shift, setShift] = useState('')
   const navigate = useNavigate();
 
-  const handleShiftChange = (_, value) => {
-    setShiftDate(value);
-    setShift(value);
+  const handleShiftChange = (fieldName, value) => {
+    if (fieldName === 'shiftDate') {
+      setShiftDate(value)
+    } else {
+      setShift(value)
+    }
+
   }
 
   const handleWeekEndChange = (_, value) => {

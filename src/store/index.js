@@ -7,12 +7,13 @@ import rollingDutySlice from './slice/rollingDutySlice';
 import calibrationDutySlice from './slice/calibrationDutySlice'; 
 import ndtDutySlice from './slice/ndtDutySlice';
 import viDutySlice from './slice/viDutySlice';
+import weldingDutySlice from './slice/weldingDutySlice';
 
 const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
-	whitelist: ['auth', 'smsDuty', 'rollingDuty', 'calibrationDuty', 'ndtDuty', 'viDuty'],
+	whitelist: ['auth', 'smsDuty', 'rollingDuty', 'calibrationDuty', 'ndtDuty', 'viDuty', 'weldingDuty'],
 };
 
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   calibrationDuty: calibrationDutySlice,
   ndtDuty: ndtDutySlice,
   viDuty: viDutySlice,
+  weldingDuty: weldingDutySlice
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

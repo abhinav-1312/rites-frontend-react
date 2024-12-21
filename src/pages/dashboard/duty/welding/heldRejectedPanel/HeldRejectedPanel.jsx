@@ -14,6 +14,9 @@ import { Divider } from 'antd';
 import IconBtn from '../../../../../components/DKG_IconBtn';
 import { useNavigate } from "react-router-dom";
 import Btn from '../../../../../components/DKG_Btn';
+import { apiCall } from '../../../../../utils/CommonFunctions';
+import { useSelector } from 'react-redux';
+import TableComponent from '../../../../../components/DKG_Table';
 
 const { weldingInspectionGeneralInfo, railGradeDropdownList, railSectionList, heldRejectedPanelTableData } = data;
 
@@ -35,8 +38,17 @@ const HeldRejectedPanel = () => {
     railSection: '', railGrade: ''
   })
 
-  const populateTableData = useCallback(() => {
-    setTableData([...heldRejectedPanelTableData]);
+  const {token} = useSelector(state => state.auth)
+  const weldingGeneralInfo = useSelector(state => state.weldingDuty);
+
+  const populateTableData = useCallback( async () => {
+    // setTableData([...heldRejectedPanelTableData]);
+
+    try{
+      const {data} = await apiCall("GET", "/welding/getRefinishHoldingWeldingDtls", token)
+      setTableData(data?.responseData || []) 
+    }
+    catch(error){}
   }, []);
 
   useEffect(() => {
@@ -57,9 +69,8 @@ const HeldRejectedPanel = () => {
     setCurrentTablePage(1); // Reset to first page when page size changes
   };
 
-  const handleRowClick = (heatNo) => {
-    message.success(heatNo);
-    navigate('/welding/newWeldInspection')
+  const handleRowClick = (id) => {
+    navigate('/welding/newWeldInspection', { state: {id}})
   };
 
   const handleClick = () => {
@@ -69,39 +80,45 @@ const HeldRejectedPanel = () => {
   const columns = [
     {
       title: "Date of Inspection",
-      dataIndex: "dateInspection",
-      key: "dateInspection",
-      align: "center"
+      dataIndex: "date",
+      key: "date",
+      align: "center",
+      filterable: true
     },
     {
       title: "Shift",
       dataIndex: "shift",
       key: "shift",
-      align: "center"
+      align: "center",
+      filterable: true
     },
     {
       title: "Panel ID",
-      dataIndex: "panelID",
+      dataIndex: "panelId",
       key: "panelID",
-      align: "center"
+      align: "center",
+      filterable: true
     },
     {
       title: "Rail ID1",
-      dataIndex: "railID1",
+      dataIndex: "railId1",
       key: "railID1",
-      align: "center"
+      align: "center",
+      filterable: true
     },
     {
       title: "Rail ID2",
-      dataIndex: "railID2",
+      dataIndex: "railId2",
       key: "railID2",
-      align: "center"
+      align: "center",
+      filterable: true
     },
     {
       title: "Status",
-      dataIndex: "status",
-      key: "status",
-      align: "center"
+      dataIndex: "panelDecision",
+      key: "panelDecision",
+      align: "center",
+      filterable: true
     },
     {
       title: "Edit",
@@ -110,7 +127,7 @@ const HeldRejectedPanel = () => {
       render: (_, record) => (
         <IconBtn
           icon={EditOutlined}
-          onClick={() => handleRowClick(record.heatNo)}
+          onClick={() => handleRowClick(record.inspectionMasterId)}
         />
       ),
     },
@@ -130,10 +147,10 @@ const HeldRejectedPanel = () => {
   return (
     <FormContainer>
       <SubHeader title="Held or Rejected Weld Panel Inspection" link="/welding/home" />
-      <GeneralInfo data={weldingInspectionGeneralInfo} />
+      <GeneralInfo data={weldingGeneralInfo}/>
 
       <FormBody initialValues={formData}>
-        <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
+        {/* <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
           <div className='flex items-center gap-x-2'>
             <FilterFilled />
             <FormDropdownItem label='Rail Grade' name='railGrade' dropdownArray={railGradeDropdownList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' />
@@ -163,23 +180,13 @@ const HeldRejectedPanel = () => {
           <h1 className='font-semibold sm:mt-4'>Weld Joint Inspection Date: </h1>
           <CustomDatePicker label='From' name='weldStartDate' value={weldStartDate} onChange={handleWeldEndChange} />
           <CustomDatePicker label='To' name='weldEndDate' value={weldEndDate} />
-        </div>
+        </div> */}
 
-        <Divider className='mt-0 mb-4' />
-
-        <Table
+        <TableComponent
           columns={columns}
           dataSource={tableData}
-          scroll={{ x: true }}
-          bordered
-          pagination={{
-            current: currentTablePage,
-            pageSize: tablePageSize,
-            showSizeChanger: true,
-            pageSizeOptions: ["10", "15", "20"],
-            onChange: (page) => setCurrentTablePage(page),
-            onShowSizeChange: (current, size) => handlePageSizeChange(size),
-          }}
+          hideExport
+          hideManageColumns
         />
       </FormBody>
 

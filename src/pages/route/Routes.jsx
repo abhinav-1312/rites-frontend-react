@@ -23,28 +23,28 @@ import NDTHome from "../dashboard/duty/ndt/home/Home";
 import NCalibrationForm from "../dashboard/duty/ndt/calibration/NCalibrationForm";
 import NReport from "../dashboard/duty/ndt/report/NReport";
 import SmsDutyStartForm from "../dashboard/duty/sms/startDuty/SmsDutyStartForm";
-import CalibrationList from '../dashboard/duty/calibration/calibrationList/CalibrationList';
-import NewCalibrationForm from '../dashboard/duty/calibration/newCalibration/NewCalibrationForm';
-import BulkCalibrationForm from '../dashboard/duty/calibration/bulkCalibration/BulkCalibrationForm';
-import QctSampleList from '../dashboard/duty/qct/qctSampleList/QctSampleList';
-import QctSampleDeclarationForm from '../dashboard/duty/qct/newSampleDeclaration/QctSampleDeclarationForm';
-import SrInspectionHome from '../dashboard/duty/srInspection/srInspectionHome/SrInspectionHome';
-import SrNewInspectionForm from '../dashboard/duty/srInspection/srNewInspection/SrNewInspectionForm';
-import WsRemarks from '../dashboard/duty/srInspection/wsRemarks/WsRemarks';
-import TestSampleList from '../dashboard/duty/stage/testSampleMarking/testSampleList/TestSampleList';
+import CalibrationList from "../dashboard/duty/calibration/calibrationList/CalibrationList";
+import NewCalibrationForm from "../dashboard/duty/calibration/newCalibration/NewCalibrationForm";
+import BulkCalibrationForm from "../dashboard/duty/calibration/bulkCalibration/BulkCalibrationForm";
+import QctSampleList from "../dashboard/duty/qct/qctSampleList/QctSampleList";
+import QctSampleDeclarationForm from "../dashboard/duty/qct/newSampleDeclaration/QctSampleDeclarationForm";
+import SrInspectionHome from "../dashboard/duty/srInspection/srInspectionHome/SrInspectionHome";
+import SrNewInspectionForm from "../dashboard/duty/srInspection/srNewInspection/SrNewInspectionForm";
+import WsRemarks from "../dashboard/duty/srInspection/wsRemarks/WsRemarks";
+import TestSampleList from "../dashboard/duty/stage/testSampleMarking/testSampleList/TestSampleList";
 import NewTestSampleDeclaration from "../dashboard/duty/stage/testSampleMarking/newTestSample/NewTestSampleDeclaration";
 import RollingControlForm from "../dashboard/duty/stage/rollingStage/rollingControl/RollingControlForm";
 import HtSequence from "../dashboard/duty/stage/rollingStage/htSequence/HtSequence";
 import WeldingStartDutyForm from "../dashboard/duty/welding/startDuty/WeldingStartDutyForm";
 import WeldingHome from "../dashboard/duty/welding/home/WeldingHome";
 import NewWeldInspection from "../dashboard/duty/welding/newWeld/NewWeldInspection";
-import HeldRejectedPanel from '../dashboard/duty/welding/heldRejectedPanel/HeldRejectedPanel';
-import WeldingSummary from '../dashboard/duty/welding/shiftSummary/WeldingSummary';
+import HeldRejectedPanel from "../dashboard/duty/welding/heldRejectedPanel/HeldRejectedPanel";
+import WeldingSummary from "../dashboard/duty/welding/shiftSummary/WeldingSummary";
 import WeldTestSample from "../dashboard/duty/welding/testSample/WeldTestSample";
 import TLTTestDetails from "../dashboard/duty/welding/TLTTestDetails/TLTTestDetails";
 import HardnessTestDetails from "../dashboard/duty/welding/HardnessTestDetails/HardnessTestDetails";
 import MicroTestDetails from "../dashboard/duty/welding/MicroTestDetails/MicroTestDetails";
-import MacroTestDetails from '../dashboard/duty/welding/MacroTestDetails/MacroTestDetails';
+import MacroTestDetails from "../dashboard/duty/welding/MacroTestDetails/MacroTestDetails";
 import TestingHome from "../dashboard/duty/testing/testHome/TestingHome";
 import PendingTestSamples from "../dashboard/duty/testing/pendingTestSamples/PendingTestSamples";
 import TestingReport from "../dashboard/duty/testing/shiftTestingReport/TestingReport";
@@ -60,11 +60,12 @@ import SmsRecord from "../dashboard/records/SmsRecord";
 import SmsRecordMain from "../dashboard/records/SmsRecordMain";
 import SmsHeatReport from "../dashboard/records/SmsHeatReport";
 import NdtReport from "../dashboard/records/NdtReport";
-import CalShiftDetailsForm from '../dashboard/duty/calibration/shiftDetails/ShiftDetailsForm';
+import CalShiftDetailsForm from "../dashboard/duty/calibration/shiftDetails/ShiftDetailsForm";
 import ShiftSummary from "../dashboard/duty/ndt/shiftSummary/ShiftSummary";
-import NdtPrivateRoute from './NdtPrivateRoute';
-import CalibrationPrivateRoute from './CalibrationPrivateRoute';
+import NdtPrivateRoute from "./NdtPrivateRoute";
+import CalibrationPrivateRoute from "./CalibrationPrivateRoute";
 import VIPrivateRoute from "./VIPrivateRoute";
+import WeldingPrivateRoute from "./WeldingPrivateRoute";
 
 const RoutesComponent = () => {
   return (
@@ -85,7 +86,10 @@ const RoutesComponent = () => {
                 <Route path="heatSummary" element={<SmsHeatSummary />} />
                 <Route path="heatDtl" element={<HeatDtl />} />
                 <Route path="dutyEnd" element={<SmsDutyEnd />} />
-                <Route path="bloomInspection" element={<SmsBloomInspection />} />
+                <Route
+                  path="bloomInspection"
+                  element={<SmsBloomInspection />}
+                />
                 <Route path="shiftReports">
                   <Route index element={<ShiftReports />} />
                   <Route path="heatList" element={<SmsHeatList />} />
@@ -101,13 +105,28 @@ const RoutesComponent = () => {
               <Route element={<RollingPrivateRoute />}>
                 <Route path="home" element={<StageHome />} />
                 <Route path="rollingControl" element={<RollingControlForm />} />
-                <Route path="rollingControl/rollingControlSample" element={<RollingControlSample />} />
-                <Route path="rollingVerification" element={<RollingVerification />} />
-                <Route path="finishingVerification" element={<FinishingVerification />} />
+                <Route
+                  path="rollingControl/rollingControlSample"
+                  element={<RollingControlSample />}
+                />
+                <Route
+                  path="rollingVerification"
+                  element={<RollingVerification />}
+                />
+                <Route
+                  path="finishingVerification"
+                  element={<FinishingVerification />}
+                />
                 <Route path="htSequence" element={<HtSequence />} />
               </Route>
-                <Route path="testSampleMarkingList" element={<TestSampleList />} />
-                <Route path="newTestSampleDeclaration" element={<NewTestSampleDeclaration />} />
+              <Route
+                path="testSampleMarkingList"
+                element={<TestSampleList />}
+              />
+              <Route
+                path="newTestSampleDeclaration"
+                element={<NewTestSampleDeclaration />}
+              />
             </Route>
 
             <Route path="/ndt">
@@ -117,14 +136,17 @@ const RoutesComponent = () => {
                 <Route path="home" element={<NDTHome />} />
                 <Route path="calibration" element={<NCalibrationForm />} />
                 <Route path="report" element={<NReport />} />
-                <Route path="shiftSummary" element={<ShiftSummary />}/>
+                <Route path="shiftSummary" element={<ShiftSummary />} />
               </Route>
             </Route>
 
             <Route path="/testing">
               <Route index element={<TestingHome />} />
               <Route path="home" element={<TestingHome />} />
-              <Route path="pendingTestSamples" element={<PendingTestSamples />} />
+              <Route
+                path="pendingTestSamples"
+                element={<PendingTestSamples />}
+              />
               <Route path="testingReport" element={<TestingReport />} />
               <Route path="heatPending" element={<HeatPending />} />
               <Route path="report" element={<NReport />} />
@@ -143,36 +165,59 @@ const RoutesComponent = () => {
             <Route path="/welding">
               <Route index element={<WeldingStartDutyForm />} />
               <Route path="startDuty" element={<WeldingStartDutyForm />} />
-              <Route path="home" element={<WeldingHome />} />
-              <Route path="newWeldInspection" element={<NewWeldInspection />} />
-              <Route path="heldRejectedPanel" element={<HeldRejectedPanel />} />
-              <Route path="testSample" element={<WeldTestSample />} />
-              <Route path="tltTestDetails" element={<TLTTestDetails />} />
-              <Route path="hardnessTestDetails" element={<HardnessTestDetails />} />
-              <Route path="microTestDetails" element={<MicroTestDetails />} />
-              <Route path="macroTestDetails" element={<MacroTestDetails />} />
-              <Route path="shiftSummary" element={<WeldingSummary />} />
+              <Route element={<WeldingPrivateRoute />}>
+                <Route path="home" element={<WeldingHome />} />
+                <Route
+                  path="newWeldInspection"
+                  element={<NewWeldInspection />}
+                />
+                <Route
+                  path="heldRejectedPanel"
+                  element={<HeldRejectedPanel />}
+                />
+                <Route path="testSample" element={<WeldTestSample />} />
+                <Route path="tltTestDetails" element={<TLTTestDetails />} />
+                <Route
+                  path="hardnessTestDetails"
+                  element={<HardnessTestDetails />}
+                />
+                <Route path="microTestDetails" element={<MicroTestDetails />} />
+                <Route path="macroTestDetails" element={<MacroTestDetails />} />
+                <Route path="shiftSummary" element={<WeldingSummary />} />
+              </Route>
             </Route>
 
             <Route path="/srInspection">
               <Route index element={<SrInspectionHome />} />
-              <Route path="addNewInspection" element={<SrNewInspectionForm />} />
+              <Route
+                path="addNewInspection"
+                element={<SrNewInspectionForm />}
+              />
               <Route path="wsRemarks" element={<WsRemarks />} />
             </Route>
 
             <Route path="/qct">
               <Route index element={<QctSampleList />} />
               <Route path="sampleList" element={<QctSampleList />} />
-              <Route path="newSampleDeclaration" element={<QctSampleDeclarationForm />} />
+              <Route
+                path="newSampleDeclaration"
+                element={<QctSampleDeclarationForm />}
+              />
             </Route>
 
-            <Route path='/calibration'>
+            <Route path="/calibration">
               <Route index element={<CalShiftDetailsForm />} />
-              <Route path='startDuty' element={<CalShiftDetailsForm />} />
+              <Route path="startDuty" element={<CalShiftDetailsForm />} />
               <Route element={<CalibrationPrivateRoute />}>
-                <Route path='list' element={<CalibrationList />} />
-                <Route path='newModifyCalibration' element={<NewCalibrationForm />} />
-                <Route path='bulkCalibration' element={<BulkCalibrationForm  />} />
+                <Route path="list" element={<CalibrationList />} />
+                <Route
+                  path="newModifyCalibration"
+                  element={<NewCalibrationForm />}
+                />
+                <Route
+                  path="bulkCalibration"
+                  element={<BulkCalibrationForm />}
+                />
               </Route>
             </Route>
 

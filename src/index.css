@@ -147,6 +147,9 @@ label{
 .no-border .ant-input{
   @apply !border-0 focus:ring-0;
 }
+.no-border .ant-select-selector{
+  @apply !border-0 focus:ring-0;
+}
 
 .no-border{
   @apply !m-0;
