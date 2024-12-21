@@ -96,6 +96,7 @@ const SmsRecord = () => {
   });
 
   const [dataSource, setDataSource] = useState([]);
+  console.log(dataSource)
 
   const { token } = useSelector((state) => state.auth);
 
@@ -123,41 +124,40 @@ const SmsRecord = () => {
     <div className="flex flex-col gap-4 md:gap-2 bg-white p-4 w-full md:w-4/5 mx-auto h-[100vh] md:h-fit">
       <SubHeader title="SMS Summary" link="/record/sms" />
 
-    <div className="mt-4 border border-darkBlueHover p-2 py-4">
+      <div className="mt-4 border border-darkBlueHover p-2 py-4">
+        <div>
+          <Form form={form} initialValues={filter} onFinish={populateData} className="grid md:grid-cols-4 grid-cols-2 gap-x-2 items-center p-2 pt-0">
+            <CustomDatePicker
+              className="no-border"
+              defaultValue={filter.startDate}
+              placeholder="From date"
+              name="startDate"
+              onChange={handleChange}
+              required
+              />
+            <CustomDatePicker
+              className="no-border"
+              defaultValue={filter.endDate}
+              placeholder="To date"
+              name="endDate"
+              onChange={handleChange}
+              required
+              />
+            <Btn htmlType="submit" className="w-full">
+              {" "}
+              Search
+              {" "}
+            </Btn>
+            <Button className="flex gap-2 items-center border-darkBlue text-darkBlue" onClick={() => window.location.reload()}>
+              <span>
+                <CloseCircleOutlined />
+              </span>
+              <span>Reset</span>
+            </Button>
+          </Form>
+        </div>
 
-      <div>
-        <Form form={form} initialValues={filter} onFinish={populateData} className="grid md:grid-cols-4 grid-cols-2 gap-x-2 items-center p-2 pt-0">
-          <CustomDatePicker
-            className="no-border"
-            defaultValue={filter.startDate}
-            placeholder="From date"
-            name="startDate"
-            onChange={handleChange}
-            required
-            />
-          <CustomDatePicker
-            className="no-border"
-            defaultValue={filter.endDate}
-            placeholder="To date"
-            name="endDate"
-            onChange={handleChange}
-            required
-            />
-          <Btn htmlType="submit" className="w-full">
-            {" "}
-            Search
-            {" "}
-          </Btn>
-          <Button className="flex gap-2 items-center border-darkBlue text-darkBlue" onClick={() => window.location.reload()}>
-            <span>
-              <CloseCircleOutlined />
-            </span>
-            <span>Reset</span>
-          </Button>
-        </Form>
-      </div>
-
-      <TableComponent dataSource={dataSource} columns={columns} />
+        <TableComponent dataSource={dataSource} columns={columns} />
       </div>
     </div>
   );

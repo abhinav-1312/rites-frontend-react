@@ -1,17 +1,17 @@
 {
     "shiftList": [
-        {
-          "key": "A",
-          "value": "A"
-        },
-        {
-          "key": "B",
-          "value": "B"
-        },
-        {
-          "key": "C",
-          "value": "C"
-        }
+      {
+        "key": "A",
+        "value": "A"
+      },
+      {
+        "key": "B",
+        "value": "B"
+      },
+      {
+        "key": "C",
+        "value": "C"
+      }
     ],
     "millList": [
       {
