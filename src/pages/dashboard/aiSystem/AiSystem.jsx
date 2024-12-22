@@ -300,8 +300,69 @@ const AiSystem = () => {
     ));
   };
 
+  // const populateData = async () => {
+  //   let payload;
+  
+  //   if (timePeriod === 'shift') {
+  //     payload = {
+  //       startDate: startDate,
+  //       endDate: null,
+  //       shift: inspectionShift
+  //     };
+  //   } else if (timePeriod === 'weekly') {
+  //     payload = {
+  //       endDate: weekEndDate,
+  //       startDate: weekStartDate,
+  //       shift: null
+  //     };
+  //   } else if (timePeriod === 'monthly') {
+  //     payload = {
+  //       endDate: monthEndDate,
+  //       startDate: monthStartDate,
+  //       shift: null
+  //     };
+  //   } else {
+  //     payload = {
+  //       endDate: yearEndDate,
+  //       startDate: yearStartDate,
+  //       shift: null
+  //     };
+  //   }
+  
+  //   try {
+  //     const { data } = await apiCall(
+  //       "POST",
+  //       "/dashboard/getDimensionalInspectionDtls",
+  //       token,
+  //       payload
+  //     );
+  //     setDataSource(data?.responseData.filter(
+  //       (item, index, self) => index === self.findIndex(el => el.railId === item.railId)
+  //     ));
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error, payload);
+  //   }
+
+  //   try {
+  //     const { data } = await apiCall(
+  //       "POST",
+  //       "/dashboard/getSurfaceInspectionDtls",
+  //       token,
+  //       payload
+  //     );
+  //     setDataSource(data?.responseData.filter(
+  //       (item, index, self) => index === self.findIndex(el => el.railId === item.railId)
+  //     ));
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error, payload);
+  //   }
+  // };
+
   const populateData = async () => {
     let payload;
+    let arr1;
+    let arr2;
+    let combinedArr;
   
     if (timePeriod === 'shift') {
       payload = {
@@ -336,9 +397,8 @@ const AiSystem = () => {
         token,
         payload
       );
-      setDataSource(data?.responseData.filter(
-        (item, index, self) => index === self.findIndex(el => el.railId === item.railId)
-      ));
+
+      arr1 = data?.responseData;
     } catch (error) {
       console.error("Error fetching data:", error, payload);
     }
@@ -350,13 +410,16 @@ const AiSystem = () => {
         token,
         payload
       );
-      setDataSource(data?.responseData.filter(
-        (item, index, self) => index === self.findIndex(el => el.railId === item.railId)
-      ));
+
+      arr2 = data?.responseData;
     } catch (error) {
       console.error("Error fetching data:", error, payload);
     }
+
+    combinedArr = [...arr1, ...arr2];
+    setDataSource(Array.from(new Map(combinedArr.map(item => [item.railId, item])).values()));
   };
+
   
 
   return (
