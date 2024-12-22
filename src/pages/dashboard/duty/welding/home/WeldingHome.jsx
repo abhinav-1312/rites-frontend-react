@@ -1,21 +1,68 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SubHeader from "../../../../../components/DKG_SubHeader";
 import FormContainer from "../../../../../components/DKG_FormContainer";
 import GeneralInfo from "../../../../../components/DKG_GeneralInfo";
-import data from "../../../../../utils/frontSharedData/weldingInspection/WeldingInspection.json";
 import TabList from "../../../../../components/DKG_TabList";
 import weldingHomeTabs from '../../../../../utils/frontSharedData/weldingInspection/WeldingHome';
-import { message, Divider, Table } from 'antd';
-import FormBody from "../../../../../components/DKG_FormBody";
+import { message, Divider, Table, Form } from 'antd';
 import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import Btn from "../../../../../components/DKG_Btn";
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { apiCall, handleChange } from "../../../../../utils/CommonFunctions";
+import TextAreaComponent from "../../../../../components/DKG_TextAreaComponent";
+import { endWeldingDuty } from "../../../../../store/slice/weldingDutySlice";
 
-const { weldingInspectionGeneralInfo, weldingData, weldingColumns } = data;
+
+const machineWiseCountColumns = [
+  {
+    title: 'Machine No.',
+    dataIndex: 'machineNo',
+    key: 'machineNo',
+    align: 'center',
+  },
+  {
+    title: "TLT",
+    dataIndex: 'tltCount',
+    key: 'tltCount',
+    align: 'center',
+  },
+  {
+    title:"Hardness",
+    dataIndex: 'hardnessCount',
+    key: 'hardnessCount',
+    align: 'center',
+  },
+  {
+    title: 'Micro',
+    dataIndex: 'microCount',
+    key: 'microCount',
+    align: 'center',
+  },
+  {
+    title: 'Macro',
+    dataIndex: 'macroCount',
+    key: 'macroCount',
+    align: 'center',
+  }
+]
 
 const WeldingHome = () => {
     const navigate = useNavigate();
-    const [remarks, setRemarks] = useState('')
+  const [form] = Form.useForm();
+    const [formData, setFormData] = useState({
+      machineSNoHead: null,
+      machineSNoFoot: null,
+      probeDetailsHead: null,
+      probeDetailsFoot: null,
+      probeDbHead: null,
+      probeDbFoot: null,
+      remarksHead: null,
+      remarksFoot: null,
+      shiftRemarks: null
+    });
+    const {token} = useSelector(state => state.auth);
+    const weldingGeneralInfo = useSelector(state => state.weldingDuty);
     const [info, setInfo] = useState([
       {
         key: '1',
@@ -27,75 +74,43 @@ const WeldingHome = () => {
       }
     ]);
 
-    const handleFormSubmit = () => {
-        message.success("Duty End Called")
-        setInfo([...info]);
-        navigate('/')
+    const [machineWiseCount, setMachineWiseCount] = useState([]);
+    const dispatch = useDispatch();
+    const handleFormSubmit = async () => {
+      try{
+        await dispatch(endWeldingDuty(formData)).unwrap();
+        navigate('/');
+      }
+      catch(error){}
+
     }
 
-    const weldDataColumns = [
-      {
-        title: '',
-        dataIndex: 'null',
-        key: 'null',
-        align: 'center',
-        fixed: 'left'
-      },
-      {
-        title: 'Machine S.No.',
-        dataIndex: 'machineSNo',
-        key: 'machineSNo',
-        align: 'center',
-        render: (text, record) => (
-          <FormInputItem placeholder='Machine S.No.' required/>
-        )
-      },
-      {
-        title: 'Probe Details',
-        dataIndex: 'probeDetails',
-        key: 'probeDetails',
-        align: 'center',
-        render: (text, record) => (
-          <FormInputItem placeholder='Probe Details' required/>
-        )
-      },
-      {
-        title: 'Probe DB',
-        dataIndex: 'probeDB',
-        key: 'probeDB',
-        align: 'center',
-        render: (text, record) => (
-          <FormInputItem placeholder='Probe DB' required/>
-        )
-      },
-      {
-        title: 'Remarks',
-        dataIndex: 'remarks',
-        key: 'remarks',
-        align: 'center',
-        fixed: 'right',
-        render: (text, record) => (
-          <FormInputItem placeholder='Remarks' required/>
-        )
-      },
-    ]
+    const  populateData = useCallback(async () => {
+      try{
+        const {data} = await apiCall("GET", '/welding/getMachineWiseTestCount', token);
+
+        setMachineWiseCount(data?.responseData || []);
+      }catch(error){
+      }
+    }, [token])
+
+    useEffect(() => {
+      populateData();
+    }, [populateData])
+    
+    console.log("Form Data", formData);
 
   return (
     <FormContainer>
         <SubHeader title="Welding - Home" link="/" />
-        <GeneralInfo data={weldingInspectionGeneralInfo} />
+        <GeneralInfo data={weldingGeneralInfo} />
 
         <section className='mt-4'>
           <Table
-            dataSource={weldingData}
-            columns={weldingColumns}
+            dataSource={machineWiseCount}
+            columns={machineWiseCountColumns}
             scroll={{ x: true }}
             bordered
-            pagination={{
-              pageSize: 5,
-              showSizeChanger: true,
-              pageSizeOptions: ["5", "10", "20"],
-            }}
           />
         </section>
 
@@ -115,24 +130,42 @@ const WeldingHome = () => {
 
         <Divider className="mb-2 mt-0" />
 
-        <Table 
+        {/* <Table 
           columns={weldDataColumns}
           dataSource={info}
           bordered
           scroll={{x: true}}
           pagination={false}
-        />
+        /> */}
+      <Form form={form} layout='vertical' initialValues={formData} onFinish={handleFormSubmit}>
+        <div className="border grid grid-cols-5 divide-x divide-y divide-gray-300">
+          <div></div>
+          <h3 className="font-semibold p-2 text-center">Machine Sno.</h3>
+          <h3 className="font-semibold p-2 text-center">Probe Details</h3>
+          <h3 className="font-semibold p-2 text-center">Probe DB</h3>
+          <h3 className="font-semibold p-2 text-center">Remarks</h3>
 
-        <FormBody initialValues={remarks} onFinish={handleFormSubmit}>
+          <h3 className="font-semibold p-2 text-center">Head</h3>
+          <TextAreaComponent className="no-border" placeholder='Machine S.No.' name='machineSNoHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+          <TextAreaComponent className="no-border" name='probeDetailsHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+          <TextAreaComponent className="no-border" name='probeDbHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+          <TextAreaComponent className="no-border" name='remarksHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+
+          <h3 className="font-semibold p-2 text-center">Foot</h3>
+          <TextAreaComponent className="no-border" name='machineSNoFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+          <TextAreaComponent className="no-border" name='probeDetailsFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+          <TextAreaComponent className="no-border" name='probeDbFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+          <TextAreaComponent className="no-border" name='remarksFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+        </div>
             
-          <Divider className="mt-0" />
+          <Divider className= "mt-0" />
 
-          <FormInputItem placeholder='Enter Remarks' onChange={(_, value) => setRemarks(value)} name='remarks' required/>
+          <FormInputItem placeholder='Enter Remarks' name='shiftRemarks' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
 
           <div className='flex justify-center'>
               <Btn htmlType='submit' className='w-36'>End Duty</Btn>
           </div>
-        </FormBody>
+          </Form>
     </FormContainer>
   )
 }

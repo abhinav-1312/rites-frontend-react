@@ -8,18 +8,23 @@ import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
 import Btn from "../../../../../components/DKG_Btn";
 import FormContainer from "../../../../../components/DKG_FormContainer";
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import SelectSearch from "../../../../../components/DKG_SelectSearch";
+import { getCurrentDate } from "../../../../../utils/CommonFunctions";
+import { useDispatch, useSelector } from "react-redux";
+import { startWeldingDuty } from "../../../../../store/slice/weldingDutySlice";
 
 const { millMapingTer: sampleData, shiftList, railGradeList, railSectionList } = data;
 
 const WeldingStartDutyForm = () => {
     const [millDropdownList, setMillDropdownList] = useState([]);
     const [weldingLineDropdownList, setWeldingLineDropdownList] = useState([]);
+    const {dutyId} = useSelector(state => state.weldingDuty);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
-        date: '', shift: '', mill: '', weldingLine: '', railGrade: '', railSection: ''
+        startDate: getCurrentDate(), shift: '', mill: '', weldingLine: '', railGrade: '', railSection: ''
     });
 
     const populateData = () => {
@@ -48,9 +53,12 @@ const WeldingStartDutyForm = () => {
     }
     }, [formData.mill, millDropdownList])
 
-    const handleFormSubmit = () => {
-        message.success("Form submission triggered.");
-        navigate('/welding/home');
+    const handleFormSubmit = async () => {
+        try{
+          await dispatch(startWeldingDuty(formData)).unwrap();
+          navigate('/welding/home');
+        }
+        catch(error){}
     };
 
     const handleChange = (fieldName, value) => {
@@ -62,24 +70,25 @@ const WeldingStartDutyForm = () => {
         });
     };
 
+    if (dutyId) {
+        message.error("Duty already in progress. Cannot start new duty.");
+        return <Navigate to="/welding/home" />;
+    }
+
   return (
     <FormContainer>
         <SubHeader title="Welding Inspection - Shift Details" link="/" />
 
         <FormBody initialValues={formData} onFinish={handleFormSubmit}>
             <div className="grid grid-cols-2 gap-x-2">
-                <CustomDatePicker label="Date" name="date" value={formData.date} onChange={handleChange} required />
-                <FormDropdownItem label="Shift" name="shift" dropdownArray={shiftList} visibleField="value" valueField="key" onChange={handleChange} required />
-            </div>
+                <CustomDatePicker label="Date" name="startDate" defaultValue={formData.startDate} onChange={handleChange} required />
+                <FormDropdownItem label="Shift" name="shift" formField="shift" dropdownArray={shiftList} visibleField="value" valueField="key" onChange={handleChange} required />
 
-            <div className="grid grid-cols-2 gap-x-2">
-                <FormDropdownItem label='Mill' name='mill' dropdownArray={millDropdownList} valueField={'key'} visibleField={'value'} onChange={handleChange} required />
-                <FormDropdownItem label ='Welding Line' name='weldingLine' dropdownArray={weldingLineDropdownList} valueField={'key'} visibleField={'value'} onChange = {handleChange} required />
-            </div>
+                <FormDropdownItem label='Mill' name='mill' formField="mill"  dropdownArray={millDropdownList} valueField={'key'} visibleField={'value'} onChange={handleChange} required />
+                <FormDropdownItem label ='Welding Line' name='weldingLine' formField="weldingLine"  dropdownArray={weldingLineDropdownList} valueField={'key'} visibleField={'value'} onChange = {handleChange} required />
 
-            <div className="grid grid-cols-2 gap-x-2">
-                <FormDropdownItem label="Rail Grade" name='railGrade' dropdownArray={railGradeList} visibleField='value' valueField='key' onChange={handleChange} required/>
-                <FormDropdownItem label="Rail Section" name='railSection' dropdownArray={railSectionList} visibleField='value' valueField='key' onChange={handleChange} required />
+                <FormDropdownItem label="Rail Grade" name='railGrade' formField="railGrade" dropdownArray={railGradeList} visibleField='value' valueField='key' onChange={handleChange} required/>
+                <FormDropdownItem label="Rail Section" name='railSection' formField="railSection" dropdownArray={railSectionList} visibleField='value' valueField='key' onChange={handleChange} required />
             </div>
 
             <Btn htmlType="submit" className="flex justify-center mx-auto mt-2">

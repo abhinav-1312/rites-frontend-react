@@ -1,5 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
+import dayjs from "dayjs"
 
 export const apiCall = async (method, url, token, payload = null) => {
 
@@ -50,4 +51,10 @@ export const apiCall = async (method, url, token, payload = null) => {
     }
 
     return {number: parseFloat(value), isFloat: true}
+  }
+
+  export const getCurrentDate = () => {
+    const dateFormat = "DD/MM/YYYY";
+    const currentDate = dayjs();
+    return currentDate.format(dateFormat);
   }

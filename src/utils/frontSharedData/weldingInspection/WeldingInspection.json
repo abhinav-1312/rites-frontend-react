@@ -96,11 +96,11 @@
     ],
     "weldParameterDropdownList": [
         {
-          "key": "OK",
+          "key": true,
           "value": "OK"
         },
         {
-            "key": "Not OK",
+            "key": false,
             "value": "Not OK"
         }
     ],
@@ -399,31 +399,31 @@
     ],
     "parameterStatusList": [
         {
-          "key": "OK",
+          "key": true,
           "value": "OK"
         },
         {
-          "key": "Not OK",
+          "key": false,
           "value": "Not OK"
         }
     ],
     "brokenOrNotList": [
         {
-          "key": "Broken",
+          "key": true,
           "value": "Broken"
         },
         {
-            "key": "Not Broken",
+            "key": false,
             "value": "Not Broken"
         }
     ],
     "deviationList": [
         {
-            "key": "Yes",
+            "key": true,
             "value": "Yes"
         },
         {
-            "key": "No",
+            "key": false,
             "value": "No"
         }
     ]

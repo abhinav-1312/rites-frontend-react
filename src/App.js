@@ -7,6 +7,7 @@ import { getOngoingRollingDutyDtls } from './store/slice/rollingDutySlice';
 import { getOngoingNdtDutyDtls } from './store/slice/ndtDutySlice';
 import { getOngoingViDutyDtls } from './store/slice/viDutySlice';
 import { getOngoingCalibrationDutyDtls } from './store/slice/calibrationDutySlice';
+import { getOngoingWeldingDutyDtls } from './store/slice/weldingDutySlice';
 
 axios.defaults.baseURL="http://localhost:8080"
 
@@ -23,6 +24,7 @@ function App() {
       dispatch(getOngoingViDutyDtls());
       dispatch(getOngoingCalibrationDutyDtls());
       dispatch(getOngoingNdtDutyDtls());
+      dispatch(getOngoingWeldingDutyDtls());
 
     }
   }, [dispatch, token])
