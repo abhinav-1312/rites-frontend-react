@@ -47,6 +47,39 @@ const machineWiseCountColumns = [
   }
 ]
 
+// const machineWiseCountColumns = [
+//   {
+//     title: 'Machine No.',
+//     dataIndex: 'machineNo',
+//     key: 'machineNo',
+//     align: 'center',
+//   },
+//   {
+//     title: "TLT",
+//     dataIndex: 'tltCount',
+//     key: 'tltCount',
+//     align: 'center',
+//   },
+//   {
+//     title:"Hardness",
+//     dataIndex: 'hardnessCount',
+//     key: 'hardnessCount',
+//     align: 'center',
+//   },
+//   {
+//     title: 'Micro',
+//     dataIndex: 'microCount',
+//     key: 'microCount',
+//     align: 'center',
+//   },
+//   {
+//     title: 'Macro',
+//     dataIndex: 'macroCount',
+//     key: 'macroCount',
+//     align: 'center',
+//   }
+// ]
+
 const WeldingHome = () => {
     const navigate = useNavigate();
   const [form] = Form.useForm();
