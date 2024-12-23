@@ -32,13 +32,13 @@ const dutyItemTabs = [
     id: 5,
     title: 'Visual Inspection Record',
     icon: <EyeOutlined />,
-    // link: '/visual/startDuty'
+    link: '/record/vi'
   },
   {
     id: 6,
     title: 'Welding Inspection Record',
     icon: <DeploymentUnitOutlined />,
-    // link: '/welding/startDuty'
+    link: '/record/welding'
   },
   {
     id: 7,

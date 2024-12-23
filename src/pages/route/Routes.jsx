@@ -66,6 +66,13 @@ import NdtPrivateRoute from "./NdtPrivateRoute";
 import CalibrationPrivateRoute from "./CalibrationPrivateRoute";
 import VIPrivateRoute from "./VIPrivateRoute";
 import WeldingPrivateRoute from "./WeldingPrivateRoute";
+import WeldingReportMain from "../dashboard/records/WeldingReportMain";
+import NewWeldingReport from "../dashboard/records/NewWeldingReport";
+import WeldingSummaryReport from "../dashboard/records/WeldingSummaryReport";
+import WeldingTestSampleReport from "../dashboard/records/WeldingTestSampleReport";
+import ViReportMain from "../dashboard/records/ViReportMain";
+import ViAcptRejReport from "../dashboard/records/ViAcptRejReport";
+import ViAcceptanceReport from "../dashboard/records/ViAcceptanceReport";
 
 const RoutesComponent = () => {
   return (
@@ -78,6 +85,16 @@ const RoutesComponent = () => {
             <Route path="/record/sms/summary" element={<SmsRecord />} />
             <Route path="/record/sms/heat" element={<SmsHeatReport />} />
             <Route path="/record/ndt" element={<NdtReport />} />
+
+            <Route path="/record/welding" element={<WeldingReportMain />} />
+            <Route path="/record/welding/newWeld" element={<NewWeldingReport />} />
+            <Route path="/record/welding/summary" element={<WeldingSummaryReport />} />
+            <Route path="/record/welding/testSample" element={<WeldingTestSampleReport />} />
+
+            <Route path="/record/vi" element={<ViReportMain />} />
+            <Route path="/record/vi/acptRej" element={<ViAcptRejReport />} />
+            <Route path="/record/vi/acpt" element={<ViAcceptanceReport />} />
+            {/* <Route path="/record/welding/testSample" element={<WeldingTestSampleReport />} /> */}
 
             <Route path="/sms">
               <Route index element={<SmsDutyStartForm />} />
