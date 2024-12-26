@@ -407,23 +407,29 @@ const items = [
         items: [
           {
             key: "2.8.1",
+            icon: <AppstoreAddOutlined />,
+            label: "SRI Start Duty",
+            path: "/srInspection/startDuty",
+          },
+          {
+            key: "2.8.2",
             icon: <FlagOutlined />,
             label: "Short Rail Inspection Home",
             items: [
               {
-                key: "2.8.1.1",
+                key: "2.8.2.1",
                 icon: <BankOutlined />,
                 label: "SR Inspection Home",
                 path: "/srInspection",
               },
               {
-                key: "2.8.1.2",
+                key: "2.8.2.2",
                 icon: <DeploymentUnitOutlined />,
                 label: "New SR Inspection",
                 path: "/srInspection/addNewInspection",
               },
               {
-                key: "2.8.1.3",
+                key: "2.8.2.3",
                 icon: <InfoCircleOutlined />,
                 label: "Other WS Remarks",
                 path: "/srInspection/wsRemarks",

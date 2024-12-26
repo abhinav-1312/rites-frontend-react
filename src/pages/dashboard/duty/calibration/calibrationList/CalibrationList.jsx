@@ -27,7 +27,6 @@ const CalibrationList = () => {
   const [formData, setFormData] = useState([])
 
   const calibrationGeneralInfo = useSelector((state) => state.calibrationDuty);
-  console.log(calibrationGeneralInfo);
   const { token } = useSelector((state) => state.auth);
 
   const populateData = useCallback(async () => {

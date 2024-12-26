@@ -10,17 +10,16 @@ import FormBody from '../../../../../components/DKG_FormBody';
 import FormInputItem from '../../../../../components/DKG_FormInputItem';
 import { useNavigate } from 'react-router-dom'
 import Btn from '../../../../../components/DKG_Btn';
+import { useSelector, useDispatch } from 'react-redux';
+import { endSriDuty } from '../../../../../store/slice/sriDutySlice';
 
-const { srInspectionGeneralInfo, shortRailColumns, shortRailData } = data;
+const { shortRailColumns, shortRailData } = data;
 
 const SrInspectionHome = () => {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState(
-    {
-      remarks: ''
-    }
-  );
+  const [formData, setFormData] = useState({ remarks: null });
+  const dispatch = useDispatch();
+  const sriGeneralInfo = useSelector((state) => state.sriDuty);
 
   const handleChange = (fieldName, value) => {
     setFormData(prev => {
@@ -31,14 +30,15 @@ const SrInspectionHome = () => {
     })
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
+    await dispatch(endSriDuty(formData)).unwrap();
     navigate('/')
   }
 
   return (
     <FormContainer>
       <SubHeader title='Short Rail Inspection - Home' link='/' />
-      <GeneralInfo data={srInspectionGeneralInfo} />
+      <GeneralInfo data={sriGeneralInfo} />
 
       <section className='mt-6'>
         <Table
@@ -64,7 +64,7 @@ const SrInspectionHome = () => {
         <FormInputItem label='Shift Remarks by GL' name='remarks' value={formData.remarks} onChange={handleChange} required/>
 
         <div className='flex justify-center'>
-          <Btn htmlType='submit' className='w-36'>SAVE</Btn>
+          <Btn htmlType='submit' className='w-36'>End Duty</Btn>
         </div>
       </FormBody>
     </FormContainer>

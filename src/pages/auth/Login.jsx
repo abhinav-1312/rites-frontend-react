@@ -26,6 +26,9 @@ const Login = () => {
     await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
     await dispatch(getOngoingNdtDutyDtls()).unwrap()
     await dispatch(getOngoingWeldingDutyDtls()).unwrap()
+    // await dispatch(getOngoingRollingDutyDtls()).unwrap()
+    // await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
+    // await dispatch(getOngoingNdtDutyDtls()).unwrap()
     navigate('/')
   }
 
