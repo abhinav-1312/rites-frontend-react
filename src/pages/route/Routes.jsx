@@ -73,6 +73,8 @@ import WeldingTestSampleReport from "../dashboard/records/WeldingTestSampleRepor
 import ViReportMain from "../dashboard/records/ViReportMain";
 import ViAcptRejReport from "../dashboard/records/ViAcptRejReport";
 import ViAcceptanceReport from "../dashboard/records/ViAcceptanceReport";
+import QctShiftDetailsForm from "../dashboard/duty/qct/shiftDetails/ShiftDetailsForm";
+import QctPrivateRoute from "./QctPrivateRoute";
 
 const RoutesComponent = () => {
   return (
@@ -214,12 +216,15 @@ const RoutesComponent = () => {
             </Route>
 
             <Route path="/qct">
-              <Route index element={<QctSampleList />} />
+              <Route index element={<QctShiftDetailsForm />} />
+              <Route path="startDuty" element={<QctShiftDetailsForm />} />
+              <Route element={<QctPrivateRoute />}>
               <Route path="sampleList" element={<QctSampleList />} />
               <Route
                 path="newSampleDeclaration"
                 element={<QctSampleDeclarationForm />}
-              />
+                />
+                </Route>
             </Route>
 
             <Route path="/calibration">

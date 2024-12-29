@@ -13,6 +13,7 @@ import { getOngoingViDutyDtls } from '../../store/slice/viDutySlice'
 import { getOngoingCalibrationDutyDtls } from '../../store/slice/calibrationDutySlice'
 import { getOngoingNdtDutyDtls } from '../../store/slice/ndtDutySlice'
 import { getOngoingWeldingDutyDtls } from '../../store/slice/weldingDutySlice'
+import { getOngoingQctDutyDtls } from '../../store/slice/qctDutySlice'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -26,6 +27,7 @@ const Login = () => {
     await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
     await dispatch(getOngoingNdtDutyDtls()).unwrap()
     await dispatch(getOngoingWeldingDutyDtls()).unwrap()
+    await dispatch(getOngoingQctDutyDtls()).unwrap()
     // await dispatch(getOngoingRollingDutyDtls()).unwrap()
     // await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
     // await dispatch(getOngoingNdtDutyDtls()).unwrap()

@@ -446,11 +446,17 @@ const items = [
           {
             key: "2.9.1",
             icon: <AppstoreAddOutlined />,
+            label: "QCT Start Duty",
+            path: "/qct/startDuty",
+          },
+          {
+            key: "2.9.2",
+            icon: <AppstoreAddOutlined />,
             label: "QCT Sample List",
             path: "/qct/sampleList",
           },
           {
-            key: "2.9.2",
+            key: "2.9.3",
             icon: <BarsOutlined />,
             label: "New Sample Declaration",
             path: "/qct/newSampleDeclaration",
