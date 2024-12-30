@@ -28,7 +28,6 @@ import NewCalibrationForm from '../dashboard/duty/calibration/newCalibration/New
 import BulkCalibrationForm from '../dashboard/duty/calibration/bulkCalibration/BulkCalibrationForm';
 import QctSampleList from '../dashboard/duty/qct/qctSampleList/QctSampleList';
 import QctSampleDeclarationForm from '../dashboard/duty/qct/newSampleDeclaration/QctSampleDeclarationForm';
-import SrInspectionHome from '../dashboard/duty/srInspection/srInspectionHome/SrInspectionHome';
 import SrNewInspectionForm from '../dashboard/duty/srInspection/srNewInspection/SrNewInspectionForm';
 import WsRemarks from '../dashboard/duty/srInspection/wsRemarks/WsRemarks';
 import TestSampleList from '../dashboard/duty/stage/testSampleMarking/testSampleList/TestSampleList';
@@ -67,6 +66,7 @@ import CalibrationPrivateRoute from './CalibrationPrivateRoute';
 import VIPrivateRoute from "./VIPrivateRoute";
 import SRIShiftDetailsForm from "../dashboard/duty/srInspection/shiftDetails/ShiftDetailsForm";
 import SRIPrivateRoute from './SRIPrivateRoute';
+import SrInspectionHome from "../dashboard/duty/srInspection/srInspectionHome/SrInspectionHome";
 
 const RoutesComponent = () => {
   return (
