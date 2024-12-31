@@ -7,14 +7,15 @@ const QctPrivateRoute = () => {
 
     const {dutyId} = useSelector(state => state.qctDuty);
 
-    if(!dutyId){
+    if(true){
         message.error("No ongoing QCT duty. Please start a duty.")
     }
 
   return (
-    <>
-        {(dutyId) ? <Outlet /> : <Navigate to='/qct/startDuty' />}
-    </>
+    // <>
+    //     {(dutyId) ? <Outlet /> : <Navigate to='/qct/startDuty' />}
+    // </>
+    <Navigate to='/qct/startDuty' />
   )
 }
 

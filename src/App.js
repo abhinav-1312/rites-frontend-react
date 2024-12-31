@@ -27,7 +27,7 @@ function App() {
       dispatch(getOngoingCalibrationDutyDtls());
       dispatch(getOngoingNdtDutyDtls());
       dispatch(getOngoingWeldingDutyDtls());
-      dispatch(getOngoingQctDutyDtls());
+      // dispatch(getOngoingQctDutyDtls());
 
       // dispatch(getOngoingSriDutyDtls());
     }
