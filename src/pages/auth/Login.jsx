@@ -14,6 +14,7 @@ import { getOngoingCalibrationDutyDtls } from '../../store/slice/calibrationDuty
 import { getOngoingNdtDutyDtls } from '../../store/slice/ndtDutySlice'
 import { getOngoingWeldingDutyDtls } from '../../store/slice/weldingDutySlice'
 import { getOngoingQctDutyDtls } from '../../store/slice/qctDutySlice'
+import { getOngoingSriDutyDtls } from '../../store/slice/sriDutySlice';
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -28,9 +29,7 @@ const Login = () => {
     await dispatch(getOngoingNdtDutyDtls()).unwrap()
     await dispatch(getOngoingWeldingDutyDtls()).unwrap()
     await dispatch(getOngoingQctDutyDtls()).unwrap()
-    // await dispatch(getOngoingRollingDutyDtls()).unwrap()
-    // await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
-    // await dispatch(getOngoingNdtDutyDtls()).unwrap()
+    await dispatch(getOngoingSriDutyDtls()).unwrap()
     navigate('/')
   }
 
@@ -52,9 +51,12 @@ const Login = () => {
 
   const populateAllOngoingDutyDtls = useCallback(async () => {
     try{
-      await dispatch(getOngoingSmsDutyDtls()).unwrap();
-      await dispatch(getOngoingRollingDutyDtls()).unwrap();
-      await dispatch(getOngoingViDutyDtls()).unwrap();
+      await dispatch(getOngoingSmsDutyDtls()).unwrap()
+      await dispatch(getOngoingRollingDutyDtls()).unwrap()
+      await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
+      await dispatch(getOngoingNdtDutyDtls()).unwrap()
+      await dispatch(getOngoingViDutyDtls()).unwrap()
+      await dispatch(getOngoingSriDutyDtls()).unwrap()
       navigate("/");
     }
     catch(error){

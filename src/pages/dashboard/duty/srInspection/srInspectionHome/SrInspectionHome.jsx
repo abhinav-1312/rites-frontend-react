@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import FormContainer from '../../../../../components/DKG_FormContainer';
 import SubHeader from '../../../../../components/DKG_SubHeader';
-import data from "../../../../../utils/frontSharedData/srInspection/srInspection.json";
 import GeneralInfo from '../../../../../components/DKG_GeneralInfo';
 import { Divider, Table } from 'antd';
 import TabList from "../../../../../components/DKG_TabList";
@@ -12,14 +11,32 @@ import { useNavigate } from 'react-router-dom'
 import Btn from '../../../../../components/DKG_Btn';
 import { useSelector, useDispatch } from 'react-redux';
 import { endSriDuty } from '../../../../../store/slice/sriDutySlice';
-
-const { shortRailColumns, shortRailData } = data;
+import { apiCall } from '../../../../../utils/CommonFunctions';
 
 const SrInspectionHome = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ remarks: null });
   const dispatch = useDispatch();
   const sriGeneralInfo = useSelector((state) => state.sriDuty);
+  const { token } = useSelector((state) => state.auth);
+
+  const [formData, setFormData] = useState({
+    remarks: null
+  });
+
+  const [totalTonnes, setTotalTonnes] = useState([]);
+
+  const populateTableData = useCallback(async () => {
+    try {
+      const { data } = await apiCall(
+        "GET",
+        `/shortrailinspection/shortRailSummary?dutyId=${sriGeneralInfo.dutyId}`,
+        token
+      );
+      // const { responseData } = data;
+
+      setTotalTonnes(data?.responseData || []);
+    } catch (error) {}
+  }, [sriGeneralInfo.dutyId, token]);
 
   const handleChange = (fieldName, value) => {
     setFormData(prev => {
@@ -35,6 +52,34 @@ const SrInspectionHome = () => {
     navigate('/')
   }
 
+  useEffect(() => {
+    populateTableData();
+  }, [populateTableData]);
+
+  const totalTonnesColumns = [
+    {
+      title: "S/No",
+      dataIndex: "sNo",
+      key: "sNo",
+      render: (_, __, index) => index + 1, // Adding 1 to the index to start from 1
+    },
+    {
+      title: "Inspected Tonnage",
+      dataIndex: "totalTonnesInspected",
+      key: "totalTonnesInspected"
+    },
+    {
+      title: "Accepted Tonnage",
+      dataIndex: "totalTonnesAccepted",
+      key: "totalTonnesAccepted",
+    },
+    {
+      title: "Rejected Tonnage",
+      dataIndex: "totalTonnesRejected",
+      key: "totalTonnesRejected",
+    }
+  ];
+
   return (
     <FormContainer>
       <SubHeader title='Short Rail Inspection - Home' link='/' />
@@ -42,8 +87,8 @@ const SrInspectionHome = () => {
 
       <section className='mt-6'>
         <Table
-          dataSource={shortRailData}
-          columns={shortRailColumns}
+          dataSource={totalTonnes}
+          columns={totalTonnesColumns}
           scroll={{ x: true }}
           bordered
           pagination={{

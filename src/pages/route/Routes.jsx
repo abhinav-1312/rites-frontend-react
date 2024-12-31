@@ -75,6 +75,9 @@ import ViAcptRejReport from "../dashboard/records/ViAcptRejReport";
 import ViAcceptanceReport from "../dashboard/records/ViAcceptanceReport";
 import QctShiftDetailsForm from "../dashboard/duty/qct/shiftDetails/ShiftDetailsForm";
 import QctPrivateRoute from "./QctPrivateRoute";
+import SRIShiftDetailsForm from "../dashboard/duty/srInspection/shiftDetails/ShiftDetailsForm";
+import SRIPrivateRoute from './SRIPrivateRoute';
+
 
 const RoutesComponent = () => {
   return (
