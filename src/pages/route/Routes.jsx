@@ -17,6 +17,7 @@ import Home from "../dashboard/duty/visualInspection/home/Home";
 import VIShiftSummary from "../dashboard/duty/visualInspection/shiftSummary/VIShiftSummary";
 import VisualInspectionForm from "../dashboard/duty/visualInspection/inspection/VisualInspectionForm";
 import StageShiftDetailsForm from "../dashboard/duty/stage/rollingStage/shiftDetails/ShiftDetailsForm";
+import SriStartDutyForm from "../dashboard/duty/srInspection/shiftDetails/ShiftDetailsForm";
 import StageHome from "../dashboard/duty/stage/rollingStage/home/Home";
 import NDTStartDutyForm from "../dashboard/duty/ndt/shiftDetails/StartDutyForm";
 import NDTHome from "../dashboard/duty/ndt/home/Home";
@@ -210,7 +211,8 @@ const RoutesComponent = () => {
             </Route>
 
             <Route path="/srInspection">
-              <Route index element={<SrInspectionHome />} />
+              <Route index element={<SriStartDutyForm />} />
+              <Route path="home" element={<SrInspectionHome />} />
               <Route
                 path="addNewInspection"
                 element={<SrNewInspectionForm />}

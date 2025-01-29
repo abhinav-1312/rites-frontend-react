@@ -23,7 +23,23 @@ const SrInspectionHome = () => {
     remarks: null
   });
 
-  const [totalTonnes, setTotalTonnes] = useState([]);
+  const [totalTonnes, setTotalTonnes] = useState([
+    {
+      totalTonnesInspected: 12,
+      totalTonnesAccepted: 9,
+      totalTonnesRejected: 3,
+    },
+    {
+      totalTonnesInspected: 200,
+      totalTonnesAccepted: 112,
+      totalTonnesRejected: 88,
+    },
+    {
+      totalTonnesInspected: 39,
+      totalTonnesAccepted: 9,
+      totalTonnesRejected: 30,
+    },
+  ]);
 
   const populateTableData = useCallback(async () => {
     try {
@@ -52,9 +68,9 @@ const SrInspectionHome = () => {
     navigate('/')
   }
 
-  useEffect(() => {
-    populateTableData();
-  }, [populateTableData]);
+  // useEffect(() => {
+  //   populateTableData();
+  // }, [populateTableData]);
 
   const totalTonnesColumns = [
     {

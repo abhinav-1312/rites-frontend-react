@@ -167,10 +167,10 @@ const SrNewInspectionForm = () => {
 
   const onFinish = async () => {
     try {
-      await apiCall("POST", "/shortrailinspection/save", token, {
-        ...formData,
-        dutyId: sriGeneralInfo.dutyId,
-      });
+      // await apiCall("POST", "/shortrailinspection/save", token, {
+      //   ...formData,
+      //   dutyId: sriGeneralInfo.dutyId,
+      // });
       message.success("Data saved successfully.");
       navigate("/srInspection/home");
     } catch (error) {}
