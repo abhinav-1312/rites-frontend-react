@@ -13,6 +13,24 @@
       "value": "C"
     }
   ],
+  "railGradeList": [
+    {
+      "key": "R260",
+      "value": "R260"
+    },
+    {
+      "key": "880",
+      "value": "880"
+    },
+    {
+      "key": "1175HT",
+      "value": "1175HT"
+    },
+    {
+      "key": "1080HH",
+      "value": "1080HH"
+    }
+  ],
   "smsList": [
     {
       "key": "SMS 2",
