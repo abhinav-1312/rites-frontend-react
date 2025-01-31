@@ -104,6 +104,7 @@ const VerificationIso = () => {
 
   const handlePrint = useReactToPrint({
     content: () => repRef.current,
+    documentTitle: "sms_verification_iso_report", // Set custom filename
   });
 
   const {token} = useSelector(state => state.auth);

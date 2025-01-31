@@ -141,10 +141,10 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
           payload
         );
         if (data.responseData?.heatNo) {
-          // message.success("Test data present for provided details.");
+          message.success("Test data present for provided details.");
           setFormData(data.responseData);
         } else {
-          // message.error("Test data not present for provided details.");
+          message.error("Test data not present for provided details.");
         }
       } catch (error) {}
     },
