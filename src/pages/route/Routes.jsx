@@ -78,6 +78,7 @@ import QctShiftDetailsForm from "../dashboard/duty/qct/shiftDetails/ShiftDetails
 import QctPrivateRoute from "./QctPrivateRoute";
 import SRIShiftDetailsForm from "../dashboard/duty/srInspection/shiftDetails/ShiftDetailsForm";
 import SRIPrivateRoute from './SRIPrivateRoute';
+import SmsIsoMain from "../dashboard/isoReports/sms/SmsIsoMain";
 
 
 const RoutesComponent = () => {
@@ -230,6 +231,12 @@ const RoutesComponent = () => {
                 element={<QctSampleDeclarationForm />}
                 />
                 </Route>
+            </Route>
+
+            <Route path = "/iso">
+              <Route path="sms" element={<SmsIsoMain />}>
+                
+              </Route>
             </Route>
 
             <Route path="/calibration">

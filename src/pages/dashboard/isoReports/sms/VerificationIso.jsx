@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import IsoHeader from '../../../../components/DKG_IsoHeader'
-import VerificationSearchFilter from './VerificationSearchFilter'
+import VerificationSearchFilter from './SearchFilter'
 import { apiCall } from '../../../../utils/CommonFunctions'
 import { useSelector } from 'react-redux'
 import { Button } from 'antd'
@@ -111,7 +111,6 @@ const VerificationIso = () => {
   const onFinish = async (formData) => {
     try{
       const { data } = await apiCall("POST", "/iso/getHeatDtls", token, formData);
-      console.log("Data: ", data.responseData || []);
 
       const castingDtlList = [];
       const heatDtlList = [];
@@ -132,8 +131,6 @@ const VerificationIso = () => {
           bloomDtlList.push({castNo: item.heatNumber, noOfCoBlooms: item.noOfCoBlooms});
         }
       })
-
-      console.log("Degassing: ", degassingDtlList)
 
       setFormData({
         heatDtlList,
@@ -160,7 +157,11 @@ const VerificationIso = () => {
     <div>
     <VerificationSearchFilter showDate showShift showRailGrade showSms onFinish={onFinish} />
     <div className='a4-container relative' ref={repRef}>
-      <IsoHeader />
+      <IsoHeader
+        engTitle="WITNESSED / VERIFICATION REPORT <br /> (CONVERTER & CASTING)"
+        hinTitle="विटनेस / सत्यापन रिपोर्ट <br /> (कनवर्टर एवं कास्टिंग)"
+        col3AdtnlLine="APPROVED DIVISIONAL HEAD"
+      />
       <div className="border-b border-black flex justify-between p-2">
         <h2>FORMAT NO: F/CR-BSP/7.5/17/01</h2>
         <h2>PAGE 1 OF 1</h2>

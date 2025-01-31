@@ -71,7 +71,6 @@ const Records = () => {
   const renderRecordItemTabs = () =>
     dutyItemTabs.map(item => {
       return (
-        // <Tab  title={item.title} icon={item.icon} onClick={()=> navigate(item.link)} />
         <div onClick={() => navigate(item.link)} className="flex justify-between items-center  border border-darkBlueHover w-full p-2 px-4 gap-4 rounded-lg shadow-lg bg-gray-200">
         <span className="records-tab-icon">{item.icon}</span>
         <span className="font-medium">

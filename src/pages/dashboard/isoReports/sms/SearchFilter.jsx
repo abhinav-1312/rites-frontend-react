@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react'
 import CustomDatePicker from '../../../../components/DKG_CustomDatePicker'
 import data from '../../../../utils/db.json'
 import FormDropdownItem from '../../../../components/DKG_FormDropdownItem'
-import Btn from '../../../../components/DKG_Btn'
 
-const VerificationSearchFilter = ({showDate, showShift, showRailGrade, showRailSection, showSms, onFinish}) => {
+const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, showSms, onFinish}) => {
     const [form] = Form.useForm()
 
     const [shiftList, setShiftList] = useState([])
@@ -79,4 +78,4 @@ const VerificationSearchFilter = ({showDate, showShift, showRailGrade, showRailS
   )
 }
 
-export default VerificationSearchFilter
+export default SearchFilter
