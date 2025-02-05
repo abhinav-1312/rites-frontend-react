@@ -4,12 +4,14 @@ import CustomDatePicker from '../../../../components/DKG_CustomDatePicker'
 import data from '../../../../utils/db.json'
 import FormDropdownItem from '../../../../components/DKG_FormDropdownItem'
 
-const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, showSms, onFinish}) => {
+const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, showSms, onFinish, showMill, customRsL}) => {
     const [form] = Form.useForm()
 
     const [shiftList, setShiftList] = useState([])
     const [railGradeList, setRailGradeList] = useState([])
     const [smsList, setSmsList] = useState([]);
+    const [millList, setMillList] = useState([]);
+    const [railSectionList, setRailSectionList] = useState([]);
     const [formData, setFormData] = useState({
         date: null,
         shift: null,
@@ -24,14 +26,17 @@ const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, show
         })
     }
 
-    console.log("Shift lsit: ", shiftList)
-
-    console.log("Formdata: ", formData)
-
     useEffect(() => {
         setShiftList([...data.shiftList])
         setRailGradeList([...data.railGradeList])
         setSmsList([...data.smsList]);
+        setMillList([...data.millList]);
+        if(customRsL){
+            setRailSectionList([...customRsL])
+        }
+        else{
+            setRailSectionList([...data.railSectionList]);
+        }
     }, [])
   return (
     <div>
@@ -50,6 +55,18 @@ const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, show
         {
             showRailGrade && (
                 <FormDropdownItem name="railGrade" formField="railGrade" label="Rail Grade" dropdownArray={railGradeList} onChange={handleChange} visibleField="key"
+                valueField="key" required />
+            )
+        }
+        {
+            showMill && (
+                <FormDropdownItem name="mill" formField="mill" label="Mill" dropdownArray={millList} onChange={handleChange} visibleField="key"
+                valueField="key" required />
+            )
+        }
+        {
+            showRailSection && (
+                <FormDropdownItem name="railSection" formField="railSection" label="Rail Section" dropdownArray={railSectionList} onChange={handleChange} visibleField="key"
                 valueField="key" required />
             )
         }

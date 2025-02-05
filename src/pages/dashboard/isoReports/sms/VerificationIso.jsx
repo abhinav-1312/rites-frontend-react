@@ -129,7 +129,7 @@ const VerificationIso = () => {
           degassingDtlList.push({castNo: item.heatNumber, vacuum: item.degassingVacuum, time: item.degassingDuration, castingTimeWv: item.degasssingDurationWv});
         }
         if(item.heatStage === "Bloom Cutting"){
-          bloomDtlList.push({castNo: item.heatNumber, noOfCoBlooms: item.noOfCoBlooms});
+          bloomDtlList.push({castNo: item.heatNumber, noOfCoBlooms: item.numberOfCoBlooms});
         }
       })
 
@@ -157,7 +157,7 @@ const VerificationIso = () => {
   return (
     <div>
     <VerificationSearchFilter showDate showShift showRailGrade showSms onFinish={onFinish} />
-    <div className='a4-container relative' ref={repRef}>
+    <div className='a4-container' ref={repRef}>
       <IsoHeader
         engTitle="WITNESSED / VERIFICATION REPORT <br /> (CONVERTER & CASTING)"
         hinTitle="विटनेस / सत्यापन रिपोर्ट <br /> (कनवर्टर एवं कास्टिंग)"

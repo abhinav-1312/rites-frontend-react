@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import {LineChartOutlined, EyeOutlined, ExperimentOutlined, ToolOutlined, DatabaseOutlined, CompassOutlined, DeploymentUnitOutlined, RadarChartOutlined, AuditOutlined, MessageOutlined } from '@ant-design/icons';
 import VerificationIso from './VerificationIso';
 import FormContainer from '../../../../components/DKG_FormContainer';
+import ChemicalAnalysis from './ChemicalAnalysis';
+import FinishingVerification from '../rolling/FinishingVerificationUrm';
+import SubHeader from '../../../../components/DKG_SubHeader';
+import ChemicalAnalysis2 from './ChemicalAnalysis2';
 
 const SmsIsoMain = () => {
     const smsIsoTabs = [
@@ -11,9 +15,14 @@ const SmsIsoMain = () => {
             activeTab: 0
         },
         {
-            title: "Chemical Analysis ISO Report",
+            title: "Chemical Analysis ISO Report - 1",
             icon: <ExperimentOutlined />,
             activeTab: 1
+        },
+        {
+            title: "Chemical Analysis ISO Report - 2",
+            icon: <ToolOutlined />,
+            activeTab: 2
         },
     ]
 
@@ -21,8 +30,8 @@ const SmsIsoMain = () => {
     
   return (
     <FormContainer>
-
-        <div className="grid grid-cols-2 gap-x-2">
+        <SubHeader link="/" />
+        <div className="grid grid-cols-2 gap-2">
 
         {
             smsIsoTabs.map(item => (
@@ -46,8 +55,16 @@ const SmsIsoMain = () => {
         {
             activeTab === 1 && (
                 <div>
-                    <h1 className="text-2xl font-semibold text-center">Verification ISO</h1>
-                <VerificationIso />
+                    <h1 className="text-2xl font-semibold text-center">Chemical Analysis ISO - 1</h1>
+                <ChemicalAnalysis />
+                </div>
+            )
+        }
+        {
+            activeTab === 2 && (
+                <div>
+                    <h1 className="text-2xl font-semibold text-center">Chemical Analysis ISO - 2</h1>
+                <ChemicalAnalysis2 />
                 </div>
             )
         }

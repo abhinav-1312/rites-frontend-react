@@ -40,14 +40,14 @@ const IsoReports = () => {
       id: 2,
       title: "Rolling Stage",
       icon: <AuditOutlined />,
-      // link: '/stage/startDuty'
+      link: '/iso/rolling'
     },
-    {
-      id: 3,
-      title: "NDT",
-      icon: <RadarChartOutlined />,
-      link: "/record/ndt",
-    },
+    // {
+    //   id: 3,
+    //   title: "NDT",
+    //   icon: <RadarChartOutlined />,
+    //   link: "/record/ndt",
+    // },
     // {
     //   id: 4,
     //   title: 'Testing',
@@ -96,7 +96,7 @@ const IsoReports = () => {
       return (
         <div
           onClick={() => navigate(item.link)}
-          className="flex justify-between items-center  border border-darkBlueHover w-full p-2 px-4 gap-4 rounded-lg shadow-lg bg-gray-200"
+          className="flex justify-between items-center  border border-darkBlueHover w-full p-2 px-4 gap-4 rounded-lg shadow-lg bg-gray-200 cursor-pointer"
         >
           <span className="records-tab-icon">{item.icon}</span>
           <span className="font-medium">{item.title}</span>

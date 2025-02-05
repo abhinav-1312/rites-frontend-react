@@ -79,6 +79,7 @@ import QctPrivateRoute from "./QctPrivateRoute";
 import SRIShiftDetailsForm from "../dashboard/duty/srInspection/shiftDetails/ShiftDetailsForm";
 import SRIPrivateRoute from './SRIPrivateRoute';
 import SmsIsoMain from "../dashboard/isoReports/sms/SmsIsoMain";
+import RollingIsoMain from "../dashboard/isoReports/rolling/RollingIsoMain";
 
 
 const RoutesComponent = () => {
@@ -234,9 +235,10 @@ const RoutesComponent = () => {
             </Route>
 
             <Route path = "/iso">
-              <Route path="sms" element={<SmsIsoMain />}>
+              <Route path="sms" element={<SmsIsoMain />} />
+              <Route path="rolling" element={<RollingIsoMain />} />
                 
-              </Route>
+              {/* </Route> */}
             </Route>
 
             <Route path="/calibration">

@@ -16,18 +16,18 @@ const IsoHeader = ({engTitle, hinTitle, col3AdtnlLine}) => {
     </React.Fragment>
   ));
   return (
-    <div className="border-b border-black grid grid-cols-3 divide-x divide-black -p-4">
+    <div className="border border-black grid grid-cols-3 divide-x divide-black -p-4">
       <div className="flex flex-col justify-center items-center">
         <Logo height={40} width={100} />
-        <h2 className="font-semibold !text-sm">
+        <h2 className="font-semibold !text-xs text-center mb-1">
         गुणवत्ता आश्वासन प्रभाग
         </h2>
-        <h2 className="font-semibold !text-sm">
+        <h2 className="font-semibold !text-xs text-center">
         QUALITY ASSURANCE DIVISION
         </h2>
       </div>
       <div className="flex flex-col justify-center items-center">
-        <h1 className="font-semibold !text-sm">
+        <h1 className="font-semibold !text-xs text-center mb-1">
           {formattedHinTitle}
         </h1>
 
