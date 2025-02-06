@@ -80,6 +80,11 @@ import SRIShiftDetailsForm from "../dashboard/duty/srInspection/shiftDetails/Shi
 import SRIPrivateRoute from './SRIPrivateRoute';
 import SmsIsoMain from "../dashboard/isoReports/sms/SmsIsoMain";
 import RollingIsoMain from "../dashboard/isoReports/rolling/RollingIsoMain";
+import Fatigue from "../dashboard/duty/qct/test/Fatigue";
+import Fracture from "../dashboard/duty/qct/test/Fracture";
+import Fcgr from "../dashboard/duty/qct/test/Fcgr";
+import Residual from "../dashboard/duty/qct/test/Residual";
+import CenterLine from "../dashboard/duty/qct/test/CenterLine";
 
 
 const RoutesComponent = () => {
@@ -227,6 +232,11 @@ const RoutesComponent = () => {
               <Route path="startDuty" element={<QctShiftDetailsForm />} />
               <Route element={<QctPrivateRoute />}>
               <Route path="sampleList" element={<QctSampleList />} />
+              <Route path="fatigue/:qctId" element={<Fatigue />} />
+              <Route path="fracture/:qctId" element={<Fracture />} />
+              <Route path="fcgr/:qctId" element={<Fcgr />} />
+              <Route path="residual/:qctId" element={<Residual />} />
+              <Route path="centerLine/:qctId" element={<CenterLine />} />
               <Route
                 path="newSampleDeclaration"
                 element={<QctSampleDeclarationForm />}
