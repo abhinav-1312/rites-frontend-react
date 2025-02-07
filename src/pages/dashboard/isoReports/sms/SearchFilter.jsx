@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import CustomDatePicker from '../../../../components/DKG_CustomDatePicker'
 import data from '../../../../utils/db.json'
 import FormDropdownItem from '../../../../components/DKG_FormDropdownItem'
+import FormInputItem from '../../../../components/DKG_FormInputItem'
 
-const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, showSms, onFinish, showMill, customRsL}) => {
+const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, showSms, onFinish, showMill, customRsL, showJn}) => {
     const [form] = Form.useForm()
 
     const [shiftList, setShiftList] = useState([])
@@ -17,6 +18,7 @@ const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, show
         shift: null,
         railGrade: null,
         railSection: null,
+        jointNo: null
     })
 
     const handleChange = (fieldName, value) => {
@@ -82,6 +84,11 @@ const SearchFilter = ({showDate, showShift, showRailGrade, showRailSection, show
                 onChange={handleChange}
                 required
               />
+            )
+        }
+        {
+            showJn && (
+                <FormInputItem name="jointNo" label="Joint Number" required onChange={handleChange} />
             )
         }
         <div className="col-span-2 grid grid-cols-2 gap-2">

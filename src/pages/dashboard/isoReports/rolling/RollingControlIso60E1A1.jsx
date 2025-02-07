@@ -63,7 +63,7 @@ const RollingControlIso60E1A1 = () => {
   const railData = [
     {
       key: "1",
-      type: "IRS 52",
+      type: "IRS52",
       height: "156 (+0.8/-0.4)",
       head: "67 (± 0.5)",
       flange: "136 (± 1.0)",

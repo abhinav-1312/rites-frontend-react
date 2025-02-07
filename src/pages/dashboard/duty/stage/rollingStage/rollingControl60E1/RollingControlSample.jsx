@@ -76,7 +76,7 @@ const RollingControlSample = () => {
         console.log("FLOAT: ", value)
         let floor = null;
         let ceil = null;
-        if (railSection === "IRS 52") {
+        if (railSection === "IRS52") {
           if (value < 155.6 || value > 156.8) {
             floor = 155.6;
             ceil = 156.8;
@@ -124,7 +124,7 @@ const RollingControlSample = () => {
             floor = 149.0;
             ceil = 151.0;
           }
-        } else if (railSection === "IRS 52") {
+        } else if (railSection === "IRS52") {
           if (value < 135.0 || value > 137.0) {
             floor = 135.0;
             ceil = 137.0;
@@ -162,7 +162,7 @@ const RollingControlSample = () => {
         let ceil = null;
         let floor = null;
 
-        if (railSection === "IRS 52") {
+        if (railSection === "IRS52") {
           if (value < 51.63055 || value > 52.66835) {
             floor = 51.63055;
             ceil = 52.66835;
@@ -206,7 +206,7 @@ const RollingControlSample = () => {
         let ceil = null;
         let floor = null;
 
-        if (railSection === "IRS 52") {
+        if (railSection === "IRS52") {
           if (value < 15.0 || value > 16.5) {
             floor = 15.0;
             ceil = 16.5;

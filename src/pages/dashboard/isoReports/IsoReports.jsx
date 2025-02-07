@@ -42,6 +42,24 @@ const IsoReports = () => {
       icon: <AuditOutlined />,
       link: '/iso/rolling'
     },
+    {
+      id: 3,
+      title: "Visual Inspection",
+      icon: <DatabaseOutlined />,
+      link: '/iso/vi'
+    },
+    {
+      id: 4,
+      title: "Welding",
+      icon: <RadarChartOutlined />,
+      link: '/iso/welding'
+    },
+    {
+      id: 5,
+      title: "Short Rail Inspection",
+      icon: <ToolOutlined />,
+      link: '/iso/sri'
+    },
     // {
     //   id: 3,
     //   title: "NDT",

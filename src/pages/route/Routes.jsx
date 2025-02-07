@@ -85,6 +85,9 @@ import Fracture from "../dashboard/duty/qct/test/Fracture";
 import Fcgr from "../dashboard/duty/qct/test/Fcgr";
 import Residual from "../dashboard/duty/qct/test/Residual";
 import CenterLine from "../dashboard/duty/qct/test/CenterLine";
+import ViIsoMain from "../dashboard/isoReports/vi/ViIsoMain";
+import WeldingIsoMain from "../dashboard/isoReports/welding/WeldingIsoMain";
+import SriIsoMain from "../dashboard/isoReports/sri/SriIsoMain";
 
 
 const RoutesComponent = () => {
@@ -247,6 +250,9 @@ const RoutesComponent = () => {
             <Route path = "/iso">
               <Route path="sms" element={<SmsIsoMain />} />
               <Route path="rolling" element={<RollingIsoMain />} />
+              <Route path="vi" element={<ViIsoMain />} />
+              <Route path="welding" element={<WeldingIsoMain />} />
+              <Route path="sri" element={<SriIsoMain />} />
                 
               {/* </Route> */}
             </Route>
