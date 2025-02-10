@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import FormContainer from '../../../../../components/DKG_FormContainer';
 import SubHeader from '../../../../../components/DKG_SubHeader';
 import GeneralInfo from '../../../../../components/DKG_GeneralInfo';
@@ -11,13 +11,20 @@ import Btn from '../../../../../components/DKG_Btn';
 import IconBtn from '../../../../../components/DKG_IconBtn';
 import { PlusOutlined } from '@ant-design/icons';
 import { regexMatch } from "../../../../../utils/Constants";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { apiCall } from '../../../../../utils/CommonFunctions';
+import { FilterFilled, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const { railSectionList, railGradeList, defectList } = data;
 
 const SrNewInspectionForm = () => {
   const [form] = Form.useForm();
+
+  const location = useLocation();
+
+  const data = useMemo( () => (location?.state?.data || {}), [location?.state?.data]);
+
+  const edittable = Object.keys(data).length !== 0;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     railSectionInspected: null,
@@ -167,18 +174,53 @@ const SrNewInspectionForm = () => {
 
   const onFinish = async () => {
     try {
-      // await apiCall("POST", "/shortrailinspection/save", token, {
-      //   ...formData,
-      //   dutyId: sriGeneralInfo.dutyId,
-      // });
-      message.success("Data saved successfully.");
+      await apiCall("POST", "/shortrailinspection/save", token, {
+        ...formData,
+        dutyId: sriGeneralInfo.dutyId,
+      });
       navigate("/srInspection/home");
+      message.success("Data saved successfully.")
     } catch (error) {}
   };
+
+  const populateData = useCallback(async (dutyId, railGradeInspected, railSectionInspected) => {
+    try{
+      const {data} = await apiCall("POST", "/shortrailinspection/getShortRailMasterById", token, {dutyId, railGradeInspected, railSectionInspected});
+      setFormData(data?.responseData || {});
+      
+    }catch(error){}
+  }, [token])
+
+  useEffect(() => {
+    if(data.railGradeInspected){
+      populateData(data.dutyId, data.railGradeInspected, data.railSectionInspected);
+      
+    }
+  }, [data, populateData])
 
   useEffect(() => {
     form.setFieldsValue(formData);
   }, [form, formData]);
+
+  const deleteRejAnls = async (id, index) => {
+    if(id){
+      try{
+        await apiCall("POST", "/shortrailinspection/deleteRejectionAnalysisById", token, {id})
+        populateData(sriGeneralInfo.dutyId, data.railGradeInspected, data.railSectionInspected);
+      }catch(error){}
+    }
+    else{
+      setFormData(prev => {
+        const prevRejAnlsDtls = prev.rejectionAnalysisDtls;
+        prevRejAnlsDtls.splice(index, 1);
+
+        return {
+          ...prev,
+          rejectionAnalysisDtls: prevRejAnlsDtls
+        }
+      })
+    }
+  }
 
   return (
     <FormContainer>
@@ -187,8 +229,8 @@ const SrNewInspectionForm = () => {
 
       <Form form={form} layout="vertical" initialValues={formData} onFinish={onFinish} >
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
-          <FormDropdownItem label='Rail Section Inspected' name='railSectionInspected' formField="railSectionInspected" dropdownArray={railSectionList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' required />
-          <FormDropdownItem label ='Rail Grade Inspected' name='railGradeInspected' formField="railGradeInspected" dropdownArray={railGradeList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required />
+          <FormDropdownItem label='Rail Section Inspected' name='railSectionInspected' formField="railSectionInspected" dropdownArray={railSectionList} valueField='key' visibleField='value' onChange={handleChange} className='w-full' required disabled={edittable} />
+          <FormDropdownItem label ='Rail Grade Inspected' name='railGradeInspected' formField="railGradeInspected" dropdownArray={railGradeList} valueField='key' visibleField='value' onChange = {handleChange} className='w-full' required disabled={edittable} />
         </div>
 
         <h3 className="font-semibold !text-xl mb-2">
@@ -489,9 +531,10 @@ const SrNewInspectionForm = () => {
         <div className="relative mb-6">
           <h3 className="font-semibold !text-xl">Rejection Analysis</h3>
 
-          <div className="border grid grid-cols-4 divide-x divide-y divide-gray-300 mt-2">
+          <div className="border grid grid-cols-5 divide-x divide-y divide-gray-300 mt-2">
             <div className="p-2 col-span-2 text-center font-semibold">26m</div>
             <div className="p-2 col-span-2 text-center font-semibold">13m</div>
+            <div className="p-2 text-center font-semibold row-span-2 flex items-center justify-center">Actions</div>
             <div className="p-2 text-center font-semibold">Defect</div>
             <div className="p-2 text-center font-semibold">Number</div>
             <div className="p-2 text-center font-semibold">Defect</div>
@@ -499,16 +542,19 @@ const SrNewInspectionForm = () => {
             {formData.rejectionAnalysisDtls?.map((record, index) => (
               <>
                 <div className="p-2">
-                  <FormDropdownItem name={["rejectionAnalysisDtls", index, "rejection26mAnalysisDefect"]} formField="rejection26mAnalysisDefect" dropdownArray={defectList} visibleField="value" valueField="key" onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} required />
+                  <FormDropdownItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection26mAnalysisDefect"]} formField="rejection26mAnalysisDefect" dropdownArray={defectList} visibleField="value" valueField="key" onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} required />
                 </div>
                 <div className="p-2">
-                  <FormInputItem name={["rejectionAnalysisDtls", index, "rejection26mAnalysisNumber"]} rules={rejection26mAnalysisNumberRule[index]} className="no-border" required onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} />
+                  <FormInputItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection26mAnalysisNumber"]} rules={rejection26mAnalysisNumberRule[index]} required onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} />
                 </div>
                 <div className="p-2">
-                  <FormDropdownItem name={["rejectionAnalysisDtls", index, "rejection13mAnalysisDefect"]} formField="rejection13mAnalysisDefect" dropdownArray={defectList} visibleField="value" valueField="key" onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} required />
+                  <FormDropdownItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection13mAnalysisDefect"]} formField="rejection13mAnalysisDefect" dropdownArray={defectList} visibleField="value" valueField="key" onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} required />
                 </div>
                 <div className="p-2">
-                  <FormInputItem name={["rejectionAnalysisDtls", index, "rejection13mAnalysisNumber"]} rules={rejection13mAnalysisNumberRule[index]} className="no-border" required onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} />
+                  <FormInputItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection13mAnalysisNumber"]} rules={rejection13mAnalysisNumberRule[index]} required onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} />
+                </div>
+                <div className="p-2">
+                <IconBtn icon={DeleteOutlined} text="Delete" onClick={() => deleteRejAnls(record.id, index)} />
                 </div>
               </>
             ))}
@@ -530,7 +576,10 @@ const SrNewInspectionForm = () => {
         />
 
         <Btn htmlType="submit" className="flex mx-auto">
-          Save
+          {
+            edittable ? "Edit" : "Save"
+          }
+          {/* Save */}
         </Btn>
       </Form>
     </FormContainer>

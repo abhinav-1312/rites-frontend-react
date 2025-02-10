@@ -12,6 +12,8 @@ import Btn from '../../../../../components/DKG_Btn';
 import { useSelector, useDispatch } from 'react-redux';
 import { endSriDuty } from '../../../../../store/slice/sriDutySlice';
 import { apiCall } from '../../../../../utils/CommonFunctions';
+import IconBtn from '../../../../../components/DKG_IconBtn';
+import { FilterFilled, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const SrInspectionHome = () => {
   const navigate = useNavigate();
@@ -23,22 +25,24 @@ const SrInspectionHome = () => {
     remarks: null
   });
 
+  const [inspectedData, setInspectedData] = useState([])
+
   const [totalTonnes, setTotalTonnes] = useState([
-    {
-      totalTonnesInspected: 12,
-      totalTonnesAccepted: 9,
-      totalTonnesRejected: 3,
-    },
-    {
-      totalTonnesInspected: 200,
-      totalTonnesAccepted: 112,
-      totalTonnesRejected: 88,
-    },
-    {
-      totalTonnesInspected: 39,
-      totalTonnesAccepted: 9,
-      totalTonnesRejected: 30,
-    },
+    // {
+    //   totalTonnesInspected: 12,
+    //   totalTonnesAccepted: 9,
+    //   totalTonnesRejected: 3,
+    // },
+    // {
+    //   totalTonnesInspected: 200,
+    //   totalTonnesAccepted: 112,
+    //   totalTonnesRejected: 88,
+    // },
+    // {
+    //   totalTonnesInspected: 39,
+    //   totalTonnesAccepted: 9,
+    //   totalTonnesRejected: 30,
+    // },
   ]);
 
   const populateTableData = useCallback(async () => {
@@ -52,6 +56,17 @@ const SrInspectionHome = () => {
 
       setTotalTonnes(data?.responseData || []);
     } catch (error) {}
+    try {
+      const { data } = await apiCall(
+        "GET",
+        `/shortrailinspection/getShortRailMasterByDutyId?dutyId=${sriGeneralInfo.dutyId}`,
+        token
+      );
+      // const { responseData } = data;
+
+      setInspectedData(data?.responseData || []);
+    } catch (error) {}
+
   }, [sriGeneralInfo.dutyId, token]);
 
   const handleChange = (fieldName, value) => {
@@ -68,9 +83,14 @@ const SrInspectionHome = () => {
     navigate('/')
   }
 
-  // useEffect(() => {
-  //   populateTableData();
-  // }, [populateTableData]);
+  useEffect(() => {
+    populateTableData();
+  }, [populateTableData]);
+
+  const handleInspectedRowClick = (row) => {
+    console.log(row) 
+    navigate("/srInspection/addNewInspection", {state: {data: row}})
+  }
 
   const totalTonnesColumns = [
     {
@@ -95,6 +115,39 @@ const SrInspectionHome = () => {
       key: "totalTonnesRejected",
     }
   ];
+  const inspectedDataColumns = [
+    {
+      title: "S/No",
+      dataIndex: "sNo",
+      key: "sNo",
+      render: (_, __, index) => index + 1, // Adding 1 to the index to start from 1
+    },
+    {
+      title: "Rail Grade Inspected",
+      dataIndex: "railGradeInspected",
+      key: "railGradeInspected"
+    },
+    {
+      title: "Rail Section Inspected",
+      dataIndex: "railSectionInspected",
+      key: "railSectionInspected",
+    },
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      render: (_, row) => (
+        <div className='flex gap-2'>
+          <IconBtn icon={EditOutlined} text="Edit" onClick={() => handleInspectedRowClick(row)} />
+          <IconBtn icon={DeleteOutlined} text="Delete" />
+        </div>
+      )
+    },
+    // {
+    //   title: "Rejected Tonnage",
+    //   dataIndex: "totalTonnesRejected",
+    //   key: "totalTonnesRejected",
+    // }
+  ];
 
   return (
     <FormContainer>
@@ -105,6 +158,21 @@ const SrInspectionHome = () => {
         <Table
           dataSource={totalTonnes}
           columns={totalTonnesColumns}
+          scroll={{ x: true }}
+          bordered
+          pagination={{
+            pageSize: 5,
+            showSizeChanger: true,
+            pageSizeOptions: ["5", "10", "20"],
+          }}
+        />
+      </section>
+
+      <section className='mt-6'>
+        <h1 className='font-semibold text-md text-center'>Inspected Rail Grade and Rail Section in current shift</h1>
+        <Table
+          dataSource={inspectedData}
+          columns={inspectedDataColumns}
           scroll={{ x: true }}
           bordered
           pagination={{
