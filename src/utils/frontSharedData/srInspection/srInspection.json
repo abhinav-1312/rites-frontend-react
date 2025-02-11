@@ -221,8 +221,8 @@
         "value": "TW"
       },
       {
-        "key": "-C -R/C",
-        "value": "-C -R/C"
+        "key": "C-R/C",
+        "value": "C-R/C"
       },
       {
         "key": "WY",

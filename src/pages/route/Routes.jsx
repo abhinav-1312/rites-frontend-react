@@ -72,6 +72,7 @@ import NewWeldingReport from "../dashboard/records/NewWeldingReport";
 import WeldingSummaryReport from "../dashboard/records/WeldingSummaryReport";
 import WeldingTestSampleReport from "../dashboard/records/WeldingTestSampleReport";
 import ViReportMain from "../dashboard/records/ViReportMain";
+import ViDefectAnalysis from "../dashboard/records/ViDefectAnalysis";
 import ViAcptRejReport from "../dashboard/records/ViAcptRejReport";
 import ViAcceptanceReport from "../dashboard/records/ViAcceptanceReport";
 import QctShiftDetailsForm from "../dashboard/duty/qct/shiftDetails/ShiftDetailsForm";
@@ -87,6 +88,9 @@ import Residual from "../dashboard/duty/qct/test/Residual";
 import CenterLine from "../dashboard/duty/qct/test/CenterLine";
 import ViIsoMain from "../dashboard/isoReports/vi/ViIsoMain";
 import WeldingIsoMain from "../dashboard/isoReports/welding/WeldingIsoMain";
+// import SriIsoMain from "../dashboard/isoReports/sri/SriIsoMain";
+import QctRecordMain from "../dashboard/records/QctRecordMain";
+import QctRecord1 from "../dashboard/records/QctRecord1";
 import SriIsoMain from "../dashboard/isoReports/sri/SriIsoMain";
 
 
@@ -110,6 +114,10 @@ const RoutesComponent = () => {
             <Route path="/record/vi" element={<ViReportMain />} />
             <Route path="/record/vi/acptRej" element={<ViAcptRejReport />} />
             <Route path="/record/vi/acpt" element={<ViAcceptanceReport />} />
+            <Route path="/record/vi/defect" element={<ViDefectAnalysis />} />
+
+            <Route path="/record/qct" element={<QctRecordMain />} />
+            <Route path="/record/qct/record1" element={<QctRecord1 />} />
             {/* <Route path="/record/welding/testSample" element={<WeldingTestSampleReport />} /> */}
 
             <Route path="/sms">

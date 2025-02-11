@@ -3,26 +3,26 @@ import {LineChartOutlined, EyeOutlined, ExperimentOutlined, ToolOutlined, Databa
 import { useNavigate } from 'react-router-dom';
 import SubHeader from '../../../components/DKG_SubHeader';
 
-const ViReportMain = () => {
+const QctRecordMain = () => {
     const smsRecordTabs = [
         {
             id: 1,
-            title: 'Acceeptance & Rejection Report',
+            title: 'QCT Record 1',
             icon: <MessageOutlined />,
-            link: '/record/vi/acptRej'
+            link: '/record/qct/record1'
           },
-          {
-            id: 2,
-            title: 'Acceptance Report',
-            icon: <AuditOutlined />,
-            link: '/record/vi/acpt'
-          },
-          {
-            id: 3,
-            title: 'Defect Analysis',
-            icon: <ToolOutlined />,
-            link: '/record/vi/defect'
-          },
+        //   {
+        //     id: 2,
+        //     title: 'Acceptance Report',
+        //     icon: <AuditOutlined />,
+        //     link: '/record/vi/acpt'
+        //   },
+        //   {
+        //     id: 2,
+        //     title: 'Test Sample Report',
+        //     icon: <ToolOutlined />,
+        //     link: '/record/welding/testSample'
+        //   },
     ]
     const navigate = useNavigate()
   const renderRecordItemTabs = () =>
@@ -45,7 +45,7 @@ const ViReportMain = () => {
   return (
     <div className='flex flex-col gap-4 md:gap-2 bg-white p-4 w-full md:w-4/5 mx-auto h-[100vh] md:h-fit'>
     <section>
-        <SubHeader title="Visual Inspection Records" link="/" />
+        <SubHeader title="QCT Records" link="/" />
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
       {renderRecordItemTabs()}
     </div>
@@ -54,4 +54,4 @@ const ViReportMain = () => {
   )
 }
 
-export default ViReportMain
+export default QctRecordMain

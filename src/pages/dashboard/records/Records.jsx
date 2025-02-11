@@ -10,24 +10,24 @@ const dutyItemTabs = [
     icon: <MessageOutlined />,
     link: '/record/sms'
   },
-  {
-    id: 2,
-    title: 'Rolling Stage Record',
-    icon: <AuditOutlined />,
-    // link: '/stage/startDuty'
-  },
+  // {
+  //   id: 2,
+  //   title: 'Rolling Stage Record',
+  //   icon: <AuditOutlined />,
+  //   // link: '/stage/startDuty'
+  // },
   {
     id: 3,
     title: 'NDT Record',
     icon: <RadarChartOutlined />,
     link: '/record/ndt'
   },
-  {
-    id: 4,
-    title: 'Testing Record',
-    icon: <ExperimentOutlined />,
-    // link:  '/testing/home'
-  },
+  // {
+  //   id: 4,
+  //   title: 'Testing Record',
+  //   icon: <ExperimentOutlined />,
+  //   // link:  '/testing/home'
+  // },
   {
     id: 5,
     title: 'Visual Inspection Record',
@@ -40,29 +40,29 @@ const dutyItemTabs = [
     icon: <DeploymentUnitOutlined />,
     link: '/record/welding'
   },
-  {
-    id: 7,
-    title: 'Short Rail Inspection Record',
-    icon: <CompassOutlined />,
-    // link: '/srInspection'
-  },
+  // {
+  //   id: 7,
+  //   title: 'Short Rail Inspection Record',
+  //   icon: <CompassOutlined />,
+  //   // link: '/srInspection'
+  // },
   {
     id: 8,
     title: 'QCT Record',
     icon: <DatabaseOutlined />,
-    // link: '/qct/sampleList'
+    link: '/record/qct'
   },
-  {
-    id: 9,
-    title: 'Calibration Record',
-    icon: <ToolOutlined />,
-    // link: '/calibration/list'
-  },
-  {
-    id: 10,
-    title: 'Info Record',
-    icon: <LineChartOutlined />
-  },
+  // {
+  //   id: 9,
+  //   title: 'Calibration Record',
+  //   icon: <ToolOutlined />,
+  //   // link: '/calibration/list'
+  // },
+  // {
+  //   id: 10,
+  //   title: 'Info Record',
+  //   icon: <LineChartOutlined />
+  // },
 ]
 
 
