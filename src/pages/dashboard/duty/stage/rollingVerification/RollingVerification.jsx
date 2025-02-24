@@ -69,7 +69,7 @@ const RollingVerification = () => {
     try{
         await apiCall("POST", "/rolling/saveRollingVerification", token, {...formData, dutyId: rollingGeneralInfo.dutyId});
         message.success("Data saved successfully.")
-        navigate('/stage/rollingControl')
+        navigate('/stage/home')
     }catch(error){
 
     }
@@ -373,45 +373,90 @@ const RollingVerification = () => {
 
           {formData?.bloomYardDtls?.map((record, index) => (
             <div className="grid grid-cols-2 gap-x-4 border p-4 pb-0 relative">
-              <FormInputItem
-                className="col-span-2"
-                label="Heat number"
-                name={["bloomYardDtls", index, "heatNo"]}
-                onChange={(fName, value) =>
-                  handleBloomDtlChange(fName, value, index)
-                }
-                required
-              />
-
-               
               {
                 mill === "RSM" && (
-                    <>
+                    <div>
                         <FormInputItem name={["bloomyardDtls", index, "length"]} label="Length" required />
-                        <FormInputItem name={["bloomyardDtls", index, "defect"]} label="Defect" required />
-                    </>
+                        <FormInputItem name={["bloomyardDtls", index, "defect"]} label="Defects" required />
+                        <div className="grid">
+                          <FormInputItem 
+                            label="Heat number"               
+                            name={["bloomYardDtls", index, "heatNo"]}
+                            onChange={(fName, value) =>
+                              handleBloomDtlChange(fName, value, index)
+                            }
+                            required
+                          />
+                          <FormDropdownItem
+                            placeholder="satisfactory / unsatisfactory"                
+                            formField="internalTransferVerification"
+                            name={[
+                              "bloomYardDtls",
+                              index,
+                              "internalTransferVerificationDesc",
+                            ]}
+                            dropdownArray={satUnsatDropdown}
+                            visibleField="value"
+                            valueField="key"
+                            onChange={(fName, value) =>
+                              handleBloomDtlChange(fName, value, index)
+                            }
+                            required
+                          />
+                        </div>
+                    </div>
                 )
-              } 
+              }
 
-              <h4 className="font-semibold col-span-2">
+              {mill === "URM" && (
+                <>
+                  <h4 className="font-semibold col-span-2">
+                    1. Online Verification of Internal Transfer Memo for Stacking
+                  </h4>
+                  <FormInputItem
+                    placeholder="Heat number"
+                    name={["chargingTableDtls", index, "heatNo"]}
+                    onChange={(fName, value) =>
+                      handleChargingTableDtlChange(fName, value, index)
+                    }
+                    required
+                  />
+                  <FormDropdownItem
+                    placeholder="satisfactory / unsatisfactory"
+                    formField="internalTransferVerification"
+                    name={["bloomYardDtls", index, "internalTransferVerificationDesc"]}
+                    dropdownArray={satUnsatDropdown}
+                    visibleField="value"
+                    valueField="key"
+                    onChange={(fName, value) =>
+                      handleBloomDtlChange(fName, value, index)
+                    }
+                    required
+                  />
+
+                  <h4 className="font-semibold col-span-2">
+                    2. Online Verification of Rail Heat Register with production report
+                  </h4>
+                  <FormDropdownItem
+                    placeholder="satisfactory / unsatisfactory"
+                    formField="heatRegisterVerification"
+                    name={["bloomYardDtls", index, "heatRegisterVerificationDesc"]}
+                    dropdownArray={satUnsatDropdown}
+                    visibleField="value"
+                    valueField="key"
+                    onChange={(fName, value) =>
+                      handleBloomDtlChange(fName, value, index)
+                    }
+                    required
+                  />
+                </>
+              )}
+
+              
+              {/* <h4 className="font-semibold col-span-2">
                 Online Verification of Internal Transfer Memo for Stacking
               </h4>
-              <FormDropdownItem
-                placeholder="satisfactory / unsatisfactory"
-                formField="internalTransferVerification"
-                name={[
-                  "bloomYardDtls",
-                  index,
-                  "internalTransferVerificationDesc",
-                ]}
-                dropdownArray={satUnsatDropdown}
-                visibleField="value"
-                valueField="key"
-                onChange={(fName, value) =>
-                  handleBloomDtlChange(fName, value, index)
-                }
-                required
-              />
+              
               <h4 className="font-semibold col-span-2">
                 Online Verification of Rail Heat Register with production report
               </h4>
@@ -426,7 +471,7 @@ const RollingVerification = () => {
                   handleBloomDtlChange(fName, value, index)
                 }
                 required
-              />
+              /> */}
               <IconBtn
                 icon={DeleteOutlined}
                 className="shadow-none absolute right-0"
@@ -449,7 +494,7 @@ const RollingVerification = () => {
 
           {formData?.chargingTableDtls?.map((record, index) => (
             <div className="grid grid-cols-2 gap-x-4 border p-4 pb-0 relative">
-              <h4 className="font-semibold col-span-3">Surface Inspection</h4>
+              <h4 className="font-semibold col-span-3">Surface Inspection of atleast two faces</h4>
               <FormInputItem
                 placeholder="Heat number"
                 name={["chargingTableDtls", index, "heatNo"]}
@@ -474,43 +519,6 @@ const RollingVerification = () => {
                 }
                 required
               />
-
-              <h4 className="font-semibold col-span-2">
-                Online Verification of Computerized Bloom Tracking
-              </h4>
-              <FormDropdownItem
-                placeholder="satisfactory / unsatisfactory"
-                formField="bloomTrackingVerification"
-                name={[
-                  "chargingTableDtls",
-                  index,
-                  "bloomTrackingVerificationDesc",
-                ]}
-                dropdownArray={satUnsatDropdown}
-                visibleField="value"
-                valueField="key"
-                required
-                onChange={(fName, value) =>
-                  handleChargingTableDtlChange(fName, value, index)
-                }
-              />
-
-              <h4 className="font-semibold col-span-2">
-                Descaling of Hot Blooms Before Rolling
-              </h4>
-              <FormDropdownItem
-                placeholder="satisfactory / unsatisfactory"
-                formField="hotBloomsDescaling"
-                name={["chargingTableDtls", index, "hotBloomsDescalingDesc"]}
-                dropdownArray={satUnsatDropdown}
-                visibleField="value"
-                valueField="key"
-                required
-                onChange={(fName, value) =>
-                  handleChargingTableDtlChange(fName, value, index)
-                }
-              />
-
               <IconBtn
                 icon={DeleteOutlined}
                 className="shadow-none absolute right-0"
@@ -527,6 +535,45 @@ const RollingVerification = () => {
         </div>
 
         <Divider />
+        <h3 className="font-semibold !text-xl">Bloom Tracking</h3>
+        
+        <h4 className="font-semibold col-span-2">
+          Online Verification of Computerized Bloom Tracking
+        </h4>
+        <FormDropdownItem
+          placeholder="satisfactory / unsatisfactory"
+          formField="bloomTrackingVerification"
+          name={[
+            "chargingTableDtls",
+            "bloomTrackingVerificationDesc",
+          ]}
+          dropdownArray={satUnsatDropdown}
+          visibleField="value"
+          valueField="key"
+          required
+          onChange={(fName, value) =>
+            handleChargingTableDtlChange(fName, value)
+          }
+        />
+
+        <Divider />
+        <h3 className="font-semibold !text-xl">Descaling of Blooms</h3>
+        
+        <h4 className="font-semibold col-span-2">
+          Descaling of Hot Blooms Before Rolling
+        </h4>
+        <FormDropdownItem
+          placeholder="satisfactory / unsatisfactory"
+          formField="hotBloomsDescaling"
+          name={["chargingTableDtls", "hotBloomsDescalingDesc"]}
+          dropdownArray={satUnsatDropdown}
+          visibleField="value"
+          valueField="key"
+          required
+          onChange={(fName, value) =>
+            handleChargingTableDtlChange(fName, value)
+          }
+        />
 
         <div className="relative">
           <h3 className="font-semibold !text-xl">Temperature Observation</h3>

@@ -67,7 +67,7 @@ const QctSampleDeclarationForm = () => {
 
         <Divider className='mt-2 mb-2' />
 
-        <FormInputItem label='Remarks' name='remarks' value={formData.remarks} onChange={handleChange} required/>
+        <FormInputItem label='Remarks' name='remarks' value={formData.remarks} onChange={handleChange}/>
 
         <div className='flex justify-center mt-4'>
           <Btn htmlType='submit'>Save</Btn>

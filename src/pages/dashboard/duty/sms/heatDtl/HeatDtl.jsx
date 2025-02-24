@@ -310,7 +310,7 @@ const HeatDtl = () => {
       primeBloomWt =
         (fieldName === "noOfPrimeBlooms" ? value : noOfPrimeBlooms) *
         (fieldName === "primeBloomsLength" ? value : primeBloomsLength) *
-        csVal;
+        csVal * 7.85;
     } else if (fieldName === "primeBloomsTotalLength") {
       if (!value) {
         setPrimeBloomsFieldState({
@@ -325,7 +325,7 @@ const HeatDtl = () => {
           primeBloomsTotalLength: false,
         });
       }
-      primeBloomWt = value * csVal;
+      primeBloomWt = value * csVal * 7.85;
     }
 
     // Update form data
@@ -364,7 +364,7 @@ const HeatDtl = () => {
       coBloomWt =
         (fieldName === "noOfCoBlooms" ? value : noOfCoBlooms) *
         (fieldName === "coBloomsLength" ? value : coBloomsLength) *
-        csVal;
+        csVal * 7.85;
     } else if (fieldName === "coBloomsTotalLength") {
       if (!value) {
         setCoBloomsFieldState({
@@ -379,7 +379,7 @@ const HeatDtl = () => {
           coBloomsTotalLength: false,
         });
       }
-      coBloomWt = value * csVal;
+      coBloomWt = value * csVal * 7.85;
     }
 
     // Update form data
@@ -435,7 +435,7 @@ const HeatDtl = () => {
       rejectedBloomWt =
         (fieldName === "noOfRejectedBlooms" ? value : noOfRejectedBlooms) *
         (fieldName === "rejectedBloomsLength" ? value : rejectedBloomsLength) *
-        csVal;
+        csVal * 7.85;
     } else if (fieldName === "rejectedBloomsTotalLength") {
       if (!value) {
         setRejectedBloomsFieldState({
@@ -450,7 +450,7 @@ const HeatDtl = () => {
           rejectedBloomsTotalLength: false,
         });
       }
-      rejectedBloomWt = value * csVal;
+      rejectedBloomWt = value * csVal * 7.85;
     }
 
     // Update form data

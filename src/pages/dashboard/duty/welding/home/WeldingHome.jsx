@@ -96,6 +96,10 @@ const WeldingHome = () => {
     });
     const {token} = useSelector(state => state.auth);
     const weldingGeneralInfo = useSelector(state => state.weldingDuty);
+    const totalCountForBSP1 = 0;
+    const totalCountForBSP2 = 0;
+    const totalCountForBSP4 = 0;
+
     const [info, setInfo] = useState([
       {
         key: '1',
@@ -121,6 +125,14 @@ const WeldingHome = () => {
     const  populateData = useCallback(async () => {
       try{
         const {data} = await apiCall("GET", '/welding/getMachineWiseTestCount', token);
+        if (data?.responseData.machineNo === 'BSP1') {
+           totalCountForBSP1 = data?.responseData.tltCount + data?.responseData.hardnessCount + data?.responseData.macroCount + data?.responseData.microCount;
+        }else if (data?.responseData.machineNo === 'BSP2') {
+          totalCountForBSP2 = data?.responseData.tltCount + data?.responseData.hardnessCount + data?.responseData.macroCount + data?.responseData.microCount;
+        }
+        else{
+          totalCountForBSP4 = data?.responseData.tltCount + data?.responseData.hardnessCount + data?.responseData.macroCount + data?.responseData.microCount;
+        }
 
         setMachineWiseCount(data?.responseData || []);
       }catch(error){
@@ -156,9 +168,21 @@ const WeldingHome = () => {
         <Divider className="mb-0" />
 
         <section>
-          <h2 className="font-bold">No. of Joints  welded in previous Shift after Weld Test (BSP4): <span className="font-normal text-red-500">come from database</span></h2>
-          <h2 className="font-bold">No. of Joints  welded in previous shift after Weld Test (BSP1): <span className="font-normal text-red-500">come from database</span></h2>
-          <h2 className="font-bold">No. of Joints  welded in this previous shift after Weld Test (BSP2): <span className="font-normal text-red-500">come from database</span></h2>
+          {
+            weldingGeneralInfo.mill === 'RSM' && (
+              <h2 className="font-bold">No. of Joints  welded in previous Shift after Weld Test (BSP4): <span className="font-normal text-red-500">{totalCountForBSP4}</span></h2>
+            )
+          }
+
+          {
+            (weldingGeneralInfo.mill === 'URM' && weldingGeneralInfo.weldingLine === 'L3') && (
+              <>
+                <h2 className="font-bold">No. of Joints  welded in previous shift after Weld Test (BSP1): <span className="font-normal text-red-500">{totalCountForBSP1}</span></h2>
+                <h2 className="font-bold">No. of Joints  welded in this previous shift after Weld Test (BSP2): <span className="font-normal text-red-500">{totalCountForBSP2}</span></h2>
+              </>
+              
+            )
+          }
         </section>
 
         <Divider className="mb-2 mt-0" />
