@@ -100,7 +100,7 @@ const HtSequence = () => {
     try {
       const { data } = await apiCall(
         "GET",
-        "/rolling/htSequence/getOpenBatchDtls",
+        "/rolling/htSequence/getOpenBatchDtlsV2",
         token
       );
       setTableData(data.responseData?.railIdDtlList || []);
@@ -173,7 +173,7 @@ const HtSequence = () => {
       bloomQuality: formData.bloomQuality,
     };
     try {
-      await apiCall("POST", "/rolling/testing/saveRailDtls", token, payload);
+      await apiCall("POST", "/rolling/htSequence/saveHtSequenceRail", token, payload);
       setIsModalOpen(false);
       populateData();
     } catch (error) {}
@@ -194,15 +194,15 @@ const HtSequence = () => {
   };
 
   const saveHtSequence = async () => {
-    if (checked) {
-      try {
-        await apiCall("POST", "rolling/htSequence/saveBatch", token, {
-          dutyId: rollingGeneralInfo.dutyId,
-        });
-      } catch (error) {}
-    }
+    // if (checked) {
+    //   try {
+    //     await apiCall("POST", "rolling/htSequence/saveBatch", token, {
+    //       dutyId: rollingGeneralInfo.dutyId,
+    //     });
+    //   } catch (error) {}
+    // }
 
-    navigate("/stage/home");
+    // navigate("/stage/home");
   };
 
   useEffect(() => {
@@ -277,23 +277,23 @@ const HtSequence = () => {
           layout="vertical"
           onFinish={addData}
         >
-          <FormSearchItem
+          <FormInputItem
             label="Rail ID"
             name="railId"
-            onSearch={handleRailIdSearch}
+            // onSearch={handleRailIdSearch}
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
             required
           />
 
-          <FormInputItem
+          {/* <FormInputItem
             label="Test Sample Marked"
             name="testSampleMarked"
             onChange={(name, value) => handleChange(name, value, setFormData)}
             required
             disabled
-          />
+          /> */}
 
           <FormDropdownItem
             label="Bloom Quality"

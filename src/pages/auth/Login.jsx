@@ -21,16 +21,22 @@ const Login = () => {
   const navigate = useNavigate()
   const {token} = useSelector(state => state.auth);
   const handleFormSubmit = async () => {
-    await dispatch(login(formData)).unwrap()
-    await dispatch(getOngoingSmsDutyDtls()).unwrap()
-    await dispatch(getOngoingRollingDutyDtls()).unwrap()
-    await dispatch(getOngoingViDutyDtls()).unwrap()
-    await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
-    await dispatch(getOngoingNdtDutyDtls()).unwrap()
-    await dispatch(getOngoingWeldingDutyDtls()).unwrap()
-    await dispatch(getOngoingQctDutyDtls()).unwrap()
-    await dispatch(getOngoingSriDutyDtls()).unwrap()
-    navigate('/')
+    try{
+
+      await dispatch(login(formData)).unwrap()
+      // await dispatch(getOngoingSmsDutyDtls()).unwrap()
+      // await dispatch(getOngoingRollingDutyDtls()).unwrap()
+      // await dispatch(getOngoingViDutyDtls()).unwrap()
+      // await dispatch(getOngoingCalibrationDutyDtls()).unwrap()
+      // await dispatch(getOngoingNdtDutyDtls()).unwrap()
+      // await dispatch(getOngoingWeldingDutyDtls()).unwrap()
+      // await dispatch(getOngoingQctDutyDtls()).unwrap()
+      // await dispatch(getOngoingSriDutyDtls()).unwrap()
+      navigate('/')
+    }
+    catch(error){
+
+    }
   }
 
   const [formData, setFormData] = useState(

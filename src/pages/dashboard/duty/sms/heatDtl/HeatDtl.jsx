@@ -157,8 +157,21 @@ const HeatDtl = () => {
     [formData, stageValidationRules]
   );
 
+
+  const [editableStage, setEditableStage] = useState({
+    heatProcurementStageCode: null,
+    heatProcurementStage: null,
+    heatSurrenderStage: null,
+    heatSurrenderStageCode: null,
+  });
+
   const isFieldDisabled = (stage) => {
-    return stage <= completedHeatStage || stage > currentStage;
+    if(stage === 2){
+      console.log("editable: ", completedHeatStage, currentStage)
+      console.log("Stage 2: ", stage <= completedHeatStage || stage > currentStage || (editableStage.heatProcurementStageCode + 1 < stage && editableStage.heatSurrenderStageCode < stage ))
+    }
+
+    return (stage <= completedHeatStage || stage > currentStage) && !((editableStage.heatProcurementStageCode || 7) < stage && (editableStage.heatSurrenderStageCode || 7) <= stage )
   };
 
   const handleHeatNoSearch = useCallback(
@@ -180,6 +193,7 @@ const HeatDtl = () => {
           degassingVacuumWv: responseData?.degassingVacuumWv || null,
           degassingDurationWv: responseData?.degassingDurationWv || null,
           castingTemp: responseData?.castingTemp || null,
+          castingTemp2: responseData?.castingTemp2 || null,
           casterNo: responseData?.casterNo || null,
           sequenceNo: responseData?.sequenceNo || null,
           hydris: responseData?.hydris || null,
@@ -215,7 +229,7 @@ const HeatDtl = () => {
 
   const onFinish = async () => {
     const fields = stageValidationRules[`stage${currentStage}`];
-    if (currentStage === 5) {
+    if (currentStage > 5) {
       if (
         !formData.weightOfPrimeBlooms ||
         !formData.weightOfCoBlooms ||
@@ -448,7 +462,7 @@ const HeatDtl = () => {
   }, [formData, form]);
 
   useEffect(() => {
-    if (validateStage(currentStage) && currentStage < 5) {
+    if (validateStage(currentStage) && currentStage <= 5) {
       setCurrentStage(currentStage + 1);
     }
   }, [currentStage, formData, validateStage]);
@@ -459,6 +473,19 @@ const HeatDtl = () => {
       handleHeatNoSearch(heatNo);
     }
   }, [handleHeatNoSearch, heatNo]);
+
+  const populateEditableStage = useCallback(async () => {
+    try{
+      const {data} = await apiCall("POST", "/sms/getStageDtl", token, {dutyId, heatNo: heatNo || null})
+      setEditableStage(data?.responseData || {})
+
+    }
+    catch(error){}
+  }, [token, heatNo, dutyId])
+
+  useEffect(() => {
+    populateEditableStage()
+  }, [populateEditableStage]);
 
   const [degVacRule, setDegVacRule] = useState([]);
   const [degDurRule, setDegDurRule] = useState([]);
@@ -489,7 +516,7 @@ const HeatDtl = () => {
       setCastTempRule([]);
     }
 
-    setFormData(prev => ({...prev, [fieldName]: value}))
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
   };
 
   const handleDegVacChange = (fieldName, value) => {
@@ -561,8 +588,7 @@ const HeatDtl = () => {
           hydris: value,
         }));
         setHeatRemarkDisabled(true);
-      }
-      else{
+      } else {
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
@@ -580,19 +606,17 @@ const HeatDtl = () => {
   const handleNitrogenChange = (fieldName, value) => {
     const isFloat = regexMatch.floatRegex.test(value);
 
-    if(!isFloat){
+    if (!isFloat) {
       setNitrogenRule([
         {
           validator: (_, value) =>
             Promise.reject(new Error("Value must be numeric.")),
-          
         },
       ]);
-    }
-    else{
+    } else {
       setNitrogenRule([]);
 
-      if(parseFloat(value) > 0.009){
+      if (parseFloat(value) > 0.009) {
         message.warning("Value must be less than 0.009");
 
         setFormData((prev) => ({
@@ -601,8 +625,7 @@ const HeatDtl = () => {
           nitrogen: value,
         }));
         setHeatRemarkDisabled(true);
-      }
-      else{
+      } else {
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
@@ -613,26 +636,23 @@ const HeatDtl = () => {
     }
 
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
-
-  }
+  };
 
   const [oxygenRule, setOxygenRule] = useState([]);
 
   const handleOxygenChange = (fieldName, value) => {
-    const isFloat = regexMatch.floatRegex.test(value)
+    const isFloat = regexMatch.floatRegex.test(value);
 
-    if(!isFloat){
+    if (!isFloat) {
       setOxygenRule([
         {
           validator: (_, value) =>
             Promise.reject(new Error("Value must be numeric.")),
-          
         },
       ]);
-    }
-    else{
+    } else {
       setOxygenRule([]);
-      if(parseFloat(value) > 20){
+      if (parseFloat(value) > 20) {
         message.warning("Value must be less than or equal to 20.0");
 
         setFormData((prev) => ({
@@ -641,8 +661,7 @@ const HeatDtl = () => {
           oxygen: value,
         }));
         setHeatRemarkDisabled(true);
-      }
-      else{
+      } else {
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
@@ -652,8 +671,7 @@ const HeatDtl = () => {
       }
     }
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
-
-  }
+  };
 
   return (
     <FormContainer>
@@ -693,7 +711,7 @@ const HeatDtl = () => {
               handleChange(fieldName, value, setFormData)
             }
             // disabled={currentStage !== 1}
-            disabled={isFieldDisabled(1)}
+            disabled = {isFieldDisabled(1)}
           />
           <FormDropdownItem
             label="Witnessed / Verified"
@@ -705,9 +723,10 @@ const HeatDtl = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
-            disabled
+            // disabled = {editableStage.heatProcurementStageCode + 1 > 0 && editableStage.heatSurrenderStage >= 0 }
             // disabled={currentStage !== 1}
             // disabled={isFieldDisabled(1)}
+            disabled = {isFieldDisabled(1)}
           />
         </div>
 
@@ -763,6 +782,13 @@ const HeatDtl = () => {
           <FormInputItem
             label="Casting Temperature (&deg;C)"
             name="castingTemp"
+            onChange={handleCastTempChange}
+            rules={castTempRule}
+            disabled={isFieldDisabled(3)}
+          />
+          <FormInputItem
+            label="Casting Temperature (&deg;C) - 2"
+            name="castingTemp2"
             onChange={handleCastTempChange}
             rules={castTempRule}
             disabled={isFieldDisabled(3)}

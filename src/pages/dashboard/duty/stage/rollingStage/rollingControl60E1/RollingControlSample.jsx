@@ -251,6 +251,7 @@ const RollingControlSample = () => {
     try {
       await apiCall("POST", "/rolling/saveControlHeat", token, {
         ...formData,
+        heatNo: String(formData.heatNo).padStart(6, "0"),
         dutyId: rollingGeneralInfo.dutyId,
       });
       message.success("Data saved successfully");

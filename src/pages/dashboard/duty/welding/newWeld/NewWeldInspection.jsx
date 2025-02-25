@@ -295,10 +295,33 @@ const NewWeldInspection = () => {
 
   console.log("Fromdata joins: ", formData);
 
-  const handleWeldListChange = (fieldName, value, index) => {
+  const getAcptLengthDtls = async (railId) => {
+    try{
+      const {data} = await apiCall("GET", `/vi/getActOffLengthByRailId?railId=${railId}`, token)
+      return data?.responseData?.length || 0;
+    }
+    catch(error){
+
+    }
+  }
+
+  const handleWeldListChange = async (fieldName, value, index) => {
+    if(fieldName === "railId1" || fieldName === "railId2"){
+      const length = await getAcptLengthDtls(value);
+
+      setFormData(prev => {
+        const prevWeldList = prev.weldList || [];
+        prevWeldList[index][fieldName] = value;
+        prevWeldList[index][`${fieldName}Length`] = length;
+        return {
+          ...prev,
+          weldList: prevWeldList
+        }
+      })
+      return;
+    }
     setFormData((prev) => {
       const updatedWeldList = prev.weldList || [];
-      console.log("prev.weldList: ", prev.weldList);
       updatedWeldList[index][fieldName] = value;
 
       if (
@@ -317,6 +340,43 @@ const NewWeldInspection = () => {
       };
     });
   };
+
+  // const getAcptLengthDtls = async (railId) => {
+  //   try {
+  //     const { data } = await apiCall("GET", `/vi/getActOffLengthByRailId?railId=${railId}`);
+  //     return data?.responseData?.length || 0;
+  //   } catch (error) {
+  //     console.error("Error fetching accepted length details:", error);
+  //     return 0;
+  //   }
+  // };
+  
+  // const handleWeldListChange = async (fieldName, value, index) => {
+  //   setFormData(async (prev) => {
+  //     const updatedData = { ...prev };
+  
+  //     if (fieldName === "railId1" || fieldName === "railId2") {
+  //       const length = await getAcptLengthDtls(value);
+  //       updatedData[fieldName] = value;
+  //       updatedData[`${fieldName}Length`] = length;
+  //     } else {
+  //       const updatedWeldList = [...(prev.weldList || [])];
+  //       updatedWeldList[index] = {
+  //         ...updatedWeldList[index],
+  //         [fieldName]: value,
+  //       };
+  
+  //       if (["weldParameter", "visual", "marking", "dimension", "usfd"].includes(fieldName)) {
+  //         updatedWeldList[index][`${fieldName}Desc`] = getDesc(value);
+  //       }
+  
+  //       updatedData.weldList = updatedWeldList;
+  //     }
+  
+  //     return updatedData;
+  //   });
+  // };
+  
 
   const updateData = async () => {
     console.log("Update data called")
@@ -364,7 +424,7 @@ const NewWeldInspection = () => {
           />
         </div>
 
-        {formData.weldList.map((item, index) => (
+        {formData.weldList?.map((item, index) => (
           <div
             key={index}
             className="grid grid-cols-2 gap-x-2 md:gap-x-8 border p-4"

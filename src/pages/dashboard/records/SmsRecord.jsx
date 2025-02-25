@@ -57,6 +57,7 @@ const SmsRecord = () => {
       title: "Rejected Heat Numbers",
       dataIndex: "rejectedHeatNumbers",
       key: "rejectedHeatNumbers",
+      render: (_, record) => record.rejectedHeatNumbers || "N/A"
     },
     {
       title: "Weight of Heats Casted",
@@ -70,7 +71,7 @@ const SmsRecord = () => {
     },
     {
       title: "Weight of CO Blooms",
-      dataIndex: "weightOfCoBlooms",
+      dataIndex: "weightOfCOBlooms",
       key: "weightOfCOBlooms",
     },
     {

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Form, message, Modal, Table } from "antd";
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Checkbox, Form, message, Modal, Popconfirm, Table } from "antd";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import SubHeader from "../../../../../components/DKG_SubHeader";
 import GeneralInfo from "../../../../../components/DKG_GeneralInfo";
 import IconBtn from "../../../../../components/DKG_IconBtn";
@@ -92,6 +92,15 @@ const SmsHeatSummary = () => {
     } catch (error) {}
   }, [smsGeneralInfo.dutyId, token]);
 
+  const deleteHeat = async (heatNo) => {
+    try{
+      await apiCall("POST", "/sms/deleteHeat", token, {heatNo});
+      message.success(`Heat ${heatNo} deleted successfully.`)
+      populateTableData();
+    }
+    catch(error){}
+  }
+
   const columns = [
     {
       title: "S/No",
@@ -129,10 +138,28 @@ const SmsHeatSummary = () => {
       title: "Actions",
       fixed: "right",
       render: (_, record) => (
+        <div className="flex gap-2">
+
         <IconBtn
           icon={EditOutlined}
           onClick={() => navigate("/sms/heatDtl", {state: {heatNo: record.heatNo}})}
-        />
+          />
+
+<Popconfirm
+    // title="Delete the task"
+    description="Are you sure to delete this heat?"
+    onConfirm={() => deleteHeat(record.heatNo)}
+    // onCancel={cancel}
+    okText="Yes"
+    cancelText="No"
+  >
+     <IconBtn danger
+          icon={DeleteOutlined}
+          // onClick={() => deleteHeat(record.heatNo)}
+          />
+  </Popconfirm>
+       
+          </div>
       ),
     },
   ];
@@ -143,7 +170,7 @@ const SmsHeatSummary = () => {
       return;
     }
       const payload = {
-        heatNo: newHeat.heatNo,
+        heatNo: String(newHeat.heatNo).padStart(6, '0'),
         turnDownTemp: checkFloatObj.number,
         turnDownTempWv: newHeat.turnDownTempWv,
         dutyId: smsGeneralInfo.dutyId
@@ -169,24 +196,24 @@ const SmsHeatSummary = () => {
   const [tempRule, setTempRule] = useState([]);
 
   const handleNewHeatValChange = (fieldName, value) => {
-    if (fieldName === "heatNo") {
-      const isValid = /^0\d{5}$/.test(value);
+    // if (fieldName === "heatNo") {
+    //   const isValid = /^0\d{5}$/.test(value);
 
-      if (!isValid) {
-        setHeatRule([
-          {
-            validator: (_, value) =>
-              Promise.reject(
-                new Error(
-                  "Heat Number must start with 0, be 6 digits, and contain only numbers."
-                )
-              ),
-          },
-        ]);
-      } else {
-        setHeatRule([]); // Clear the rule on valid input
-      }
-    }
+    //   if (!isValid) {
+    //     setHeatRule([
+    //       {
+    //         validator: (_, value) =>
+    //           Promise.reject(
+    //             new Error(
+    //               "Heat Number must start with 0, be 6 digits, and contain only numbers."
+    //             )
+    //           ),
+    //       },
+    //     ]);
+    //   } else {
+    //     setHeatRule([]); // Clear the rule on valid input
+    //   }
+    // }
 
     if(fieldName === "turnDownTemp"){
       const isValid = /^\d+$/.test(value);
@@ -319,12 +346,6 @@ const SmsHeatSummary = () => {
             onClick={() => setIsModalOpen(true)}
           />
 
-          {/* <IconBtn
-            icon={PlusOutlined}
-            text="add existing heat"
-            className="absolute left-40 bottom-4"
-            onClick={() => navigate("/sms/heatDtl")}
-          /> */}
         </div>
       </section>
 

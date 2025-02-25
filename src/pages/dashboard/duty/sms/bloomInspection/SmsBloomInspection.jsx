@@ -10,6 +10,7 @@ import Btn from "../../../../../components/DKG_Btn";
 import FormSearchItem from "../../../../../components/DKG_FormSearchItem";
 import { apiCall, handleChange } from "../../../../../utils/CommonFunctions";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const bloomIdentificationList = [
   {
@@ -38,6 +39,8 @@ const SmsBloomInspection = () => {
     remark: null,
   });
 
+  const navigate = useNavigate();
+
   const handleFormSubmit = async () => {
     try {
       // Call the API
@@ -45,20 +48,20 @@ const SmsBloomInspection = () => {
         ...formData, 
         dutyId: smsGeneralInfo.dutyId,
       });
-  
-      // Show success message only when the API call is successful
+
       message.success("Bloom Inspection successful.");
+      navigate("/sms/dutyEnd")
     } catch (error) {
-      // Error is already handled by `apiCall` with `message.error`
       console.error("Form submission error:", error);
     }
   };
 
   const handleCastNoSearch = async (castNo) => {
     try {
+      const castNoFormatted = String(castNo).padStart(6, '0')
       const { data } = await apiCall(
         "GET",
-        `/sms/getBloomDtls?castNo=${castNo}`,
+        `/sms/getBloomDtls?castNo=${castNoFormatted}`,
         token
       );
       setFormData({
