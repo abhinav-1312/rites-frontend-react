@@ -24,6 +24,7 @@ import {
 const { bloomQualityList, htStatusList } = data;
 
 const HtSequence = () => {
+  const [edit, setEdit] = useState(false);
   const handleRowClick = (record) => {
     setFormData({
       railId: record.railId,
@@ -32,7 +33,7 @@ const HtSequence = () => {
       bloomQuality: record.bloomQuality,
       testSampleMarked: record.testMarked,
     });
-
+    setEdit(true)
     setIsModalOpen(true);
   };
 
@@ -64,7 +65,7 @@ const HtSequence = () => {
       title: "Test Sample Marked",
       dataIndex: "testMarked",
       key: "testMarked",
-      render: (testMarked) => testMarked.join(", "),
+      render: (testMarked) => testMarked?.join(", "),
     },
     {
       title: "Actions",
@@ -103,9 +104,9 @@ const HtSequence = () => {
         "/rolling/htSequence/getOpenBatchDtlsV2",
         token
       );
-      setTableData(data.responseData?.railIdDtlList || []);
+      setTableData(data.responseData || []);
 
-      const batch = data.responseData?.railIdDtlList;
+      const batch = data.responseData || [];
       const tensileBatchCount = batch.length % 128;
       const phMicroBatchCount = batch.length % 12;
       const decarbBatchCount = batch.length % 64;
@@ -173,11 +174,26 @@ const HtSequence = () => {
       bloomQuality: formData.bloomQuality,
     };
     try {
-      await apiCall("POST", "/rolling/htSequence/saveHtSequenceRail", token, payload);
-      setIsModalOpen(false);
-      populateData();
+      if(edit){
+        await apiCall("POST", "/rolling/htSequence/updateHtSequenceRail", token, payload);
+        setIsModalOpen(false);
+        populateData();
+        setEdit(false)
+      }
+      else{
+        await apiCall("POST", "/rolling/htSequence/saveHtSequenceRail", token, payload);
+        setIsModalOpen(false);
+        populateData();
+      }
+      setFormData({railId: null,
+        bloomQuality: null,
+        htStatus: null,
+        htStatusDesc: null,
+        testSampleMarked: null})
     } catch (error) {}
   };
+
+  console.log("FPRMDTA: ", formData)
 
   const handleRailIdSearch = async () => {
     try {
@@ -205,11 +221,25 @@ const HtSequence = () => {
     navigate("/stage/home");
   };
 
+  const handleModalClose = () => {
+
+    console.log("MODAL CLOSE CALLED")
+    setIsModalOpen(false);
+    setFormData({railId: null,
+      bloomQuality: null,
+      htStatus: null,
+      htStatusDesc: null,
+      testSampleMarked: null})
+
+      setEdit(false)
+  }
+
   useEffect(() => {
     populateData();
   }, [populateData]);
 
   useEffect(() => {
+    console.log("GETTING CALLED")
     form.setFieldsValue(formData);
   }, [form, formData]);
 
@@ -269,7 +299,8 @@ const HtSequence = () => {
         open={isModalOpen}
         title="Add a new Rail"
         footer={null}
-        onCancel={() => setIsModalOpen(false)}
+        onCancel={handleModalClose}
+        onClose={handleModalClose}
       >
         <Form
           form={form}
@@ -284,6 +315,7 @@ const HtSequence = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
+            disabled={edit}
             required
           />
 
@@ -316,8 +348,9 @@ const HtSequence = () => {
             required
           />
           <Btn htmlType="submit" className="flex mx-auto">
-            {" "}
-            Save{" "}
+            {
+              edit ? "Update" : "Save"
+            }
           </Btn>
         </Form>
       </Modal>
