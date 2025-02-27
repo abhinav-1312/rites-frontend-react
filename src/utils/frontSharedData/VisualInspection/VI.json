@@ -37,7 +37,7 @@
     },
     "millMapingTer": {
       "URM": ["L3", "L4", "L5", "L6"],
-      "RSM": ["NA"]
+      "RSM": [""]
     },
     "railGradeList": [
         {

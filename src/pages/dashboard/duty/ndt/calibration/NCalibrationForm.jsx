@@ -5,36 +5,14 @@ import GeneralInfo from "../../../../../components/DKG_GeneralInfo";
 import { message, Form, Checkbox, TimePicker } from 'antd';
 import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import Btn from "../../../../../components/DKG_Btn";
-import { useNavigate } from 'react-router-dom'
-import { PlusOutlined }from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import IconBtn from '../../../../../components/DKG_IconBtn';
 import { useSelector } from 'react-redux';
 import { apiCall } from '../../../../../utils/CommonFunctions';
-import { DeleteOutlined } from '@ant-design/icons';
 
 const NCalibrationForm = () => {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState(
-    {
-      calibrationList: [
-        {
-          ut: false, ct: false, fmg: false, osiris: false, calibrationCompletionTimeDayjs: null, calibrationCompletionTime: null, calibrationSpeed: null, rclRepName: null, calibrationRoundRemarks: null
-        }
-      ],
-      calibrationRemarks: null
-    }
-  );
-
-  const handleChange = (fieldName, value) => {
-    setFormData(prev => {
-      return {
-        ...prev,
-        [fieldName]: value
-      }
-    })
-  }
-
   const ndtGeneralInfo = useSelector((state) => state.ndtDuty);
   const { token } = useSelector((state) => state.auth);
   const [form] = Form.useForm();

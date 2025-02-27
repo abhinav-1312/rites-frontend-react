@@ -194,15 +194,15 @@ const HtSequence = () => {
   };
 
   const saveHtSequence = async () => {
-    // if (checked) {
-    //   try {
-    //     await apiCall("POST", "rolling/htSequence/saveBatch", token, {
-    //       dutyId: rollingGeneralInfo.dutyId,
-    //     });
-    //   } catch (error) {}
-    // }
+    if (checked) {
+      try {
+        await apiCall("POST", "rolling/htSequence/saveBatch", token, {
+          dutyId: rollingGeneralInfo.dutyId,
+        });
+      } catch (error) {}
+    }
 
-    // navigate("/stage/home");
+    navigate("/stage/home");
   };
 
   useEffect(() => {

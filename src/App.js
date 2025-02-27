@@ -29,7 +29,6 @@ function App() {
       dispatch(getOngoingNdtDutyDtls());
       dispatch(getOngoingWeldingDutyDtls());
       dispatch(getOngoingQctDutyDtls());
-
       dispatch(getOngoingSriDutyDtls());
     }
   }, [dispatch, token])

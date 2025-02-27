@@ -23,9 +23,6 @@ const NewCalibrationForm = () => {
   const location = useLocation();
 
   const serialNumber = location.state?.serialNumber || null;
-
-  console.log("SERIAL NUMER: ", serialNumber)
-
   
   const [instrumentCategoryList, setInstrumentCategoryList] = useState([])
   const [instrumentList, setInstrumentList] = useState([]);
@@ -144,13 +141,22 @@ const NewCalibrationForm = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
           <FormDropdownItem label ='Calibration Result' name='calibrationResult' formField="calibrationResult" dropdownArray={calResultList} valueField='key' visibleField='value' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
           {
-            (formData?.calibrationResult === 'OK' || formData?.calibrationResult === 'Not OK') && 
+            (formData?.calibrationResult === 'OK') && 
             <CustomDatePicker label='Cal. Valid upto Date' name='calibrationValidUpto' defaultValue={formData?.calibrationValidUpto} onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
           }
         </div>
 
         <div className='grid grid-cols-1'>
-          <FormInputItem label='Cal Expiry No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
+          {
+            (formData?.calibrationResult === 'OK') && 
+            <FormInputItem label='Cal Expiry No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required/>
+          }
+
+          {
+            (formData?.calibrationResult === 'Not OK') && 
+            <FormInputItem label='Cal Expiry No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)}/>
+          }
+          
         </div>
 
         <div className='flex justify-center mt-4'>

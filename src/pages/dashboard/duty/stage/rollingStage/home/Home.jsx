@@ -25,6 +25,7 @@ const Home = () => {
 
 
     const rollingGeneralInfo = useSelector(state => state.rollingDuty);
+    const railGrade = rollingGeneralInfo?.railGrade || "";
 
     const testSampleMarkingTab = {
         title: 'Testing Sample Marking',
@@ -40,17 +41,13 @@ const Home = () => {
         }
     }
 
-    // useEffect(() => {
-    //     setGeneralInfo(rollingGeneralInfo)
-    // }, [rollingGeneralInfo])
-
   return (
     <FormContainer>
         <SubHeader title="Stage - Home" link="/" />
         <GeneralInfo data={rollingGeneralInfo} />
 
         <section className="mt-6">
-            <TabList tabList={[...stageHomeTabs, testSampleMarkingTab]} />
+            <TabList tabList={[...getStageHomeTabs(railGrade), testSampleMarkingTab]} />
         </section>
 
         <Divider className="mt-6 mb-1" />

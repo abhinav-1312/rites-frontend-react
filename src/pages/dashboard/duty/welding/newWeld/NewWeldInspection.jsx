@@ -32,6 +32,7 @@ const NewWeldInspection = () => {
   const { state } = location;
   const id = state?.id || null;
   const weldingGeneralInfo = useSelector((state) => state.weldingDuty);
+  const isPanelIdRequired = weldingGeneralInfo.mill !== "RSM";
 
   const [info, setInfo] = useState([
     {
@@ -412,7 +413,7 @@ const NewWeldInspection = () => {
             label="Panel ID"
             name="panelId"
             onChange={handleChange}
-            required
+            required={isPanelIdRequired}
             readOnly={id ? true : false}
           />
           <FormInputItem
@@ -619,7 +620,7 @@ const NewWeldInspection = () => {
           <div className="text-center">Front</div>
           <FormDropdownItem
             name="frontResultDesc"
-            formField="frontResult"
+            formField="frontResultDesc"
             dropdownArray={weldResultList}
             onChange={handleChange}
             visibleField="value"
@@ -634,6 +635,7 @@ const NewWeldInspection = () => {
             visibleField="value"
             valueField="key"
             className="no-border"
+            disabled={formData.frontResultDesc == "OK"}
           />
           <FormInputItem
             name="frontRemark"
@@ -644,7 +646,7 @@ const NewWeldInspection = () => {
           <div className="text-center">Back</div>
           <FormDropdownItem
             name="backResultDesc"
-            formField="backResult"
+            formField="backResultDesc"
             dropdownArray={weldResultList}
             onChange={handleChange}
             visibleField="value"
@@ -659,6 +661,7 @@ const NewWeldInspection = () => {
             visibleField="value"
             valueField="key"
             className="no-border"
+            disabled={formData.backResultDesc == "OK"}
           />
           <FormInputItem
             name="backRemark"

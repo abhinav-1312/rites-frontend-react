@@ -156,9 +156,21 @@ const WeldingHome = () => {
         <Divider className="mb-0" />
 
         <section>
-          <h2 className="font-bold">No. of Joints  welded in previous Shift after Weld Test (BSP4): <span className="font-normal text-red-500">come from database</span></h2>
-          <h2 className="font-bold">No. of Joints  welded in previous shift after Weld Test (BSP1): <span className="font-normal text-red-500">come from database</span></h2>
-          <h2 className="font-bold">No. of Joints  welded in this previous shift after Weld Test (BSP2): <span className="font-normal text-red-500">come from database</span></h2>
+          {
+            weldingGeneralInfo.mill === 'RSM' && (
+              <h2 className="font-bold">No. of Joints  welded in previous Shift after Weld Test (BSP4): <span className="font-normal text-red-500">{totalCountForBSP4}</span></h2>
+            )
+          }
+
+          {
+            (weldingGeneralInfo.mill === 'URM' && weldingGeneralInfo.weldingLine === 'L3') && (
+              <>
+                <h2 className="font-bold">No. of Joints  welded in previous shift after Weld Test (BSP1): <span className="font-normal text-red-500">{totalCountForBSP1}</span></h2>
+                <h2 className="font-bold">No. of Joints  welded in this previous shift after Weld Test (BSP2): <span className="font-normal text-red-500">{totalCountForBSP2}</span></h2>
+              </>
+              
+            )
+          }
         </section>
 
         <Divider className="mb-2 mt-0" />

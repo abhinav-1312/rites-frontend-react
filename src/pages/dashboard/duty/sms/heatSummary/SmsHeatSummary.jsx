@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Form, message, Modal, Popconfirm, Table } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Checkbox, Form, message, Modal, Table } from "antd";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import SubHeader from "../../../../../components/DKG_SubHeader";
 import GeneralInfo from "../../../../../components/DKG_GeneralInfo";
 import IconBtn from "../../../../../components/DKG_IconBtn";
@@ -482,7 +482,6 @@ const SmsHeatSummary = () => {
             visibleField="value"
             valueField="key"
             onChange={handleNewHeatValChange}
-            required
             />
         <Btn htmlType="submit">Add</Btn>
           </Form>

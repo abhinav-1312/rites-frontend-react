@@ -11,6 +11,7 @@ import IconBtn from "../../../../../components/DKG_IconBtn";
 import Btn from "../../../../../components/DKG_Btn";
 import { apiCall } from "../../../../../utils/CommonFunctions";
 import { regexMatch } from "../../../../../utils/Constants";
+import { useNavigate } from 'react-router-dom';
 
 const satUnsatDropdown = [
   {
@@ -25,6 +26,7 @@ const satUnsatDropdown = [
 
 const RollingVerification = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const { token } = useSelector((state) => state.auth);
   const rollingGeneralInfo = useSelector((state) => state.rollingDuty);
@@ -67,6 +69,7 @@ const RollingVerification = () => {
     try{
         await apiCall("POST", "/rolling/saveRollingVerification", token, {...formData, dutyId: rollingGeneralInfo.dutyId});
         message.success("Data saved successfully.")
+        navigate('/stage/home')
     }catch(error){
 
     }
@@ -446,7 +449,7 @@ const RollingVerification = () => {
 
           {formData?.chargingTableDtls?.map((record, index) => (
             <div className="grid grid-cols-2 gap-x-4 border p-4 pb-0 relative">
-              <h4 className="font-semibold col-span-3">Surface Inspection</h4>
+              <h4 className="font-semibold col-span-3">Surface Inspection of atleast two faces</h4>
               <FormInputItem
                 placeholder="Heat number"
                 name={["chargingTableDtls", index, "heatNo"]}

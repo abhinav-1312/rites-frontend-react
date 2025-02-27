@@ -39,8 +39,6 @@ const SRIShiftDetailsForm = () => {
       navigate('/srInspection/home');
     };
 
-    console.log("Formdata", formData);
-
     if (dutyId) {
       message.error("Duty already in progress. Cannot start new duty.");
       return <Navigate to="/srInspection/home" />;
@@ -52,7 +50,7 @@ const SRIShiftDetailsForm = () => {
         <FormBody initialValues={formData} onFinish={handleFormSubmit}>
             <div className="grid grid-cols-2 gap-x-2">
               <CustomDatePicker label="Date" name="startDate" defaultValue={formData.startDate} onChange={handleChange} disabled required />
-                <FormDropdownItem label="Shift" name="shift" formField="shift" dropdownArray={shiftList} visibleField="value" valueField="key" onChange={handleChange} required />
+              <FormDropdownItem label="Shift" name="shift" formField="shift" dropdownArray={shiftList} visibleField="value" valueField="key" onChange={handleChange} required />
             </div>
 
             <Btn htmlType="submit" className="flex justify-center mx-auto">

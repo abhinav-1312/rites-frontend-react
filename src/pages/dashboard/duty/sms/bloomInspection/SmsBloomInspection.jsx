@@ -10,7 +10,8 @@ import Btn from "../../../../../components/DKG_Btn";
 import FormSearchItem from "../../../../../components/DKG_FormSearchItem";
 import { apiCall, handleChange } from "../../../../../utils/CommonFunctions";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { regexMatch } from "../../../../../utils/Constants";
 
 const bloomIdentificationList = [
   {
@@ -25,6 +26,7 @@ const bloomIdentificationList = [
 
 const SmsBloomInspection = () => {
   const smsGeneralInfo = useSelector((state) => state.smsDuty);
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const { token } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
@@ -38,8 +40,6 @@ const SmsBloomInspection = () => {
     noOfCoBloomsRejected: null,
     remark: null,
   });
-
-  const navigate = useNavigate();
 
   const handleFormSubmit = async () => {
     try {
@@ -144,9 +144,8 @@ const SmsBloomInspection = () => {
           <FormInputItem
             label="Prime Blooms Rejected Count"
             name="noOfPrimeBloomsRejected"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            onChange={handleBloomRejectedChange}
+            rules={bloomRejectedRule}
             required
           />
           <FormInputItem

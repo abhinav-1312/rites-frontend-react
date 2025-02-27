@@ -73,6 +73,7 @@ const HeatDtl = () => {
   const { dutyId } = useSelector((state) => state.smsDuty);
   const [completedHeatStage, setCompletedHeatStage] = useState(0);
   const [currentStage, setCurrentStage] = useState(1);
+  const [isOutOfRange, setIsOutOfRange] = useState(false);
 
   const { sms } = useSelector((state) => state.smsDuty);
 
@@ -89,7 +90,8 @@ const HeatDtl = () => {
     degassingDuration: null,
     degassingVacuumWv: null,
     degassingDurationWv: null,
-    castingTemp: null,
+    castingTempOne: null,
+    castingTempTwo: null,
     casterNo: null,
     sequenceNo: null,
     hydris: null,
@@ -125,7 +127,7 @@ const HeatDtl = () => {
         "degassingDuration",
         "degassingDurationWv",
       ],
-      stage3: ["castingTemp", "casterNo", "sequenceNo", "hydris"],
+      stage3: ["castingTempOne", "castingTempTwo",  "casterNo", "sequenceNo", "hydris"],
       stage4: ["nitrogen", "oxygen", "sentToLadle"],
       stage5: [
         "weightOfPrimeBlooms",
@@ -192,8 +194,8 @@ const HeatDtl = () => {
           degassingDuration: responseData?.degassingDuration || null,
           degassingVacuumWv: responseData?.degassingVacuumWv || null,
           degassingDurationWv: responseData?.degassingDurationWv || null,
-          castingTemp: responseData?.castingTemp || null,
-          castingTemp2: responseData?.castingTemp2 || null,
+          castingTempOne: responseData?.castingTempOne || null,
+          castingTempTwo: responseData?.castingTempTwo || null,
           casterNo: responseData?.casterNo || null,
           sequenceNo: responseData?.sequenceNo || null,
           hydris: responseData?.hydris || null,
@@ -229,7 +231,7 @@ const HeatDtl = () => {
 
   const onFinish = async () => {
     const fields = stageValidationRules[`stage${currentStage}`];
-    if (currentStage > 5) {
+    if (currentStage === 5) {
       if (
         !formData.weightOfPrimeBlooms ||
         !formData.weightOfCoBlooms ||
@@ -248,14 +250,33 @@ const HeatDtl = () => {
       }
     }
 
-    try {
-      await apiCall("POST", "/sms/updateHeatDtls", token, {
-        ...formData,
-        dutyId,
+    if (isOutOfRange) {
+      Modal.confirm({
+        title: "Warning",
+        content: "You are saving some values outside the range, are you sure to continue?",
+        onOk: async () => {
+          try {
+            await apiCall("POST", "/sms/updateHeatDtls", token, {
+              ...formData,
+              dutyId,
+            });
+            message.success("SMS heat details updated successfully.");
+            navigate("/sms/heatSummary");
+          } catch (error) {
+            message.error("Failed to update heat details.");
+          }
+        },
       });
-      message.success("SMS heat details updated successfully.");
-      navigate("/sms/heatSummary");
-    } catch (error) {}
+    } else {
+      try {
+        await apiCall("POST", "/sms/updateHeatDtls", token, {
+          ...formData,
+          dutyId,
+        });
+        message.success("SMS heat details updated successfully.");
+        navigate("/sms/heatSummary");
+      } catch (error) {}
+    }
   };
 
   const [primeBloomsFieldState, setPrimeBloomsFieldState] = useState({
@@ -302,7 +323,7 @@ const HeatDtl = () => {
       primeBloomWt =
         (fieldName === "noOfPrimeBlooms" ? value : noOfPrimeBlooms) *
         (fieldName === "primeBloomsLength" ? value : primeBloomsLength) *
-        csVal;
+        csVal * 7.85;
     } else if (fieldName === "primeBloomsTotalLength") {
       if (!value) {
         setPrimeBloomsFieldState({
@@ -317,7 +338,7 @@ const HeatDtl = () => {
           primeBloomsTotalLength: false,
         });
       }
-      primeBloomWt = value * csVal;
+      primeBloomWt = value * csVal * 7.85;
     }
 
     // Update form data
@@ -356,7 +377,7 @@ const HeatDtl = () => {
       coBloomWt =
         (fieldName === "noOfCoBlooms" ? value : noOfCoBlooms) *
         (fieldName === "coBloomsLength" ? value : coBloomsLength) *
-        csVal;
+        csVal * 7.85;
     } else if (fieldName === "coBloomsTotalLength") {
       if (!value) {
         setCoBloomsFieldState({
@@ -371,7 +392,7 @@ const HeatDtl = () => {
           coBloomsTotalLength: false,
         });
       }
-      coBloomWt = value * csVal;
+      coBloomWt = value * csVal * 7.85;
     }
 
     // Update form data
@@ -427,7 +448,7 @@ const HeatDtl = () => {
       rejectedBloomWt =
         (fieldName === "noOfRejectedBlooms" ? value : noOfRejectedBlooms) *
         (fieldName === "rejectedBloomsLength" ? value : rejectedBloomsLength) *
-        csVal;
+        csVal * 7.85;
     } else if (fieldName === "rejectedBloomsTotalLength") {
       if (!value) {
         setRejectedBloomsFieldState({
@@ -442,7 +463,7 @@ const HeatDtl = () => {
           rejectedBloomsTotalLength: false,
         });
       }
-      rejectedBloomWt = value * csVal;
+      rejectedBloomWt = value * csVal * 7.85;
     }
 
     // Update form data
@@ -462,7 +483,7 @@ const HeatDtl = () => {
   }, [formData, form]);
 
   useEffect(() => {
-    if (validateStage(currentStage) && currentStage <= 5) {
+    if (validateStage(currentStage) && currentStage < 5) {
       setCurrentStage(currentStage + 1);
     }
   }, [currentStage, formData, validateStage]);
@@ -516,7 +537,7 @@ const HeatDtl = () => {
       setCastTempRule([]);
     }
 
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+    setFormData(prev => ({...prev, [fieldName]: value}))
   };
 
   const handleDegVacChange = (fieldName, value) => {
@@ -588,16 +609,18 @@ const HeatDtl = () => {
           hydris: value,
         }));
         setHeatRemarkDisabled(true);
-      } else {
+        setIsOutOfRange(true);
+      }
+      else{
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
           heatRemark: null,
           hydris: value,
         }));
+        setIsOutOfRange(false);
       }
     }
-
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
   };
 
@@ -606,17 +629,19 @@ const HeatDtl = () => {
   const handleNitrogenChange = (fieldName, value) => {
     const isFloat = regexMatch.floatRegex.test(value);
 
-    if (!isFloat) {
+    if(!isFloat){
       setNitrogenRule([
         {
           validator: (_, value) =>
             Promise.reject(new Error("Value must be numeric.")),
+          
         },
       ]);
-    } else {
+    }
+    else{
       setNitrogenRule([]);
 
-      if (parseFloat(value) > 0.009) {
+      if(parseFloat(value) > 0.009){
         message.warning("Value must be less than 0.009");
 
         setFormData((prev) => ({
@@ -625,34 +650,40 @@ const HeatDtl = () => {
           nitrogen: value,
         }));
         setHeatRemarkDisabled(true);
-      } else {
+        setIsOutOfRange(true);
+      }
+      else{
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
           heatRemark: null,
           nitrogen: value,
         }));
+        setIsOutOfRange(false);
       }
     }
 
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
-  };
+
+  }
 
   const [oxygenRule, setOxygenRule] = useState([]);
 
   const handleOxygenChange = (fieldName, value) => {
-    const isFloat = regexMatch.floatRegex.test(value);
+    const isFloat = regexMatch.floatRegex.test(value)
 
-    if (!isFloat) {
+    if(!isFloat){
       setOxygenRule([
         {
           validator: (_, value) =>
             Promise.reject(new Error("Value must be numeric.")),
+          
         },
       ]);
-    } else {
+    }
+    else{
       setOxygenRule([]);
-      if (parseFloat(value) > 20) {
+      if(parseFloat(value) > 20){
         message.warning("Value must be less than or equal to 20.0");
 
         setFormData((prev) => ({
@@ -661,17 +692,20 @@ const HeatDtl = () => {
           oxygen: value,
         }));
         setHeatRemarkDisabled(true);
-      } else {
+        setIsOutOfRange(true);
+      }
+      else{
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
           heatRemark: null,
           oxygen: value,
         }));
+        setIsOutOfRange(false);
       }
     }
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
-  };
+  }
 
   return (
     <FormContainer>
@@ -705,13 +739,13 @@ const HeatDtl = () => {
 
         <div className="grid grid-cols-2 gap-8">
           <FormInputItem
-            label="Turn Down Temperature (&deg;C)"
+            label="Turn Down Temp. (&deg;C)"
             name="turnDownTemp"
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
             // disabled={currentStage !== 1}
-            disabled = {isFieldDisabled(1)}
+            disabled={isFieldDisabled(1)}
           />
           <FormDropdownItem
             label="Witnessed / Verified"

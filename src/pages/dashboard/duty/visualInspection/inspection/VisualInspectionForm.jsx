@@ -637,7 +637,6 @@ const VisualInspectionForm = () => {
               defaultValue={formData?.date}
               onChange={handleChange}
               required
-              disabled
             />
             <FormDropdownItem
               label="Shift"
@@ -648,13 +647,21 @@ const VisualInspectionForm = () => {
               formField="shift"
               onChange={handleChange}
               required
-              disabled
             />
-            <FormInputItem
+            {/* <FormInputItem
               label="S.No."
               maxLength={3}
               name="serialNo"
               onChange={handleChange}
+              required
+            /> */}
+            <FormInputItem
+              label="S.No."
+              maxLength={3}
+              name="serialNo"
+              value={formData?.serialNo || ""}
+              onChange={(e) => handleChange("serialNo", e)}
+              onBlur={handleSerialNoBlur}
               required
             />
           </div>
@@ -903,7 +910,7 @@ const VisualInspectionForm = () => {
               name="rejCompLength"
               className="no-border"
               onChange={handleChange}
-              placeholder="0"
+              placeholder="Length in m"
             />
           </div>
 
