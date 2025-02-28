@@ -168,9 +168,9 @@ const HeatDtl = () => {
   });
 
   const isFieldDisabled = (stage) => {
-    if(stage === 2){
-      console.log("editable: ", completedHeatStage, currentStage)
-      console.log("Stage 2: ", stage <= completedHeatStage || stage > currentStage || (editableStage.heatProcurementStageCode + 1 < stage && editableStage.heatSurrenderStageCode < stage ))
+    if(stage === 1){
+      console.log("editable: ", editableStage.heatProcurementStageCode || 7, editableStage.heatSurrenderStageCode || 7)
+      console.log("Stage 1: ", completedHeatStage, currentStage, stage)
     }
 
     return (stage <= completedHeatStage || stage > currentStage) && !((editableStage.heatProcurementStageCode || 7) < stage && (editableStage.heatSurrenderStageCode || 7) <= stage )
@@ -181,7 +181,7 @@ const HeatDtl = () => {
       try {
         const { data } = await apiCall(
           "GET",
-          `/sms/getHeatDtls?heatNo=${heatNo ? heatNo : formData.heatNo}`,
+          `/sms/getHeatDtls?heatNo=${heatNo ? heatNo : formData.heatNo}&dutyId=${dutyId}`,
           token
         );
         const { responseData } = data;
@@ -194,8 +194,8 @@ const HeatDtl = () => {
           degassingDuration: responseData?.degassingDuration || null,
           degassingVacuumWv: responseData?.degassingVacuumWv || null,
           degassingDurationWv: responseData?.degassingDurationWv || null,
-          castingTempOne: responseData?.castingTempOne || null,
-          castingTempTwo: responseData?.castingTempTwo || null,
+          castingTemp: responseData?.castingTemp || null,
+          castingTemp2: responseData?.castingTemp2 || null,
           casterNo: responseData?.casterNo || null,
           sequenceNo: responseData?.sequenceNo || null,
           hydris: responseData?.hydris || null,
@@ -226,11 +226,12 @@ const HeatDtl = () => {
         setCompletedHeatStage(heatStageNum);
       } catch (error) {}
     },
-    [token, formData.heatNo]
+    [token, formData.heatNo, dutyId]
   );
 
   const onFinish = async () => {
-    const fields = stageValidationRules[`stage${currentStage}`];
+    console.log("CURRENSTAGE: ", currentStage)
+    const fields = stageValidationRules[`stage${currentStage-1}`];
     if (currentStage === 5) {
       if (
         !formData.weightOfPrimeBlooms ||
@@ -243,7 +244,7 @@ const HeatDtl = () => {
       }
     } else {
       for (let field of fields) {
-        if (formData[field]) {
+        if (!formData[field]) {
           message.error(`Please fill all the fields for Stage ${currentStage}`);
           return;
         }

@@ -260,7 +260,7 @@ const SmsBloomInspection = () => {
     try {
       const { data } = await apiCall(
         "GET",
-        `/sms/getBloomDtls?castNo=${castNo}`,
+        `/sms/getBloomDtls?castNo=${castNo}&dutyId=${smsGeneralInfo.dutyId}`,
         token
       );
       setFormData({

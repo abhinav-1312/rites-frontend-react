@@ -186,6 +186,8 @@ const SmsHeatSummary = () => {
           turnDownTempWv: ""
         })
         populateTableData();
+
+
       }
       catch(error){
 
@@ -287,6 +289,7 @@ const SmsHeatSummary = () => {
   useEffect(() => {
     form.setFieldsValue(formData);
   }, [formData, form]);
+
 
   return (
     <FormContainer className="flex flex-col gap-4 md:gap-8">
