@@ -160,7 +160,8 @@ const HeatDtl = () => {
   );
 
   const isFieldDisabled = (stage) => {
-    return stage <= completedHeatStage || stage > currentStage;
+    return stage <= completedHeatStage || stage > currentStage
+    // return stage !== currentStage;
   };
 
   const handleHeatNoSearch = useCallback(
@@ -218,19 +219,51 @@ const HeatDtl = () => {
 
   const onFinish = async () => {
     const fields = stageValidationRules[`stage${currentStage}`];
+    // if (currentStage === 5) {
+    //   if (
+    //     !formData.weightOfPrimeBlooms ||
+    //     !formData.weightOfCoBlooms ||
+    //     !formData.weightOfRejectedBlooms ||
+    //     !formData.totalCastWt
+    //   ) {
+    //     message.error(`Please fill all the fields for Stage ${currentStage}`);
+    //     return;
+    //   }
+    // } else{
+    //   for (let field of fields) {
+    //     if (formData[field]) {
+    //       message.error(`Please fill all the fields for Stage ${currentStage}`);
+    //       return;
+    //     }
+    //   }
+    // }
+
     if (currentStage === 5) {
-      if (
-        !formData.weightOfPrimeBlooms ||
-        !formData.weightOfCoBlooms ||
-        !formData.weightOfRejectedBlooms ||
-        !formData.totalCastWt
-      ) {
+      const isStageFiveFilled = 
+        formData.weightOfPrimeBlooms ||
+        formData.weightOfCoBlooms ||
+        formData.weightOfRejectedBlooms ||
+        formData.totalCastWt;
+      
+      if (isStageFiveFilled && (!formData.weightOfPrimeBlooms || !formData.weightOfCoBlooms || !formData.weightOfRejectedBlooms || !formData.totalCastWt)) {
+        message.error(`Please fill all the fields for Stage ${currentStage}`);
+        return;
+      }
+    } else if (currentStage === 3) {
+      const isStageThreeFilled = formData.castingTempOne || formData.castingTempTwo || formData.casterNo || formData.sequenceNo || formData.hydris;
+      if (isStageThreeFilled && (!formData.castingTempOne || !formData.castingTempTwo || !formData.casterNo || !formData.sequenceNo || !formData.hydris)) {
+        message.error(`Please fill all the fields for Stage ${currentStage}`);
+        return;
+      }
+    } else if (currentStage === 4) {
+      const isStageFourFilled = formData.nitrogen || formData.oxygen || formData.sentToLadle;
+      if (isStageFourFilled && (!formData.nitrogen || !formData.oxygen || !formData.sentToLadle)) {
         message.error(`Please fill all the fields for Stage ${currentStage}`);
         return;
       }
     } else {
       for (let field of fields) {
-        if (formData[field]) {
+        if (!formData[field]) {
           message.error(`Please fill all the fields for Stage ${currentStage}`);
           return;
         }
@@ -787,8 +820,9 @@ const HeatDtl = () => {
             disabled={isFieldDisabled(2)}
           />
           <FormDropdownItem
-            label="Witnessed / Verified"
+            label=""
             name="degassingVacuumWv"
+            className="mt-14 sm:mt-8"
             formField="degassingVacuumWv"
             dropdownArray={wvDropDown}
             visibleField="value"
@@ -807,8 +841,9 @@ const HeatDtl = () => {
             disabled={isFieldDisabled(2)}
           />
           <FormDropdownItem
-            label="Witnessed / Verified"
+            label=""
             name="degassingDurationWv"
+            className="mt-14 sm:mt-8"
             formField="degassingDurationWv"
             dropdownArray={wvDropDown}
             visibleField="value"
