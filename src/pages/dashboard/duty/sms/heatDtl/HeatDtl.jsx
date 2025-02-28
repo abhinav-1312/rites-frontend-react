@@ -94,6 +94,8 @@ const HeatDtl = () => {
     castingTempTwo: null,
     casterNo: null,
     sequenceNo: null,
+    sequenceNo1: null,
+    sequenceNo2: null,
     hydris: null,
     isProbeDipped: false,
     isHydrogenBw80And100: false,
@@ -116,7 +118,6 @@ const HeatDtl = () => {
     isDiverted: false,
     heatRemark: null,
   });
-  console.log("FormcasterL ", formData.casterNo);
 
   const stageValidationRules = useMemo(
     () => ({
@@ -127,7 +128,7 @@ const HeatDtl = () => {
         "degassingDuration",
         "degassingDurationWv",
       ],
-      stage3: ["castingTempOne", "castingTempTwo",  "casterNo", "sequenceNo", "hydris"],
+      stage3: ["castingTemp", "castingTemp2", "casterNo", "sequenceNo1", "sequenceNo2", "hydris"],
       stage4: ["nitrogen", "oxygen", "sentToLadle"],
       stage5: [
         "weightOfPrimeBlooms",
@@ -143,8 +144,8 @@ const HeatDtl = () => {
     sms === "SMS 3"
       ? 0.1005
       : sms === "SMS 3" && formData.casterNo === "M/c IV"
-      ? 0.1088
-      : 0.102;
+        ? 0.1088
+        : 0.102;
 
   const validateStage = useCallback(
     (stage) => {
@@ -167,15 +168,85 @@ const HeatDtl = () => {
     heatSurrenderStageCode: null,
   });
 
+  // const isFieldDisabled = (stage) => {
+  //   if(stage === 1){
+  //     console.log("editable: ", editableStage.heatProcurementStageCode || 7, editableStage.heatSurrenderStageCode || 7)
+  //     console.log("Stage 1: ", completedHeatStage, currentStage, stage)
+  //   }
+
+  //   return (stage <= completedHeatStage || stage > currentStage) && !((editableStage.heatProcurementStageCode || 7) < stage && (editableStage.heatSurrenderStageCode || 7) <= stage )
+  // };
+
+  // const isFieldDisabled = (stage) => {
+  //   const procurementStage = editableStage.heatProcurementStageCode || null;
+  //   const surrenderStage = editableStage.heatSurrenderStageCode || null;
+
+  //   if (stage === 1) {
+  //       console.log("editable: ", procurementStage, surrenderStage);
+  //       console.log("Stage 1: ", completedHeatStage, currentStage, stage);
+  //   }
+
+  //   // Always enable currentStage
+  //   if (stage === currentStage) {
+  //       return false; // Enabled
+  //   }
+
+  //   // If both are null, disable everything else
+  //   if (procurementStage === null && surrenderStage === null) {
+  //       return true; // Disabled
+  //   }
+
+  //   // Handle invalid range (procurement >= surrender), use defaults or adjust
+  //   const effectiveProcurementStage = procurementStage !== null ? procurementStage : 1;
+  //   const effectiveSurrenderStage = surrenderStage !== null ? surrenderStage : 5;
+
+  //   // Ensure range is valid (procurement < surrender)
+  //   const minProcurement = Math.min(effectiveProcurementStage, effectiveSurrenderStage - 1);
+  //   const maxSurrender = Math.max(effectiveProcurementStage + 1, effectiveSurrenderStage);
+
+  //   if (stage <= currentStage) {
+  //       const isInEditableRange = stage >= minProcurement && stage < maxSurrender;
+  //       if (isInEditableRange) {
+  //           return false; // Enabled
+  //       }
+  //   }
+
+  //   return true; // Disabled
+  // };
+
+
   const isFieldDisabled = (stage) => {
-    if(stage === 1){
-      console.log("editable: ", editableStage.heatProcurementStageCode || 7, editableStage.heatSurrenderStageCode || 7)
-      console.log("Stage 1: ", completedHeatStage, currentStage, stage)
+    const procurementStage = editableStage.heatProcurementStageCode || null;
+    const surrenderStage = editableStage.heatSurrenderStageCode || null;
+
+    if (stage === 1) {
+      console.log("editable: ", procurementStage, surrenderStage);
+      console.log("Stage 1: ", completedHeatStage, currentStage, stage);
     }
 
-    return (stage <= completedHeatStage || stage > currentStage) && !((editableStage.heatProcurementStageCode || 7) < stage && (editableStage.heatSurrenderStageCode || 7) <= stage )
+    // Always enable currentStage
+    if (stage === currentStage) {
+      return false; // Enabled
+    }
+
+    // If both procurement and surrender are null, disable others
+    if (procurementStage === null && surrenderStage === null) {
+      return true; // Disabled
+    }
+
+    // Use raw values directly
+    const effectiveProcurementStage = procurementStage !== null ? procurementStage : 1;
+    const effectiveSurrenderStage = surrenderStage !== null ? surrenderStage : currentStage + 1;
+
+    // Enable if stage <= currentStage AND within procurementStage <= stage <= surrenderStage
+    if (stage <= currentStage && stage >= effectiveProcurementStage && stage <= effectiveSurrenderStage) {
+      return false; // Enabled
+    }
+
+    return true; // Disabled
   };
 
+  console.log("FOrmdata: ", formData)
   const handleHeatNoSearch = useCallback(
     async (heatNo = null) => {
       try {
@@ -197,7 +268,9 @@ const HeatDtl = () => {
           castingTemp: responseData?.castingTemp || null,
           castingTemp2: responseData?.castingTemp2 || null,
           casterNo: responseData?.casterNo || null,
-          sequenceNo: responseData?.sequenceNo || null,
+          sequenceNo1: responseData?.sequenceNo?.split("/")?.[0] || null,
+          sequenceNo2: responseData?.sequenceNo?.split("/")?.[1] || null,
+          // sequenceNo2: responseData?.sequenceNo,
           hydris: responseData?.hydris || null,
           isProbeDipped: responseData?.isProbeDipped || false,
           isHydrogenBw80And100: responseData?.isHydrogenBw80And100 || false,
@@ -224,14 +297,20 @@ const HeatDtl = () => {
 
         const heatStageNum = heatStageObj[responseData?.heatStage];
         setCompletedHeatStage(heatStageNum);
-      } catch (error) {}
+      } catch (error) { }
     },
     [token, formData.heatNo, dutyId]
   );
 
   const onFinish = async () => {
+
+    const payload = {
+      ...formData,
+      dutyId,
+      sequenceNo: formData?.sequenceNo1 + "/" + formData?.sequenceNo2
+    }
     console.log("CURRENSTAGE: ", currentStage)
-    const fields = stageValidationRules[`stage${currentStage-1}`];
+    const fields = stageValidationRules[`stage${currentStage - 1}`];
     if (currentStage === 5) {
       if (
         !formData.weightOfPrimeBlooms ||
@@ -248,6 +327,14 @@ const HeatDtl = () => {
           message.error(`Please fill all the fields for Stage ${currentStage}`);
           return;
         }
+
+        const fields2 = stageValidationRules[`stage${currentStage}`];
+        for (let field of fields2) {
+          if (formData[field]) {
+            message.error(`Please fill all the fields for Stage ${currentStage}`);
+            return;
+          }
+        }
       }
     }
 
@@ -257,10 +344,7 @@ const HeatDtl = () => {
         content: "You are saving some values outside the range, are you sure to continue?",
         onOk: async () => {
           try {
-            await apiCall("POST", "/sms/updateHeatDtls", token, {
-              ...formData,
-              dutyId,
-            });
+            await apiCall("POST", "/sms/updateHeatDtls", token, payload);
             message.success("SMS heat details updated successfully.");
             navigate("/sms/heatSummary");
           } catch (error) {
@@ -270,13 +354,10 @@ const HeatDtl = () => {
       });
     } else {
       try {
-        await apiCall("POST", "/sms/updateHeatDtls", token, {
-          ...formData,
-          dutyId,
-        });
+        await apiCall("POST", "/sms/updateHeatDtls", token, payload);
         message.success("SMS heat details updated successfully.");
         navigate("/sms/heatSummary");
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
@@ -497,12 +578,12 @@ const HeatDtl = () => {
   }, [handleHeatNoSearch, heatNo]);
 
   const populateEditableStage = useCallback(async () => {
-    try{
-      const {data} = await apiCall("POST", "/sms/getStageDtl", token, {dutyId, heatNo: heatNo || null})
+    try {
+      const { data } = await apiCall("POST", "/sms/getStageDtl", token, { dutyId, heatNo: heatNo || null })
       setEditableStage(data?.responseData || {})
 
     }
-    catch(error){}
+    catch (error) { }
   }, [token, heatNo, dutyId])
 
   useEffect(() => {
@@ -538,7 +619,7 @@ const HeatDtl = () => {
       setCastTempRule([]);
     }
 
-    setFormData(prev => ({...prev, [fieldName]: value}))
+    setFormData(prev => ({ ...prev, [fieldName]: value }))
   };
 
   const handleDegVacChange = (fieldName, value) => {
@@ -612,7 +693,7 @@ const HeatDtl = () => {
         setHeatRemarkDisabled(true);
         setIsOutOfRange(true);
       }
-      else{
+      else {
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
@@ -630,19 +711,19 @@ const HeatDtl = () => {
   const handleNitrogenChange = (fieldName, value) => {
     const isFloat = regexMatch.floatRegex.test(value);
 
-    if(!isFloat){
+    if (!isFloat) {
       setNitrogenRule([
         {
           validator: (_, value) =>
             Promise.reject(new Error("Value must be numeric.")),
-          
+
         },
       ]);
     }
-    else{
+    else {
       setNitrogenRule([]);
 
-      if(parseFloat(value) > 0.009){
+      if (parseFloat(value) > 0.009) {
         message.warning("Value must be less than 0.009");
 
         setFormData((prev) => ({
@@ -653,7 +734,7 @@ const HeatDtl = () => {
         setHeatRemarkDisabled(true);
         setIsOutOfRange(true);
       }
-      else{
+      else {
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
@@ -673,18 +754,18 @@ const HeatDtl = () => {
   const handleOxygenChange = (fieldName, value) => {
     const isFloat = regexMatch.floatRegex.test(value)
 
-    if(!isFloat){
+    if (!isFloat) {
       setOxygenRule([
         {
           validator: (_, value) =>
             Promise.reject(new Error("Value must be numeric.")),
-          
+
         },
       ]);
     }
-    else{
+    else {
       setOxygenRule([]);
-      if(parseFloat(value) > 20){
+      if (parseFloat(value) > 20) {
         message.warning("Value must be less than or equal to 20.0");
 
         setFormData((prev) => ({
@@ -695,7 +776,7 @@ const HeatDtl = () => {
         setHeatRemarkDisabled(true);
         setIsOutOfRange(true);
       }
-      else{
+      else {
         setHeatRemarkDisabled(false);
         setFormData((prev) => ({
           ...prev,
@@ -723,7 +804,7 @@ const HeatDtl = () => {
         initialValues={formData}
         form={form}
         onFinish={onFinish}
-        // onValuesChange={handleBloomDtlChange}
+      // onValuesChange={handleBloomDtlChange}
       >
         <FormSearchItem
           label="Enter Heat Number"
@@ -761,7 +842,7 @@ const HeatDtl = () => {
             // disabled = {editableStage.heatProcurementStageCode + 1 > 0 && editableStage.heatSurrenderStage >= 0 }
             // disabled={currentStage !== 1}
             // disabled={isFieldDisabled(1)}
-            disabled = {isFieldDisabled(1)}
+            disabled={isFieldDisabled(1)}
           />
         </div>
 
@@ -851,14 +932,44 @@ const HeatDtl = () => {
             }
             disabled={isFieldDisabled(3)}
           />
-          <FormInputItem
+
+          <div>
+            <div className="font-medium mb-1">
+              Sequence Number
+            </div>
+            <div className="flex gap-2">
+
+              <FormInputItem
+                // label="Sequence Number 1"
+                name="sequenceNo1"
+                onChange={(fieldName, value) =>
+                  handleChange(fieldName, value, setFormData)
+                }
+                disabled={isFieldDisabled(3)}
+              />
+              <div className="text-4xl font-semibold">
+
+                /
+              </div>
+              <FormInputItem
+                // label="Sequence Number 2"
+                name="sequenceNo2"
+                onChange={(fieldName, value) =>
+                  handleChange(fieldName, value, setFormData)
+                }
+                disabled={isFieldDisabled(3)}
+              />
+            </div>
+
+          </div>
+          {/* <FormInputItem
             label="Sequence Number "
             name="sequenceNo"
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
             disabled={isFieldDisabled(3)}
-          />
+          /> */}
           <FormInputItem
             label="Hydris"
             name="hydris"
