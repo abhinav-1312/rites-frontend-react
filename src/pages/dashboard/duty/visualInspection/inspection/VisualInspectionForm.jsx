@@ -1016,6 +1016,7 @@ import { apiCall } from "../../../../../utils/CommonFunctions";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 import axios from "axios";
+import eslintPluginJsxA11y from "eslint-plugin-jsx-a11y";
 
 const currentDate = dayjs();
 const dateFormat = "DD/MM/YYYY";
@@ -1165,7 +1166,7 @@ const VisualInspectionForm = () => {
   const accLengthList = mill === "URM" ? urmAccLengthList : rsmAccLengthList;
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false);
   const [formData, setFormData] = useState({
-    serialNo: "000",
+    serialNo: null,
     actualOfferedLength: null,
     heatNo: null,
     railId: "",
@@ -1262,117 +1263,78 @@ const VisualInspectionForm = () => {
   // };
 
   const viGeneralInfo = useSelector((state) => state.viDuty);
-  const { stdOffLength } = viGeneralInfo;
+  const { stdOffLength } = viGeneralInfo; // standard offered length
 
   const [heatRule, setHeatRule] = useState([]);
 
-  const handleChange = (fieldName, event) => {
-    const value = event.target?.value ?? event;
-  
-    setFormData((prev) => {
-      const updatedForm = { ...prev };
-  
-      if (fieldName === "heatNo") {
-        const isValid = /^0\d{5}$/.test(value);
-        setHeatRule(
-          isValid
-            ? []
-            : [
-                {
-                  validator: (_, value) =>
-                    Promise.reject(
-                      new Error(
-                        "Heat Number must start with 0, be 6 digits, and contain only numbers."
-                      )
-                    ),
-                },
-              ]
-        );
-      }
+  const handleChange = (fieldName, value) => {
+    if (fieldName === "heatNo") {
+      const isValid = /^0\d{5}$/.test(value);
 
-      if (fieldName === "serialNo" && value.length > 3) {
+      if (!isValid) {
+        setHeatRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Heat Number must start with 0, be 6 digits, and contain only numbers."
+                )
+              ),
+          },
+        ]);
+      } else {
+        setHeatRule([]);
+      }
+    }
+
+    if (fieldName === "serialNo") {
+      if (value.length > 3) {
         message.error("Serial number should be of length 3.");
         return;
       }
-  
-      if (fieldName === "serialNo") {
-        if (!/^\d{0,3}$/.test(value)) return prev;
-        updatedForm.serialNo = value;
-      } else {
-        updatedForm[fieldName] = value;
+
+      if (value === "") {
+        setFormData((prev) => ({
+          ...prev,
+          serialNo: "",
+          railId: "",
+        }));
+        return;
       }
-  
+
+      value = value.length < 3 ? value.padStart(3, "0") : value;
+    }
+
+    setFormData((prev) => {
+      const updatedForm = {
+        ...prev,
+        [fieldName]: value,
+      };
+
       if (["mill", "date", "shift", "serialNo"].includes(fieldName)) {
-        if (updatedForm.mill && updatedForm.date && updatedForm.shift && updatedForm.serialNo) {
+        if (
+          mill &&
+          updatedForm.date &&
+          updatedForm.shift &&
+          updatedForm.serialNo
+        ) {
           const [day, month, year] = updatedForm.date.split("/");
           const formattedDate = `${day}${month}${year.slice(-2)}`;
-          updatedForm.railId = `${updatedForm.mill[0]}${formattedDate}${updatedForm.shift}${updatedForm.serialNo.padStart(3, "0")}`;
+
+          if(mill === "RSM"){
+            updatedForm.railId = `${formattedDate}${updatedForm.shift}${updatedForm.serialNo}`;
+          }
+          else{
+            updatedForm.railId = `${mill[0]}${formattedDate}${updatedForm.shift}${updatedForm.serialNo}`;
+          }
         } else {
           updatedForm.railId = "";
         }
       }
-  
+
       return updatedForm;
     });
   };
-  
-  const handleSerialNoBlur = () => {
-    setFormData((prev) => ({
-      ...prev,
-      serialNo: prev.serialNo.padStart(3, "0"),
-    }));
-  };  
-
-
-  // const handleChange = (fieldName, value) => {
-  //   if (fieldName === "heatNo") {
-  //     const isValid = /^0\d{5}$/.test(value);
-
-  //     if (!isValid) {
-  //       setHeatRule([
-  //         {
-  //           validator: (_, value) =>
-  //             Promise.reject(
-  //               new Error(
-  //                 "Heat Number must start with 0, be 6 digits, and contain only numbers."
-  //               )
-  //             ),
-  //         },
-  //       ]);
-  //     } else {
-  //       setHeatRule([]);
-  //     }
-  //   }
-
-  //   if (fieldName === "serialNo" && value.length > 3) {
-  //     message.error("Serial number should be of length 3.");
-  //     return;
-  //   }
-  //   setFormData((prev) => {
-  //     const updatedForm = {
-  //       ...prev,
-  //       [fieldName]: value,
-  //     };
-
-  //     if (["mill", "date", "shift", "serialNo"].includes(fieldName)) {
-  //       if (
-  //         mill &&
-  //         updatedForm.date &&
-  //         updatedForm.shift &&
-  //         updatedForm.serialNo
-  //       ) {
-  //         const [day, month, year] = updatedForm.date.split("/");
-  //         const formattedDate = `${day}${month}${year.slice(-2)}`;
-
-  //         updatedForm.railId = `${mill[0]}${formattedDate}${updatedForm.shift}${updatedForm.serialNo}`;
-  //       } else {
-  //         updatedForm.railId = "";
-  //       }
-  //     }
-
-  //     return updatedForm;
-  //   });
-  // };
 
   const [acceptedDataRule, setAcceptDataRule] = useState([]);
 
@@ -1690,20 +1652,11 @@ const VisualInspectionForm = () => {
               onChange={handleChange}
               required
             />
-            {/* <FormInputItem
-              label="S.No."
-              maxLength={3}
-              name="serialNo"
-              onChange={handleChange}
-              required
-            /> */}
             <FormInputItem
               label="S.No."
               maxLength={3}
               name="serialNo"
-              value={formData?.serialNo || ""}
-              onChange={(e) => handleChange("serialNo", e)}
-              onBlur={handleSerialNoBlur}
+              onChange={handleChange}
               required
             />
           </div>
@@ -1917,7 +1870,7 @@ const VisualInspectionForm = () => {
           <h3 className="font-semibold mb-2">Rejection Details</h3>
           <div className="border grid grid-cols-2 divide-x divide-y divide-gray-300">
             <h3 className="p-2 text-center">Length</h3>
-            <h3 className="p-2 text-center">No. of Pieces</h3>
+            <h3 className="p-2 text-center">Pieces/Meters in case of Comp. Len.</h3>
 
             <h3 className="p-2 text-center">13m</h3>
             <FormInputItem
@@ -1952,7 +1905,7 @@ const VisualInspectionForm = () => {
               name="rejCompLength"
               className="no-border"
               onChange={handleChange}
-              placeholder="Length in m"
+              placeholder="0"
             />
           </div>
 
