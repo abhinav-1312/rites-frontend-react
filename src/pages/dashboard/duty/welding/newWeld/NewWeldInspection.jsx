@@ -110,15 +110,61 @@ const NewWeldInspection = () => {
 
   const { token } = useSelector((state) => state.auth);
 
+  // const handleFormSubmit = async () => {
+  //   try {
+  //     await apiCall("POST", "welding/saveWeldInspection", token, {
+  //       ...formData,
+  //       dutyId: weldingGeneralInfo.dutyId,
+  //     });
+  //     message.success("Data saved successfully.");
+  //     navigate("/welding/home");
+  //   } catch (error) {}
+  // };
+
+  // const updateData = async () => {
+  //   console.log("Update data called")
+  //   try {
+  //     await apiCall("POST", "/welding/updateWeldInspection", token, {
+  //       ...formData,
+  //       dutyId: weldingGeneralInfo.dutyId,
+  //       // id: formData.inspectionMasterId
+  //     });
+  //     message.success("Data updated successfully.");
+  //     navigate("/welding/home");
+  //   } catch (error) {}
+  // };
+
   const handleFormSubmit = async () => {
     try {
+      const adjustedNoOfJoints = calculateAdjustedJoints();
       await apiCall("POST", "welding/saveWeldInspection", token, {
         ...formData,
         dutyId: weldingGeneralInfo.dutyId,
+        noOfJoints: adjustedNoOfJoints,
       });
       message.success("Data saved successfully.");
       navigate("/welding/home");
     } catch (error) {}
+  };
+
+const updateData = async () => {
+    console.log("Update data called");
+    try {
+      const adjustedNoOfJoints = calculateAdjustedJoints();
+      await apiCall("POST", "/welding/updateWeldInspection", token, {
+        ...formData,
+        dutyId: weldingGeneralInfo.dutyId,
+        noOfJoints: adjustedNoOfJoints,
+      });
+      message.success("Data updated successfully.");
+      navigate("/welding/home");
+    } catch (error) {}
+  };
+
+  const calculateAdjustedJoints = () => {
+    const totalJoints = formData.noOfJoints || 0;
+    const cutAndReweldCount = formData.weldList?.filter(weld => weld.result === "Cut & Reweld").length || 0;
+    return totalJoints - cutAndReweldCount;
   };
 
   const handleChange = (fieldName, value) => {
@@ -319,19 +365,6 @@ const NewWeldInspection = () => {
     });
   };
 
-  const updateData = async () => {
-    console.log("Update data called")
-    try {
-      await apiCall("POST", "/welding/updateWeldInspection", token, {
-        ...formData,
-        dutyId: weldingGeneralInfo.dutyId,
-        // id: formData.inspectionMasterId
-      });
-      message.success("Data updated successfully.");
-      navigate("/welding/home");
-    } catch (error) {}
-  };
-
   return (
     <FormContainer>
       <SubHeader
@@ -357,7 +390,7 @@ const NewWeldInspection = () => {
             readOnly={id ? true : false}
           />
           <FormInputItem
-            label="No. of Joints"
+            label="Joints Count"
             name="noOfJoints"
             onChange={(name, value) => handleNoOfJointsChange(name, value)}
             required
