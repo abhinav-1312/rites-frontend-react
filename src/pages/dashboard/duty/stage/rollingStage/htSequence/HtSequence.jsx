@@ -3,8 +3,8 @@ import FormContainer from "../../../../../../components/DKG_FormContainer";
 import SubHeader from "../../../../../../components/DKG_SubHeader";
 import GeneralInfo from "../../../../../../components/DKG_GeneralInfo";
 import data from "../../../../../../utils/frontSharedData/rollingStage/Stage.json";
-import { Checkbox, Divider, Form, Modal, Table } from "antd";
-import { PlusOutlined, EditOutlined } from "@ant-design/icons";
+import { Checkbox, Divider, Form, message, Modal, Table } from "antd";
+import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import IconBtn from "../../../../../../components/DKG_IconBtn";
 import FormInputItem from "../../../../../../components/DKG_FormInputItem";
 import Btn from "../../../../../../components/DKG_Btn";
@@ -25,6 +25,15 @@ const { bloomQualityList, htStatusList } = data;
 
 const HtSequence = () => {
   const [edit, setEdit] = useState(false);
+
+  const handleDelete = async (railId) => {
+    try{
+      await apiCall("POST", "/rolling/htSequence/deleteRailById", token, {railId})
+      message.success("Rail ID deleted successfully.")
+      populateData();
+    }
+    catch(error){}
+  }
   const handleRowClick = (record) => {
     setFormData({
       railId: record.railId,
@@ -71,7 +80,10 @@ const HtSequence = () => {
       title: "Actions",
       fixed: "right",
       render: (_, record) => (
+        <>
         <IconBtn icon={EditOutlined} onClick={() => handleRowClick(record)} />
+        <IconBtn icon={DeleteOutlined} onClick={() => handleDelete(record.railId)} />
+        </>
       ),
     },
   ];
@@ -283,7 +295,7 @@ const HtSequence = () => {
       </Checkbox>
 
       <div className="relative">
-        <Table dataSource={tableData} columns={columns} />
+        <Table dataSource={tableData} columns={columns} scroll={{x: "auto"}} />
         <IconBtn
           icon={PlusOutlined}
           text="add"

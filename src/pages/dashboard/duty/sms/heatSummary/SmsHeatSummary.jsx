@@ -549,7 +549,7 @@ const SmsHeatSummary = () => {
 
   const deleteHeat = async (heatNo) => {
     try{
-      await apiCall("POST", "/sms/deleteHeat", token, {heatNo});
+      await apiCall("POST", "/sms/deleteHeat", token, {heatNo, sms: smsGeneralInfo.sms});
       message.success(`Heat ${heatNo} deleted successfully.`)
       populateTableData();
     }
@@ -564,7 +564,103 @@ const SmsHeatSummary = () => {
       render: (_, __, index) => index + 1,
     },
     { title: "Heat No.", dataIndex: "heatNo", key: "heatNo", fixed: "left" },
-    { title: "Sequence No.", dataIndex: "sequenceNo", key: "sequenceNo" },
+    // { title: "Sequence No.", dataIndex: "sequenceNo", key: "sequenceNo" ,
+    //   render: (text, record, index) => {
+    //     const prevRecord = index > 0 ? formData.heatDtlList[index - 1] : null;
+
+    //     let backgroundColor = "transparent";
+  
+    //     // Safely check if both sequence numbers exist and are strings
+    //     const currentSeq = typeof text === "string" ? text : null;
+    //     const prevSeq = prevRecord && typeof prevRecord.sequenceNo === "string" ? prevRecord.sequenceNo : null;
+  
+    //     if (!currentSeq || !prevSeq) {
+    //       return <span>{text || "N/A"}</span>; // If any sequenceNo is missing, display "N/A"
+    //     }
+  
+    //     // Safely extract parts
+    //     const currentParts = currentSeq.split("/");
+    //     const prevParts = prevSeq.split("/");
+  
+    //     // Ensure both have two valid parts before comparison
+    //     if (currentParts.length !== 2 || prevParts.length !== 2) {
+    //       return <span>{text || "N/A"}</span>;
+    //     }
+  
+    //     // Convert extracted parts to numbers
+    //     const [firstPart, secondPart] = currentParts.map(Number);
+    //     const [prevFirstPart, prevSecondPart] = prevParts.map(Number);
+  
+    //     // Validate extracted values
+    //     const validFirstPart = !isNaN(firstPart) && !isNaN(prevFirstPart);
+    //     const validSecondPart = !isNaN(secondPart) && !isNaN(prevSecondPart);
+  
+    //     if (validFirstPart && firstPart !== prevFirstPart) {
+    //       backgroundColor = "#0079ffcf"; // First part changed -> override everything with blue
+    //     } else if (validSecondPart && Math.abs(secondPart - prevSecondPart) > 1) {
+    //       backgroundColor = "yellow"; // Second part difference > 1
+    //     }
+  
+    //     return (
+    //       <span style={{ backgroundColor, color: "black", padding: "1rem" }}>
+    //         {text || ""}
+    //       </span>
+    //     );
+    //   },
+    // },
+
+    {
+      title: "Sequence No.",
+      dataIndex: "sequenceNo",
+      key: "sequenceNo",
+      render: (text, record, index) => {
+        // Compute global index considering pagination
+        const globalIndex = (currentTablePage - 1) * tablePageSize + index;
+    
+        // Get previous record using global index
+        const prevRecord = globalIndex > 0 ? formData.heatDtlList[globalIndex - 1] : null;
+    
+        let backgroundColor = "transparent";
+    
+        // Safely check if both sequence numbers exist and are strings
+        const currentSeq = typeof text === "string" ? text : null;
+        const prevSeq = prevRecord && typeof prevRecord.sequenceNo === "string" ? prevRecord.sequenceNo : null;
+    
+        if (!currentSeq || !prevSeq) {
+          return <span>{text || "N/A"}</span>; // If any sequenceNo is missing, display "N/A"
+        }
+    
+        // Safely extract parts
+        const currentParts = currentSeq.split("/");
+        const prevParts = prevSeq.split("/");
+    
+        // Ensure both have two valid parts before comparison
+        if (currentParts.length !== 2 || prevParts.length !== 2) {
+          return <span>{text || "N/A"}</span>;
+        }
+    
+        // Convert extracted parts to numbers
+        const [firstPart, secondPart] = currentParts.map(Number);
+        const [prevFirstPart, prevSecondPart] = prevParts.map(Number);
+    
+        // Validate extracted values
+        const validFirstPart = !isNaN(firstPart) && !isNaN(prevFirstPart);
+        const validSecondPart = !isNaN(secondPart) && !isNaN(prevSecondPart);
+    
+        if (validFirstPart && firstPart !== prevFirstPart) {
+          backgroundColor = "#0079ffcf"; // First part changed -> override everything with blue
+        } else if (validSecondPart && Math.abs(secondPart - prevSecondPart) > 1) {
+          backgroundColor = "yellow"; // Second part difference > 1
+        }
+    
+        return (
+          <span style={{ backgroundColor, color: "black", padding: "1rem" }}>
+            {text || ""}
+          </span>
+        );
+      },
+    },    
+    
     { title: "H2", dataIndex: "hydris", key: "h2" },
     { title: "Stage", dataIndex: "heatStage", key: "stage" },
     { title: "Heat Remark", dataIndex: "heatRemark", key: "heatRemark" },
@@ -599,14 +695,16 @@ const SmsHeatSummary = () => {
   ];
 
   const addNewHeat = async () => {
-    const checkFloatObj = checkAndConvertToFLoat(newHeat.turnDownTemp);
-    if (!checkFloatObj.isFloat) {
-      return;
-    }
+    // const checkFloatObj = checkAndConvertToFLoat(newHeat.turnDownTemp) || null;
+    // if (checkFloatObj.isFloat) {
+
+    //   console.log("STUCK HERE", checkFloatObj)
+    //   return;
+    // }
     const payload = {
       heatNo: String(newHeat.heatNo).padStart(6, '0'),
-      turnDownTemp: checkFloatObj.number,
-      turnDownTempWv: newHeat.turnDownTempWv,
+      turnDownTemp: newHeat.turnDownTemp,
+      turnDownTempWv: newHeat?.turnDownTempWv,
       dutyId: smsGeneralInfo.dutyId
     };
   
@@ -623,31 +721,14 @@ const SmsHeatSummary = () => {
       populateTableData();
     } catch (error) {
       console.error("Error adding new heat:", error);
-      message.error("Failed to add new heat.");
+      // message.error("Failed to add new heat.");
     }
   };
 
-  const [heatRule, setHeatRule] = useState([]);
+  // const [heatRule, setHeatRule] = useState([]);
   const [tempRule, setTempRule] = useState([]);
 
   const handleNewHeatValChange = (fieldName, value) => {
-    if (fieldName === "heatNo") {
-      const isValid = /^0\d{5}$/.test(value);
-      setHeatRule(
-        !isValid
-          ? [
-              {
-                validator: (_, val) =>
-                  Promise.reject(
-                    new Error(
-                      "Heat Number must start with 0, be 6 digits, and contain only numbers."
-                    )
-                  ),
-              },
-            ]
-          : []
-      );
-    }
 
     if (fieldName === "turnDownTemp") {
       const isValid = /^\d+$/.test(value);
@@ -748,6 +829,7 @@ const SmsHeatSummary = () => {
             dataSource={formData.heatDtlList}
             scroll={{ x: true }}
             bordered
+            // rootClassName={applyColorLogic}
             pagination={{
               current: currentTablePage,
               pageSize: tablePageSize,
@@ -863,7 +945,7 @@ const SmsHeatSummary = () => {
             label="Enter Heat Number"
             placeholder="012345"
             name="heatNo"
-            rules={heatRule}
+            // rules={heatRule}
             onChange={handleNewHeatValChange}
             required
           />
@@ -875,7 +957,7 @@ const SmsHeatSummary = () => {
           name="turnDownTemp"
           onChange={handleNewHeatValChange}
           rules={tempRule}
-          required
+          // required
           />
           <FormDropdownItem
             label="Witnessed / Verified"

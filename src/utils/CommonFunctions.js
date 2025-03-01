@@ -45,7 +45,14 @@ export const apiCall = async (method, url, token, payload = null) => {
   }
 
   export const checkAndConvertToFLoat = (value) => {
-    if (value === null || value.trim() === "" || !/^-?\d+(\.\d+)?$/.test(value)) {
+    if( value === null || value === ""){
+      console.log("VALIE NULL")
+      return {number: null, isFLoat: true}
+    }
+
+    console.log("VALIE NOT NULL, ", value)
+
+    if (value.trim() === "" || !/^-?\d+(\.\d+)?$/.test(value)) {
       message.error("Invalid number.");
       return{number: null, isFloat: false};
     }

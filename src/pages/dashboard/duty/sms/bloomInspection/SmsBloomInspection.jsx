@@ -260,7 +260,7 @@ const SmsBloomInspection = () => {
     try {
       const { data } = await apiCall(
         "GET",
-        `/sms/getBloomDtls?castNo=${castNo}&dutyId=${smsGeneralInfo.dutyId}`,
+        `/sms/getBloomDtls?castNo=${String(castNo).padStart(6, '0')}&dutyId=${smsGeneralInfo.dutyId}`,
         token
       );
       setFormData({
@@ -289,7 +289,7 @@ const SmsBloomInspection = () => {
         >
           <FormSearchItem
             label="Cast Number"
-            name="heatNo"
+            name="castNo"
             onSearch={handleCastNoSearch}
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)

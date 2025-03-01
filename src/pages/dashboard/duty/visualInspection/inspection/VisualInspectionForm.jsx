@@ -1021,7 +1021,7 @@ import eslintPluginJsxA11y from "eslint-plugin-jsx-a11y";
 const currentDate = dayjs();
 const dateFormat = "DD/MM/YYYY";
 
-const urmAccLengthList = [ 
+const urmAccLengthList = [
   {
     key: "130",
     value: "130"
@@ -1213,11 +1213,12 @@ const VisualInspectionForm = () => {
     try {
       await apiCall("POST", "/vi/saveViDtls", token, {
         ...formData,
+        heatNo: formData?.heatNo?.padStart(6, "0"),
         dutyId: dutyId,
       });
       navigate("/visual/home");
       message.success("Data saved successfully.");
-    } catch (error) {}
+    } catch (error) { }
 
     // const data = new FormData();
 
@@ -1268,24 +1269,24 @@ const VisualInspectionForm = () => {
   const [heatRule, setHeatRule] = useState([]);
 
   const handleChange = (fieldName, value) => {
-    if (fieldName === "heatNo") {
-      const isValid = /^0\d{5}$/.test(value);
+    // if (fieldName === "heatNo") {
+    //   const isValid = /^0\d{5}$/.test(value);
 
-      if (!isValid) {
-        setHeatRule([
-          {
-            validator: (_, value) =>
-              Promise.reject(
-                new Error(
-                  "Heat Number must start with 0, be 6 digits, and contain only numbers."
-                )
-              ),
-          },
-        ]);
-      } else {
-        setHeatRule([]);
-      }
-    }
+    //   if (!isValid) {
+    //     setHeatRule([
+    //       {
+    //         validator: (_, value) =>
+    //           Promise.reject(
+    //             new Error(
+    //               "Heat Number must start with 0, be 6 digits, and contain only numbers."
+    //             )
+    //           ),
+    //       },
+    //     ]);
+    //   } else {
+    //     setHeatRule([]);
+    //   }
+    // }
 
     if (fieldName === "serialNo") {
       if (value.length > 3) {
@@ -1305,6 +1306,31 @@ const VisualInspectionForm = () => {
       value = value.length < 3 ? value.padStart(3, "0") : value;
     }
 
+    // if (fieldName === "heatNo") {
+    //   if (value.length > 6) {
+
+    //     // if (!isValid) {
+    //     setHeatRule([
+    //       {
+    //         validator: (_, value) =>
+    //           Promise.reject(
+    //             new Error(
+    //               "Heat Number must 6 digits or smaller."
+    //             )
+    //           ),
+    //       },
+    //     ]);
+
+    //     return;
+    //   }
+    //   else {
+    //     setHeatRule([]);
+    //     setFormData(prev => ({ ...prev, heatNo: value }))
+    //     return;
+    //   }
+    // }
+
+
     setFormData((prev) => {
       const updatedForm = {
         ...prev,
@@ -1321,10 +1347,10 @@ const VisualInspectionForm = () => {
           const [day, month, year] = updatedForm.date.split("/");
           const formattedDate = `${day}${month}${year.slice(-2)}`;
 
-          if(mill === "RSM"){
+          if (mill === "RSM") {
             updatedForm.railId = `${formattedDate}${updatedForm.shift}${updatedForm.serialNo}`;
           }
-          else{
+          else {
             updatedForm.railId = `${mill[0]}${formattedDate}${updatedForm.shift}${updatedForm.serialNo}`;
           }
         } else {
@@ -1452,7 +1478,7 @@ const VisualInspectionForm = () => {
           rejObj[`rej${cat}`] = pieces;
         });
 
-        rejObj["rejCompLength"] = totalRejectedLength ? 1 : 0;
+        rejObj["rejCompLength"] = totalRejectedLength;
 
         setFormData((prev) => ({
           ...formData,
@@ -1664,7 +1690,7 @@ const VisualInspectionForm = () => {
           <div className="grid grid-cols-2 gap-x-2">
             <FormInputItem
               label="Heat Number"
-              rules={heatRule}
+              // rules={heatRule}
               name="heatNo"
               onChange={handleChange}
               required
@@ -1738,7 +1764,7 @@ const VisualInspectionForm = () => {
                 key={index}
               >
                 <FormDropdownItem
-                label="Accepted length"
+                  label="Accepted length"
                   dropdownArray={accLengthList}
                   name={["acptDataList", index, "acceptedLength"]}
                   formField="acceptedLength"
@@ -1763,7 +1789,7 @@ const VisualInspectionForm = () => {
                 />
 
                 <FormDropdownItem
-                label="Rail Class"
+                  label="Rail Class"
                   dropdownArray={railClassList}
                   name={["acptDataList", index, "railClass"]}
                   formField="railClass"
@@ -1792,77 +1818,84 @@ const VisualInspectionForm = () => {
           />
         </section>
 
-        <Divider />
 
-        <section className="flex flex-col gap-4">
-          <h3 className="font-semibold">Add Defect Data</h3>
+        {
+          ((formData?.rej13 || formData?.rej12 || formData?.rej11 || formData?.rej10) !== 0) && (
+            <>
+              <Divider />
+              <section className="flex flex-col gap-4">
+                <h3 className="font-semibold">Add Defect Data</h3>
 
-          {formData?.defectDataList?.map((record, index) => {
-            return (
-              <div
-                className="relative flex flex-col gap-2 border p-2 py-4 rounded-md vi-acpt-def"
-                key={index}
-              >
-                <FormDropdownItem
-                label="Defect Category"
-                  dropdownArray={defectCategoryList}
-                  name={["defectDataList", index, "defectCategory"]}
-                  formField="defectCategory"
-                  visibleField="value"
-                  valueField="key"
-                  placeholder="Defect Cat.."
-                  required
-                  onChange={(fieldName, value) =>
-                    handleDefectCategoryChange(index, fieldName, value)
-                  }
-                />
+                {formData?.defectDataList?.map((record, index) => {
+                  return (
+                    <div
+                      className="relative flex flex-col gap-2 border p-2 py-4 rounded-md vi-acpt-def"
+                      key={index}
+                    >
+                      <FormDropdownItem
+                        label="Defect Category"
+                        dropdownArray={defectCategoryList}
+                        name={["defectDataList", index, "defectCategory"]}
+                        formField="defectCategory"
+                        visibleField="value"
+                        valueField="key"
+                        placeholder="Defect Cat.."
+                        required
+                        onChange={(fieldName, value) =>
+                          handleDefectCategoryChange(index, fieldName, value)
+                        }
+                      />
 
-                <FormDropdownItem
-                  dropdownArray={defectTypeList[index] || []}
-                  name={["defectDataList", index, "defectType"]}
-                  formField="defectType"
-                  visibleField="value"
-                  valueField="key"
-                  label="Defect Type"
-                  required
-                  onChange={(fieldName, value) =>
-                    handleDefectDataChange(index, fieldName, value)
-                  }
-                />
-                <FormInputItem
-                  label="Location"
-                  required
-                  placeholder="location"
-                  name={["defectDataList", index, "location"]}
-                  onChange={(fieldName, value) =>
-                    handleDefectDataChange(index, fieldName, value)
-                  }
-                />
+                      <FormDropdownItem
+                        dropdownArray={defectTypeList[index] || []}
+                        name={["defectDataList", index, "defectType"]}
+                        formField="defectType"
+                        visibleField="value"
+                        valueField="key"
+                        label="Defect Type"
+                        required
+                        onChange={(fieldName, value) =>
+                          handleDefectDataChange(index, fieldName, value)
+                        }
+                      />
+                      <FormInputItem
+                        label="Location"
+                        required
+                        placeholder="location"
+                        name={["defectDataList", index, "location"]}
+                        onChange={(fieldName, value) =>
+                          handleDefectDataChange(index, fieldName, value)
+                        }
+                      />
 
-                <FormInputItem
-                  placeholder="position"
-                  required
-                  label="Position"
-                  name={["defectDataList", index, "position"]}
-                  onChange={(fieldName, value) =>
-                    handleDefectDataChange(index, fieldName, value)
-                  }
-                />
+                      <FormInputItem
+                        placeholder="position"
+                        required
+                        label="Position"
+                        name={["defectDataList", index, "position"]}
+                        onChange={(fieldName, value) =>
+                          handleDefectDataChange(index, fieldName, value)
+                        }
+                      />
+                      <IconBtn
+                        icon={DeleteOutlined}
+                        className="absolute -top-4 right-0"
+                        onClick={() => deleteDefItem(index)}
+                      />
+                    </div>
+                  );
+                })}
                 <IconBtn
-                  icon={DeleteOutlined}
-                  className="absolute -top-4 right-0"
-                  onClick={() => deleteDefItem(index)}
+                  icon={PlusOutlined}
+                  text="Add More Defect Data"
+                  className="-mt-4 w-fit"
+                  onClick={addDefectData}
                 />
-              </div>
-            );
-          })}
-          <IconBtn
-            icon={PlusOutlined}
-            text="Add More Defect Data"
-            className="-mt-4 w-fit"
-            onClick={addDefectData}
-          />
-        </section>
+              </section>
+              </>
+
+            )
+          }
 
         <Divider />
 

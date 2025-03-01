@@ -4,7 +4,7 @@ import SubHeader from "../../../../../../components/DKG_SubHeader";
 import GeneralInfo from "../../../../../../components/DKG_GeneralInfo";
 import data from "../../../../../../utils/frontSharedData/rollingStage/Stage.json";
 import { Divider, Form, message, TimePicker } from "antd";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import FormInputItem from "../../../../../../components/DKG_FormInputItem";
 import FormDropdownItem from "../../../../../../components/DKG_FormDropdownItem";
 import Btn from "../../../../../../components/DKG_Btn";
@@ -247,6 +247,8 @@ const RollingControlSample = () => {
 
   console.log("Formdata: ", formData.height)
 
+  const navigate = useNavigate();
+
   const handleFormSubmit = async () => {
     try {
       await apiCall("POST", "/rolling/saveControlHeat", token, {
@@ -255,6 +257,7 @@ const RollingControlSample = () => {
         dutyId: rollingGeneralInfo.dutyId,
       });
       message.success("Data saved successfully");
+      navigate("/stage/rollingControl");
     } catch (error) {}
   };
 

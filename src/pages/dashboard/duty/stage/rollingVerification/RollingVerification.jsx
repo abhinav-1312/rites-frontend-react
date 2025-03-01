@@ -63,6 +63,7 @@ const RollingVerification = () => {
       //       finishingTemp: null
       //   }
     ],
+    remarks: ""
   });
 
   const onFinish = async () => {
@@ -570,6 +571,8 @@ const RollingVerification = () => {
             />
           </div>
         </div>
+
+        <FormInputItem className="mt-8" name="remarks" label="Remarks" onChange={(_, value) => setFormData(prev => ({...prev, remarks: value}))} />
 
         <Btn htmlType="submit"> Save </Btn>
       </Form>
