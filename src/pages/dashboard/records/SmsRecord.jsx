@@ -21,17 +21,18 @@ const SmsRecord = () => {
       filterable: true, // Enable search
     },
     {
-      title: "SMS",
+      title: "SMS & Caster No",
       dataIndex: "smsNumber",
       key: "smsNumber",
       filterable: true, // Enable filter
+      render: (_, record) => record.smsNumber + " , " + record.casterNumber
     },
-    {
-      title: "Caster Number",
-      dataIndex: "casterNumber",
-      key: "casterNumber",
-      searchable: true, // Enable search
-    },
+    // {
+    //   title: "Caster Number",
+    //   dataIndex: "casterNumber",
+    //   key: "casterNumber",
+    //   searchable: true, // Enable search
+    // },
     {
       title: "Rail Grade",
       dataIndex: "railGrade",

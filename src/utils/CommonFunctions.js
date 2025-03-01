@@ -36,6 +36,7 @@ export const apiCall = async (method, url, token, payload = null) => {
 };
 
   export const handleChange = (fieldName, value, setFormData) => {
+    console.log("Hsndlechange: ", fieldName, value)
     setFormData(prev => {
       return {
         ...prev,
@@ -43,6 +44,8 @@ export const apiCall = async (method, url, token, payload = null) => {
       }
     })
   }
+
+  
 
   export const checkAndConvertToFLoat = (value) => {
     if( value === null || value === ""){
