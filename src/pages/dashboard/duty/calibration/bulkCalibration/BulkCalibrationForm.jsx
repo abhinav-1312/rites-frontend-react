@@ -295,8 +295,7 @@ const BulkCalibrationForm = () => {
             }
             required
           />
-          {(formData?.calibrationResult === "OK" ||
-            formData?.calibrationResult === "Not OK") && (
+          {/* {formData?.calibrationResult === "OK" && (
             <>
               <CustomDatePicker
                 label="Cal. Valid upto Date"
@@ -317,7 +316,20 @@ const BulkCalibrationForm = () => {
                 }
               />
             </>
-          )}
+          )} */}
+          {
+            (formData?.calibrationResult === 'OK') && 
+            <CustomDatePicker label='Cal. Valid upto Date' name='calibrationValidUpto' defaultValue={formData?.calibrationValidUpto} onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
+          }
+          {
+            (formData?.calibrationResult === 'OK') && 
+            <FormInputItem label='Cal Expiry No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
+          }
+
+          {
+            (formData?.calibrationResult === 'Not OK') && 
+            <FormInputItem label='Cal Expiry No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)}/>
+          }
         </div>
       </Form>
 

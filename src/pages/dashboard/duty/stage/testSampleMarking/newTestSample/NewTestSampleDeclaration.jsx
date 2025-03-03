@@ -113,6 +113,9 @@ const NewTestSampleDeclaration = () => {
         {
           formData.test === "Acceptance Test" && <AcceptanceTestSample railGrade={formData.railGrade} dutyId={dutyId} />
         }
+        {
+          formData.test === "Retest Samples" && <AcceptanceTestSample railGrade={formData.railGrade} dutyId={dutyId} retest />
+        }
       
     </FormContainer>
   );

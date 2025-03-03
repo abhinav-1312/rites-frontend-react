@@ -92,6 +92,8 @@ import WeldingIsoMain from "../dashboard/isoReports/welding/WeldingIsoMain";
 import QctRecordMain from "../dashboard/records/QctRecordMain";
 import QctRecord1 from "../dashboard/records/QctRecord1";
 import SriIsoMain from "../dashboard/isoReports/sri/SriIsoMain";
+import TestingStartDutyForm from "../dashboard/duty/testing/startDuty/TestingStartDutyForm";
+import TestingPrivvateRoute from "./TestingPrivateRoute";
 
 
 const RoutesComponent = () => {
@@ -182,15 +184,18 @@ const RoutesComponent = () => {
             </Route>
 
             <Route path="/testing">
-              <Route index element={<TestingHome />} />
+              <Route index element={<TestingStartDutyForm />} /> 
+              <Route path="startDuty" element={<TestingStartDutyForm />} />
+              <Route element={<TestingPrivvateRoute />}>
               <Route path="home" element={<TestingHome />} />
               <Route
-                path="pendingTestSamples"
-                element={<PendingTestSamples />}
+              path="pendingTestSamples"
+              element={<PendingTestSamples />}
               />
               <Route path="testingReport" element={<TestingReport />} />
               <Route path="heatPending" element={<HeatPending />} />
               <Route path="report" element={<NReport />} />
+              </Route>
             </Route>
 
             <Route path="/visual">

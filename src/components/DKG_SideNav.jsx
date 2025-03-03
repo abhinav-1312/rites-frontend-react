@@ -280,6 +280,12 @@ const items = [
         label: "Testing",
         items: [
           {
+            key: "2.5.17",
+            icon: <FlagOutlined />,
+            label: "Testing Start Duty",
+            path: "/testing/startDuty"
+          },
+          {
             key: "2.5.1",
             icon: <FlagOutlined />,
             label: "Testing Home",

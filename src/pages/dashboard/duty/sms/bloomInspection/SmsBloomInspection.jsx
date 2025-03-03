@@ -235,13 +235,13 @@ const SmsBloomInspection = () => {
     }
   };
 
-  const [bloomRejectedRule, setBloomRejectedRule] = useState([]);
+  const [primeBloomRejectedRule, setPrimeBloomRejectedRule] = useState([]);
 
-  const handleBloomRejectedChange = (fieldName, value) => {
+  const handlePrimeBloomRejectedChange = (fieldName, value) => {
     const isInteger = regexMatch.intRegex.test(value);
 
     if (!isInteger) {
-      setBloomRejectedRule([
+      setPrimeBloomRejectedRule([
         {
           validator: (_, value) =>
             Promise.reject(
@@ -250,7 +250,28 @@ const SmsBloomInspection = () => {
         },
       ]);
     } else {
-      setBloomRejectedRule([]);
+      setPrimeBloomRejectedRule([]);
+    }
+
+    setFormData(prev => ({...prev, [fieldName]: value}))
+  };
+
+  const [coBloomRejectedRule, setCoBloomRejectedRule] = useState([]);
+
+  const handleCoBloomRejectedChange = (fieldName, value) => {
+    const isInteger = regexMatch.intRegex.test(value);
+
+    if (!isInteger) {
+      setCoBloomRejectedRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(
+              new Error("This must be numeric.")
+            ),
+        },
+      ]);
+    } else {
+      setCoBloomRejectedRule([]);
     }
 
     setFormData(prev => ({...prev, [fieldName]: value}))
@@ -343,16 +364,15 @@ const SmsBloomInspection = () => {
           <FormInputItem
             label="Prime Blooms Rejected Count"
             name="noOfPrimeBloomsRejected"
-            onChange={handleBloomRejectedChange}
-            rules={bloomRejectedRule}
+            onChange={handlePrimeBloomRejectedChange}
+            rules={primeBloomRejectedRule}
             required
           />
           <FormInputItem
             label="CO Blooms Rejected Count"
             name="noOfCoBloomsRejected"
-            onChange={(fieldName, value) =>
-              handleChange(fieldName, value, setFormData)
-            }
+            onChange={handleCoBloomRejectedChange}
+            rules={coBloomRejectedRule}
             required
           />
           <TextAreaComponent

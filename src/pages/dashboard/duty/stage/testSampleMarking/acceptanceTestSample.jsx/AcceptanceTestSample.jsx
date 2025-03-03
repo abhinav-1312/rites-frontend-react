@@ -12,7 +12,7 @@ import {
   RG_R350HT,
 } from "../../../../../../utils/Constants";
 
-const AcceptanceTestSample = ({ railGrade, dutyId }) => {
+const AcceptanceTestSample = ({ railGrade, dutyId, retest }) => {
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     railGrade: railGrade,
@@ -39,6 +39,10 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
   });
 
   const onFinish = async () => {
+    if(retest){
+      message.error("Table retest_rsm03. doesnt exist.")
+      return;
+    }
     try {
       await apiCall("POST", "rolling/saveAcceptanceTestSample", token, {
         ...formData,

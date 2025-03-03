@@ -35,7 +35,6 @@ const casterNoDropDownSms3 = [
   },
 ];
 
-
 const heatStageObj = {
   Converter: 1,
   Degassing: 2,
