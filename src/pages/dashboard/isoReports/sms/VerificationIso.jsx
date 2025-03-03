@@ -119,18 +119,18 @@ const VerificationIso = () => {
       const bloomDtlList = [];
 
       data?.responseData?.forEach(item => {
-        if(item.heatStage === "Casting"){
+        // if(item.heatStage === "Casting"){
           castingDtlList.push({castNo: item.heatNumber, firstTemp: item.castingTemp, secondTemp: item.castingTemp});
-        }
-        if(item.heatStage === "Converter"){
+        // }
+        // if(item.heatStage === "Converter"){
           heatDtlList.push({castNo: item.heatNumber, castingTemp: item.turnDownTemp, castingTempWv: item.turnDownTempWv});
-        }
-        if(item.heatStage === "Degassing"){
+        // }
+        // if(item.heatStage === "Degassing"){
           degassingDtlList.push({castNo: item.heatNumber, vacuum: item.degassingVacuum, time: item.degassingDuration, castingTimeWv: item.degasssingDurationWv});
-        }
-        if(item.heatStage === "Bloom Cutting"){
+        // }
+        // if(item.heatStage === "Bloom Cutting"){
           bloomDtlList.push({castNo: item.heatNumber, noOfCoBlooms: item.numberOfCoBlooms});
-        }
+        // }
       })
 
       setFormData({
