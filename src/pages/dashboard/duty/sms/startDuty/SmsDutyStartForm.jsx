@@ -21,17 +21,21 @@ const railGradeList = [
     value: "R260",
   },
   {
-    key: "880",
-    value: "880",
-  },
-  {
-    key: "1175HT",
-    value: "1175HT",
+    key: "350HT",
+    value: "350HT",
   },
   {
     key: "1080HH",
     value: "1080HH",
   },
+  {
+    key: "880",
+    value: "880",
+  },
+  {
+    key: "880NC",
+    value: "880NC",
+  }
 ];
 const SmsDutyStartForm = () => {
   const dispatch = useDispatch();

@@ -450,32 +450,33 @@ const RollingVerification = () => {
 
           {formData?.chargingTableDtls?.map((record, index) => (
             <div className="grid grid-cols-2 gap-x-4 border p-4 pb-0 relative">
-              <h4 className="font-semibold col-span-3">Surface Inspection of atleast two faces</h4>
-              <FormInputItem
-                placeholder="Heat number"
-                name={["chargingTableDtls", index, "heatNo"]}
-                onChange={(fName, value) =>
-                  handleChargingTableDtlChange(fName, value, index)
-                }
-                required
-              />
-              <FormInputItem
-                placeholder="Length"
-                name={["chargingTableDtls", index, "length"]}
-                onChange={(fName, value) =>
-                  handleChargingTableDtlChange(fName, value, index)
-                }
-                required
-              />
-              <FormInputItem
-                placeholder="Defect"
-                name={["chargingTableDtls", index, "defect"]}
-                onChange={(fName, value) =>
-                  handleChargingTableDtlChange(fName, value, index)
-                }
-                required
-              />
-
+              <h4 className="font-semibold col-span-1">Surface Inspection of atleast two faces</h4>
+              <span className="">
+                <FormInputItem
+                  placeholder="Heat number"
+                  name={["chargingTableDtls", index, "heatNo"]}
+                  onChange={(fName, value) =>
+                    handleChargingTableDtlChange(fName, value, index)
+                  }
+                  required
+                />
+                <FormInputItem
+                  placeholder="Length"
+                  name={["chargingTableDtls", index, "length"]}
+                  onChange={(fName, value) =>
+                    handleChargingTableDtlChange(fName, value, index)
+                  }
+                  required
+                />
+                <FormInputItem
+                  placeholder="Defect"
+                  name={["chargingTableDtls", index, "defect"]}
+                  onChange={(fName, value) =>
+                    handleChargingTableDtlChange(fName, value, index)
+                  }
+                  required
+                />
+              </span>
               <h4 className="font-semibold col-span-2">
                 Online Verification of Computerized Bloom Tracking
               </h4>

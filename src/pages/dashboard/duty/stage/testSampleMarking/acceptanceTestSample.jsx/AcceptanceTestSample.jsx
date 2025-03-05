@@ -220,7 +220,7 @@ const AcceptanceTestSample = ({ railGrade, dutyId }) => {
       layout="vertical"
       className="bg-offWhite p-2"
     >
-      <div className="grid grid-cols-3 gap-x-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-2">
         <FormDropdownItem
           label="Sample Type"
           name="sampleType"
