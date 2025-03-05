@@ -685,7 +685,7 @@ const HeatDtl = () => {
 
 <Divider />
 
-<h3 className="font-semibold">Stage 1: Converter</h3>
+<h2 className="font-bold mb-3 underline">Stage 1: Converter</h2>
 
 <div className="grid grid-cols-2 gap-8">
   <FormInputItem
@@ -721,7 +721,7 @@ const HeatDtl = () => {
             <>
               <Divider />
 
-              <h3 className="font-semibold">Stage 2: Degassing</h3>
+              <h3 className="font-bold mb-3 underline">Stage 2: Degassing</h3>
               <div className="grid grid-cols-2 gap-x-4">
                 <FormInputItem
                   label="Degassing Vacuum(m bar)"
@@ -777,22 +777,30 @@ const HeatDtl = () => {
             <>
               <Divider />
 
-              <h3 className="font-semibold">Stage 3: Casting</h3>
-              <div className="grid grid-cols-2 gap-x-4">
-                <FormInputItem
-                  label="Casting Temperature (&deg;C)"
-                  name="castingTemp"
-                  onChange={handleCastTempChange}
-                  rules={castTempRule}
-                  disabled={isFieldDisabled(3)}
-                />
-                <FormInputItem
-                  label="Casting Temperature (&deg;C) - 2"
-                  name="castingTemp2"
-                  onChange={handleCastTempChange}
-                  rules={castTempRule}
-                  disabled={isFieldDisabled(3)}
-                />
+        <h3 className="font-bold mb-3 underline">Stage 3: Casting</h3>
+        <div className="grid grid-cols-2 gap-x-4">
+          <FormInputItem
+            label="1st Casting Temp (&deg;C)"
+            name="castingTempOne"
+            onChange={handleCastTempChange}
+            rules={castTempRule}
+            disabled={isFieldDisabled(3)}
+          />
+          <FormInputItem
+            label="2nd Casting Temp(&deg;C)"
+            name="castingTempTwo"
+            onChange={handleCastTempChange}
+            rules={castTempRule}
+            disabled={isFieldDisabled(3)}
+          />
+          {/* <FormInputItem
+            label="Caster Number "
+            name="casterNo"
+            onChange={(fieldName, value) =>
+              handleChange(fieldName, value, setFormData)
+            }
+            disabled={isFieldDisabled(3)}
+          /> */}
 
                 <FormDropdownItem
                   label="Caster Number"
@@ -881,7 +889,7 @@ const HeatDtl = () => {
           currentStage >= 4 && (
             <>
               <Divider />
-              <h3 className="font-semibold">Stage 4: Chemical Analysis</h3>
+              <h3 className="font-bold mb-3 underline">Stage 4: Chemical Analysis</h3>
               <div className="grid grid-cols-2 gap-x-4">
                 <FormInputItem
                   label="Nitrogen (ppm)"
@@ -928,7 +936,7 @@ const HeatDtl = () => {
             <>
               <Divider />
 
-              <h3 className="font-semibold">Stage 5: Bloom Details</h3>
+              <h3 className="font-bold mb-3 underline">Stage 5: Bloom Details</h3>
               <div className="border grid grid-cols-5 divide-x divide-y divide-gray-300">
                 <div></div>
                 <h3 className="p-2">Number</h3>

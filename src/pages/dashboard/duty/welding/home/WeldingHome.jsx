@@ -193,7 +193,7 @@ const WeldingHome = () => {
           }
         </section>
 
-        <Divider className="mb-2 mt-0" />
+        <Divider className="mb-0 mt-0" />
 
         {/* <Table 
           columns={weldDataColumns}
@@ -203,6 +203,7 @@ const WeldingHome = () => {
           pagination={false}
         /> */}
       <Form form={form} layout='vertical' initialValues={formData} onFinish={handleFormSubmit}>
+        <h1 className="font-semibold !text-xl mb-4 underline">Weld Joint Counter</h1>
         <div className="border grid grid-cols-5 divide-x divide-y divide-gray-300">
           <div></div>
           <h3 className="font-semibold p-2 text-center">Machine Sno.</h3>
