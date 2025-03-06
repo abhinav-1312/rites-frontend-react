@@ -42,7 +42,14 @@ const SmsDutyEnd = () => {
     navigate('/')
   }
 
-  const smsGeneralInfo = useSelector(state => state.smsDuty);
+  const smsGeneralInfo = useSelector(state => ({
+    StartTime: state.smsDuty.startTime,
+    Date: state.smsDuty.date,
+    Shift: state.smsDuty.shift,
+    Sms: state.smsDuty.sms,
+    RailGrade: state.smsDuty.railGrade
+  }));
+
   return (
     <FormContainer className='flex flex-col gap-4 md:gap-8'>
     <SubHeader title='SMS - Duty End' link='/' />
