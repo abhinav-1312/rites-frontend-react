@@ -37,7 +37,7 @@ const RollingControlSample = () => {
   const { railSection } = rollingGeneralInfo;
 
   const [formData, setFormData] = useState({
-    sampleNo: null,
+    sampleNo: "",
     heatNo: null,
     timing: null,
     sampleLocation: null,
@@ -60,6 +60,13 @@ const RollingControlSample = () => {
   const [webRule, setWebRule] = useState([]);
 
   const handleChange = (fieldName, value) => {
+    if (fieldName === "sampleNo"){
+      setFormData((prev) => ({
+        ...prev,
+        [fieldName]: value,
+      }));
+    }
+    
     if (fieldName === "height") {
       const isFloat = regexMatch.floatRegex.test(value);
       if (!isFloat) {
@@ -256,10 +263,28 @@ const RollingControlSample = () => {
         heatNo: String(formData.heatNo).padStart(6, "0"),
         dutyId: rollingGeneralInfo.dutyId,
       });
+      localStorage.setItem("lastSampleNo", formData.sampleNo);
       message.success("Data saved successfully");
       navigate("/stage/rollingControl");
     } catch (error) {}
   };
+
+  useEffect(() => {
+    const lastSampleNo = localStorage.getItem("lastSampleNo");
+    if (!sampleNo) {
+      if (lastSampleNo) {
+        setFormData((prev) => ({
+          ...prev,
+          sampleNo: parseInt(lastSampleNo, 10) + 1,
+        }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          sampleNo: 1,
+        }));
+      }
+    }
+  }, []);
 
   // console.log("Height rule: ", heightRule);
   // console.log("Flange rule: ", flangeRule);
@@ -340,6 +365,7 @@ const RollingControlSample = () => {
           <FormInputItem
             label="Sample No."
             name="sampleNo"
+            value={formData.sampleNo}
             onChange={handleChange}
           />
           <FormInputItem
