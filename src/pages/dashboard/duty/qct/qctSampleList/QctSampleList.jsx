@@ -57,14 +57,16 @@ const QctSampleList = () => {
   const [formData, setFormData] = useState({shiftRemarks: null})
   const [tableData, setTableData] = useState([]);
   const [clbList, setClbLst] = useState([]);
-  const [filteredClbList, setFilteredClbList] = useState([]);
+  const [filteredQctList, setFilteredQctList] = useState([]);
   const [instrumentCategoryList, setInstrumentCategoryList] = useState([]);
   const [instrumentList, setInstrumentList] = useState([]);
+  const [qList, setQList] = useState([]);
 
   const [filters, setFilters] = useState({
-    instrumentCategory: null,
-    instrument: null,
+    mill: null,
     railSection: null,
+    railGrade: null,
+    qct: null
   });
 
   const [form] = Form.useForm();
@@ -79,28 +81,33 @@ const QctSampleList = () => {
   }
 
   const handleFinish = () => {
-    let updatedClbList = [];
+    let updatedQctList = [];
 
-    if (filters.instrumentCategory) {
-      updatedClbList = clbList.filter(
-        (record) => record.instrumentCategory === filters.instrumentCategory
+    if (filters.mill) {
+      updatedQctList = qList.filter(
+        (record) => record.mill === filters.mill
       );
     }
 
-    if (filters.instrument) {
-      updatedClbList = updatedClbList.filter(
-        (record) => record.instrument === filters.instrument
-      );
-    }
-
-    
     if (filters.railSection) {
-      updatedClbList = updatedClbList.filter(
+      updatedQctList = updatedQctList.filter(
         (record) => record.railSection === filters.railSection
       );
     }
+
+    if (filters.railGrade) {
+      updatedQctList = updatedQctList.filter(
+        (record) => record.railGrade === filters.railGrade
+      );
+    }
+
+    if (filters.qct) {
+      updatedQctList = updatedQctList.filter(
+        (record) => record.qct === filters.qct
+      );
+    }
   
-    setFilteredClbList(updatedClbList);
+    setFilteredQctList(updatedQctList);
   };
 
   console.log("Tabledata: ", tableData)
@@ -174,7 +181,7 @@ const QctSampleList = () => {
               label="Mill"
               name="mill"
               formField="mill"
-              dropdownArray={instrumentCategoryList}
+              dropdownArray={millDropdownList}
               valueField="key"
               visibleField="value"
               onChange={(fieldName, value) =>
@@ -186,9 +193,9 @@ const QctSampleList = () => {
               label="Rail Section"
               name="railSection"
               formField="railSection"
-              dropdownArray={instrumentList}
-              valueField="key"
+              dropdownArray={railSectionList}
               visibleField="value"
+              valueField="key"
               onChange={(fieldName, value) =>
                 handleChange(fieldName, value, setFilters)
               }
@@ -198,9 +205,9 @@ const QctSampleList = () => {
               label="Rail Grade"
               name="railGrade"
               formField="railGrade"
-              dropdownArray={instrumentList}
-              valueField="key"
+              dropdownArray={railGradeList}
               visibleField="value"
+              valueField="key"
               onChange={(fieldName, value) =>
                 handleChange(fieldName, value, setFilters)
               }
@@ -210,7 +217,7 @@ const QctSampleList = () => {
               label="QCT"
               name="qct"
               formField="qct"
-              dropdownArray={instrumentList}
+              dropdownArray={qctList}
               valueField="key"
               visibleField="value"
               onChange={(fieldName, value) =>
@@ -218,6 +225,7 @@ const QctSampleList = () => {
               }
               className="w-full"
             />
+
             <Btn htmlType="submit" text="Search" className="w-full" />
             <Button
               className="flex gap-2 items-center border-darkBlue text-darkBlue"
@@ -231,7 +239,7 @@ const QctSampleList = () => {
           </div>
         </Form>
 
-        <Divider className='mb-0 mt-0'>Samples Declared for Testing</Divider>
+        <Divider className=''>Samples Declared Pending for Testing</Divider>
 
         <TableComponent
           hideExport

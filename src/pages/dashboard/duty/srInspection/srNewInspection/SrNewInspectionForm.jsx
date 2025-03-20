@@ -172,6 +172,37 @@ const SrNewInspectionForm = () => {
     });
   };
 
+  const getSafeValue = (value) => Number(value) || 0;
+
+  const stdWt =
+    (formData.railSectionInspected === "60E1" || formData.railSectionInspected === "60E1A1") ? 60.21 : 51.89;
+
+  const totalTonnesAccepted = stdWt * (
+    (26 * (getSafeValue(formData?.acceptance26mClA) + getSafeValue(formData?.acceptance26mClA01) + getSafeValue(formData?.acceptance26mClB) + getSafeValue(formData?.acceptance26mIu))) + 
+    (25 * (getSafeValue(formData?.acceptance25mClA) + getSafeValue(formData?.acceptance25mClA01) + getSafeValue(formData?.acceptance25mClB) + getSafeValue(formData?.acceptance25mIu))) + 
+    (24 * (getSafeValue(formData?.acceptance24mClA) + getSafeValue(formData?.acceptance24mClA01) + getSafeValue(formData?.acceptance24mClB) + getSafeValue(formData?.acceptance24mIu))) + 
+    (13 * (getSafeValue(formData?.acceptance13mClA) + getSafeValue(formData?.acceptance13mClA01) + getSafeValue(formData?.acceptance13mClB) + getSafeValue(formData?.acceptance13mIu))) + 
+    (12 * (getSafeValue(formData?.acceptance12mClA) + getSafeValue(formData?.acceptance12mClA01) + getSafeValue(formData?.acceptance12mClB) + getSafeValue(formData?.acceptance12mIu))) + 
+    (11 * (getSafeValue(formData?.acceptance11mClA) + getSafeValue(formData?.acceptance11mClA01) + getSafeValue(formData?.acceptance11mClB) + getSafeValue(formData?.acceptance11mIu))) + 
+    (10 * (getSafeValue(formData?.acceptance10mClA) + getSafeValue(formData?.acceptance10mClA01) + getSafeValue(formData?.acceptance10mClB) + getSafeValue(formData?.acceptance10mIu)))
+  );
+  
+  const totalTonnesRejected =
+    stdWt * (26 * (getSafeValue(formData?.rejection26m) + getSafeValue(formData?.cutbart26m) + getSafeValue(formData?.refinish26m))) +
+    getSafeValue(formData?.acceptance25mClA) + getSafeValue(formData?.acceptance25mClA01) + 
+    getSafeValue(formData?.acceptance25mClB) + getSafeValue(formData?.acceptance25mIu) +
+    2 * (getSafeValue(formData?.acceptance24mClA) + getSafeValue(formData?.acceptance24mClA01) + 
+        getSafeValue(formData?.acceptance24mClB) + getSafeValue(formData?.acceptance24mIu)) +
+    getSafeValue(formData?.acceptance12mClA) + getSafeValue(formData?.acceptance12mClA01) + 
+    getSafeValue(formData?.acceptance12mClB) + getSafeValue(formData?.acceptance12mIu) +
+    2 * (getSafeValue(formData?.acceptance11mClA) + getSafeValue(formData?.acceptance11mClA01) + 
+        getSafeValue(formData?.acceptance11mClB) + getSafeValue(formData?.acceptance11mIu)) +
+    3 * (getSafeValue(formData?.acceptance10mClA) + getSafeValue(formData?.acceptance10mClA01) + 
+        getSafeValue(formData?.acceptance10mClB) + getSafeValue(formData?.acceptance10mIu));
+
+
+  const totalTonnesInspected = getSafeValue(totalTonnesAccepted) + getSafeValue(totalTonnesRejected);
+
   const onFinish = async () => {
     try {
       await apiCall("POST", "/shortrailinspection/save", token, {
@@ -226,6 +257,12 @@ const SrNewInspectionForm = () => {
     <FormContainer>
       <SubHeader title='Short Rail Inspection Form' link='/srInspection/home' />
       <GeneralInfo data={sriGeneralInfo} />
+
+      <h3 className='font-bold'>Total Tonnes Accepted: <span className='font-normal'>{totalTonnesAccepted}</span></h3>
+      <h3 className='font-bold'>Total Tonnes Rejected: <span className='font-normal'>{totalTonnesRejected}</span></h3>
+      <h3 className='font-bold'>Total Tonnes Inspected: <span className='font-normal'>{totalTonnesInspected}</span></h3>
+
+      <hr/>
 
       <Form form={form} layout="vertical" initialValues={formData} onFinish={onFinish} >
         <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 gap-x-4'>
@@ -512,13 +549,13 @@ const SrNewInspectionForm = () => {
             {formData.rejectionAnalysisDtls?.map((record, index) => (
               <>
                 <div className="p-2">
-                  <FormDropdownItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection26mAnalysisDefect"]} formField="rejection26mAnalysisDefect" dropdownArray={defectList} visibleField="value" valueField="key" onChange={(name, value) => handleRejAnaDtlChange(name, value, index)}  />
+                  <FormDropdownItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection26mAnalysisDefect"]} formField="rejection26mAnalysisDefect" dropdownArray={defectList} visibleField="value" valueField="key" onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} showSearch/>
                 </div>
                 <div className="p-2">
                   <FormInputItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection26mAnalysisNumber"]} rules={rejection26mAnalysisNumberRule[index]}  onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} />
                 </div>
                 <div className="p-2">
-                  <FormDropdownItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection13mAnalysisDefect"]} formField="rejection13mAnalysisDefect" dropdownArray={defectList} visibleField="value" valueField="key" onChange={(name, value) => handleRejAnaDtlChange(name, value, index)}  />
+                  <FormDropdownItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection13mAnalysisDefect"]} formField="rejection13mAnalysisDefect" dropdownArray={defectList} visibleField="value" valueField="key" onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} showSearch/>
                 </div>
                 <div className="p-2">
                   <FormInputItem className="no-border" name={["rejectionAnalysisDtls", index, "rejection13mAnalysisNumber"]} rules={rejection13mAnalysisNumberRule[index]}  onChange={(name, value) => handleRejAnaDtlChange(name, value, index)} />

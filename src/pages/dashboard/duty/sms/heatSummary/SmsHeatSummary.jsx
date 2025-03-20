@@ -725,10 +725,52 @@ const SmsHeatSummary = () => {
     }
   };
 
-  // const [heatRule, setHeatRule] = useState([]);
+  const [heatRule, setHeatRule] = useState([]);
   const [tempRule, setTempRule] = useState([]);
 
   const handleNewHeatValChange = (fieldName, value) => {
+    if (fieldName === "heatNo") {
+      const isValid = /^0\d{5}$/.test(value);
+
+      if (!isValid) {
+        setHeatRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Heat Number must start with 0, be 6 digits, and contain only numbers."
+                )
+              ),
+          },
+        ]);
+      } else {
+        setHeatRule([]);
+      }
+    }
+
+    if (fieldName === "heatNo") {
+      if (value.length > 6) {
+
+        // if (!isValid) {
+        setHeatRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Heat Number must 6 digits or smaller."
+                )
+              ),
+          },
+        ]);
+
+        return;
+      }
+      else {
+        setHeatRule([]);
+        setFormData(prev => ({ ...prev, heatNo: value }))
+        return;
+      }
+    }
 
     if (fieldName === "turnDownTemp") {
       const isValid = /^\d+$/.test(value);
@@ -945,7 +987,7 @@ const SmsHeatSummary = () => {
             label="Enter Heat Number"
             placeholder="012345"
             name="heatNo"
-            // rules={heatRule}
+            rules={heatRule}
             onChange={handleNewHeatValChange}
             required
           />

@@ -221,18 +221,37 @@ const SmsBloomInspection = () => {
 
   const handleFormSubmit = async () => {
     try {
-      // Call the API
       await apiCall("POST", "/sms/saveBloomInsp", token, { 
         ...formData, 
         dutyId: smsGeneralInfo.dutyId,
       });
       navigate('/sms/dutyEnd')
-      // Show success message only when the API call is successful
+      
       message.success("Bloom Inspection successful.");
     } catch (error) {
-      // Error is already handled by `apiCall` with `message.error`
       console.error("Form submission error:", error);
     }
+  };
+
+  const [bloomLengthRule, setBloomLengthRule] = useState([]);
+
+  const handleBloomLengthChange = (fieldName, value) => {
+    const isInteger = regexMatch.intRegex.test(value);
+
+    if (!isInteger) {
+      setBloomLengthRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(
+              new Error("This must be numeric.")
+            ),
+        },
+      ]);
+    } else {
+      setBloomLengthRule([]);
+    }
+
+    setFormData(prev => ({...prev, [fieldName]: value}))
   };
 
   const [primeBloomRejectedRule, setPrimeBloomRejectedRule] = useState([]);
@@ -349,8 +368,8 @@ const SmsBloomInspection = () => {
           <FormInputItem
             label="Bloom Length"
             name="lengthOfBlooms"
-            onChange={(fieldName, value) =>
-                handleChange(fieldName, value, setFormData)}
+            onChange={handleBloomLengthChange}
+            rules={bloomLengthRule}
             required
           />
           <FormInputItem

@@ -1269,24 +1269,24 @@ const VisualInspectionForm = () => {
   const [heatRule, setHeatRule] = useState([]);
 
   const handleChange = (fieldName, value) => {
-    // if (fieldName === "heatNo") {
-    //   const isValid = /^0\d{5}$/.test(value);
+    if (fieldName === "heatNo") {
+      const isValid = /^0\d{5}$/.test(value);
 
-    //   if (!isValid) {
-    //     setHeatRule([
-    //       {
-    //         validator: (_, value) =>
-    //           Promise.reject(
-    //             new Error(
-    //               "Heat Number must start with 0, be 6 digits, and contain only numbers."
-    //             )
-    //           ),
-    //       },
-    //     ]);
-    //   } else {
-    //     setHeatRule([]);
-    //   }
-    // }
+      if (!isValid) {
+        setHeatRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Heat Number must start with 0, be 6 digits, and contain only numbers."
+                )
+              ),
+          },
+        ]);
+      } else {
+        setHeatRule([]);
+      }
+    }
 
     if (fieldName === "serialNo") {
       if (value.length > 3) {
@@ -1306,29 +1306,29 @@ const VisualInspectionForm = () => {
       value = value.length < 3 ? value.padStart(3, "0") : value;
     }
 
-    // if (fieldName === "heatNo") {
-    //   if (value.length > 6) {
+    if (fieldName === "heatNo") {
+      if (value.length > 6) {
 
-    //     // if (!isValid) {
-    //     setHeatRule([
-    //       {
-    //         validator: (_, value) =>
-    //           Promise.reject(
-    //             new Error(
-    //               "Heat Number must 6 digits or smaller."
-    //             )
-    //           ),
-    //       },
-    //     ]);
+        // if (!isValid) {
+        setHeatRule([
+          {
+            validator: (_, value) =>
+              Promise.reject(
+                new Error(
+                  "Heat Number must 6 digits or smaller."
+                )
+              ),
+          },
+        ]);
 
-    //     return;
-    //   }
-    //   else {
-    //     setHeatRule([]);
-    //     setFormData(prev => ({ ...prev, heatNo: value }))
-    //     return;
-    //   }
-    // }
+        return;
+      }
+      else {
+        setHeatRule([]);
+        setFormData(prev => ({ ...prev, heatNo: value }))
+        return;
+      }
+    }
 
 
     setFormData((prev) => {
@@ -1690,7 +1690,7 @@ const VisualInspectionForm = () => {
           <div className="grid grid-cols-2 gap-x-2">
             <FormInputItem
               label="Heat Number"
-              // rules={heatRule}
+              rules={heatRule}
               name="heatNo"
               onChange={handleChange}
               required

@@ -7,7 +7,6 @@ import FormSearchItem from "../../../../../components/DKG_FormSearchItem";
 import FormInputItem from "../../../../../components/DKG_FormInputItem";
 import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem"; // ✅ Import dropdown component
 import { apiCall, handleChange } from "../../../../../utils/CommonFunctions";
-import SubHeader from "../../../../../components/DKG_SubHeader";
 import IconBtn from "../../../../../components/DKG_IconBtn";
 import { regexMatch } from "../../../../../utils/Constants";
 import Btn from "../../../../../components/DKG_Btn";
@@ -266,12 +265,13 @@ const HeatDtl = () => {
   const [oxygenRule, setOxygenRule] = useState([]);
 
   const csVal =
-    sms === "SMS 3"
-      ? 0.1005
-      : sms === "SMS 3" && formData.casterNo === "M/c IV"
-        ? 0.1088
-        : 0.102;
-
+  sms === "SMS 3" && (formData.casterNo === "CV1" || formData.casterNo === "CV2")
+    ? 0.1005
+    : sms === "SMS 2" && formData.casterNo === "M/c IV"
+      ? 0.1088
+      : sms === "SMS 2" && formData.casterNo === "M/c V"
+        ? 0.102
+        : null;
 
   const handleOxygenChange = (fieldName, value) => {
     const isFloat = regexMatch.floatRegex.test(value)
@@ -1042,9 +1042,6 @@ const HeatDtl = () => {
             </>
           )
         }
-
-
-
 
         <Checkbox
           className="my-4"

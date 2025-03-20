@@ -104,7 +104,7 @@ const VerificationIso = () => {
 
   const handlePrint = useReactToPrint({
     content: () => repRef.current,
-    documentTitle: "sms_verification_iso_report", // Set custom filename
+    documentTitle: "sms_verification_iso_report",
   });
 
   const {token} = useSelector(state => state.auth);
@@ -124,6 +124,7 @@ const VerificationIso = () => {
         // }
         // if(item.heatStage === "Converter"){
           heatDtlList.push({castNo: item.heatNumber, castingTemp: item.turnDownTemp, castingTempWv: item.turnDownTempWv});
+          console.log(heatDtlList)
         // }
         // if(item.heatStage === "Degassing"){
           degassingDtlList.push({castNo: item.heatNumber, vacuum: item.degassingVacuum, time: item.degassingDuration, castingTimeWv: item.degasssingDurationWv});

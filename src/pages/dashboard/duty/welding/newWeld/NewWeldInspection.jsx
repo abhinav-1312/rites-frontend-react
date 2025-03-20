@@ -413,8 +413,9 @@ const updateData = async () => {
             readOnly={id ? true : false}
           />
           <FormInputItem
-            label="Joints Count"
+            label="Joints Count(inc. 'cult & reweld')"
             name="noOfJoints"
+            className=""
             onChange={(name, value) => handleNoOfJointsChange(name, value)}
             required
             readOnly={id ? true : false}
