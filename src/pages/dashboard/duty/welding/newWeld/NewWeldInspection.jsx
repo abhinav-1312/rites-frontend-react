@@ -12,6 +12,7 @@ import FormDropdownItem from "../../../../../components/DKG_FormDropdownItem";
 import Btn from "../../../../../components/DKG_Btn";
 import { useSelector } from "react-redux";
 import { apiCall } from "../../../../../utils/CommonFunctions";
+import FormSearchItem from "../../../../../components/DKG_FormSearchItem";
 
 const {
   weldParameterDropdownList,
@@ -388,6 +389,16 @@ const updateData = async () => {
     });
   };
 
+  const handleRailIdLengthSearch = async (name, index, value) => {
+    try{
+      const {data} = await apiCall("GET", `/vi/getActOffLengthByRailId?railId=${value}`, token)
+      console.log("Rail Id length: ", data?.responseData?.length)
+    }
+    catch(error){
+      
+    }
+  }
+
   return (
     <FormContainer>
       <SubHeader
@@ -578,6 +589,7 @@ const updateData = async () => {
                 onChange={(name, value) =>
                   handleWeldListChange(name, value, index)
                 }
+                // onSearch={(value) => handleRailIdLengthSearch("railId1", index, value)}
                 required
               />
               <FormInputItem
@@ -586,14 +598,25 @@ const updateData = async () => {
                 onChange={(name, value) =>
                   handleWeldListChange(name, value, index)
                 }
+                disabled
                 required
               />
-              <FormInputItem
+              {/* <FormInputItem
                 label="Rail ID 2"
                 name={["weldList", index, "railId2"]}
                 onChange={(name, value) =>
                   handleWeldListChange(name, value, index)
                 }
+                required
+              /> */}
+
+<FormInputItem
+                label="Rail ID 2"
+                name={["weldList", index, "railId2"]}
+                onChange={(name, value) =>
+                  handleWeldListChange(name, value, index)
+                }
+                // onSearch={(value) => handleRailIdLengthSearch("railId2", index, value)}
                 required
               />
               <FormInputItem
@@ -602,6 +625,7 @@ const updateData = async () => {
                 onChange={(name, value) =>
                   handleWeldListChange(name, value, index)
                 }
+                disabled
                 required
               />
             </div>         
