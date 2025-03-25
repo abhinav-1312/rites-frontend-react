@@ -70,6 +70,8 @@ const HeatDtl = () => {
   const { state } = useLocation();
   const heatNo = state?.heatNo || null;
 
+  console.log("HEat numebr:", heatNo)
+
   const [degVacRule, setDegVacRule] = useState([]);
 
   const [form] = Form.useForm();
@@ -321,6 +323,7 @@ const HeatDtl = () => {
 
       setFormData({
         ...data.responseData,
+        heatNo: heatNo,
         sequenceNo1: data?.responseData?.sequenceNo?.split("/")?.[0] || null,
         sequenceNo2: data?.responseData?.sequenceNo?.split("/")?.[1] || null,
       } || {});
@@ -652,6 +655,8 @@ const HeatDtl = () => {
 
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
   };
+
+  console.log("FormData: ", formData)
 
   return (
     <FormContainer>
