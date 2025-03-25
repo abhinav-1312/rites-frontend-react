@@ -730,45 +730,23 @@ const SmsHeatSummary = () => {
 
   const handleNewHeatValChange = (fieldName, value) => {
     if (fieldName === "heatNo") {
-      const isValid = /^0\d{5}$/.test(value);
-
+      const isValid = /^\d+$/.test(value);
       if (!isValid) {
         setHeatRule([
           {
-            validator: (_, value) =>
-              Promise.reject(
-                new Error(
-                  "Heat Number must start with 0, be 6 digits, and contain only numbers."
-                )
-              ),
+            validator: (_, val) =>
+            Promise.reject(new Error("Heat No. must not contain decimal values or string values.")),
+          },
+        ]);
+      } else if (isValid && parseInt(value.length) > 6) {
+        setHeatRule([
+          {
+            validator: (_, val) =>
+              Promise.reject(new Error("Heat Number must 6 digits or smaller.")),
           },
         ]);
       } else {
         setHeatRule([]);
-      }
-    }
-
-    if (fieldName === "heatNo") {
-      if (value.length > 6) {
-
-        // if (!isValid) {
-        setHeatRule([
-          {
-            validator: (_, value) =>
-              Promise.reject(
-                new Error(
-                  "Heat Number must 6 digits or smaller."
-                )
-              ),
-          },
-        ]);
-
-        return;
-      }
-      else {
-        setHeatRule([]);
-        setFormData(prev => ({ ...prev, heatNo: value }))
-        return;
       }
     }
 

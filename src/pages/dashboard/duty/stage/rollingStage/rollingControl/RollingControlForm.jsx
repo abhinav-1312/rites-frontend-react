@@ -186,7 +186,7 @@ const RollingControlForm = () => {
                   name="micrometerValidity"
                   defaultValue={formData.micrometerValidity}
                   onChange={handleChange}
-                  required
+                  disabled
                 />
                 <FormDropdownItem
                   label="Vernier No."
@@ -204,7 +204,7 @@ const RollingControlForm = () => {
                   formField="vernierValidity"
                   defaultValue={formData.vernierValidity}
                   onChange={handleChange}
-                  required
+                  disabled
                 />
 
                 <FormDropdownItem
@@ -222,7 +222,7 @@ const RollingControlForm = () => {
                   name="weighingMachineValidity"
                   defaultValue={formData.weighingMachineValidity}
                   onChange={handleChange}
-                  required
+                  disabled
                 />
                 <FormInputItem
                   label="No. of Gauges"

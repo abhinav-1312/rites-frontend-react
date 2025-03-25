@@ -27,8 +27,8 @@ const NCalibrationForm = () => {
     const fetchCalibrationData = async () => {
       try {
         const response = await apiCall("GET", `/ndt/calibration/getCalibrationDtls?dutyId=${ndtGeneralInfo.dutyId}`, token);
-        if (response?.data && response.data.dutyId === ndtGeneralInfo.dutyId) {
-          const transformedCalibrationList = response.data.calibrations.map(cal => ({
+        if (response?.data?.responseData?.dutyId === ndtGeneralInfo.dutyId) {
+          const transformedCalibrationList = response?.data?.responseData?.calibrations.map(cal => ({
             ...cal,
             calibrationCompletionTimeDayjs: cal.calibrationCompletionTime ? moment(cal.calibrationCompletionTime, 'HH:mm:ss') : null,
             isNew: false
@@ -36,7 +36,7 @@ const NCalibrationForm = () => {
           
           setFormData({
             calibrationList: transformedCalibrationList,
-            calibrationRemarks: response.data.calibrationRemarks || null,
+            calibrationRemarks: response?.data?.responseData?.calibrationRemarks || null,
           });
           
           form.setFieldsValue({
