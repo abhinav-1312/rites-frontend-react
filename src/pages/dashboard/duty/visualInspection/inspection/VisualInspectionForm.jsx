@@ -314,6 +314,11 @@ const VisualInspectionForm = () => {
         return;
       }
 
+      if (value.length < 3) {
+        message.error("Serial number should be of length 3.");
+        return;
+      }
+
       if (value === "") {
         setFormData((prev) => ({
           ...prev,
@@ -322,34 +327,25 @@ const VisualInspectionForm = () => {
         }));
         return;
       }
-
-      value = value.length < 3 ? value.padStart(3, "0") : value;
     }
 
     if (fieldName === "heatNo") {
       if (value.length > 6) {
-
-        // if (!isValid) {
         setHeatRule([
           {
             validator: (_, value) =>
               Promise.reject(
-                new Error(
-                  "Heat Number must 6 digits or smaller."
-                )
+                new Error("Heat Number must be 6 digits or smaller.")
               ),
           },
         ]);
-
         return;
-      }
-      else {
+      } else {
         setHeatRule([]);
-        setFormData(prev => ({ ...prev, heatNo: value }))
+        setFormData(prev => ({ ...prev, heatNo: value }));
         return;
       }
     }
-
 
     setFormData((prev) => {
       const updatedForm = {
