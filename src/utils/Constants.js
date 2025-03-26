@@ -46,3 +46,18 @@ export const qctTestList = [
         value: 'Center Line RSH'
     },
 ]
+
+export const testStatusDropdown = [
+    {
+        label: "ACCEPTED",
+        value: "ACCEPTED"
+    },
+    {
+        label: "REJECTED",
+        value: "REJECTED"
+    },
+    {
+        label: "RETEST",
+        value: "RETEST"
+    }
+]

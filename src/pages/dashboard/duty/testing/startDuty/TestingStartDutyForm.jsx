@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { message } from 'antd';
 import dayjs from "dayjs";
 import { startQctDuty } from "../../../../../store/slice/qctDutySlice";
+import { startTestingDuty } from "../../../../../store/slice/testingDutySlice";
 
 const { shiftList } = data;
 
@@ -19,7 +20,7 @@ const dateFormat = "DD/MM/YYYY";
 
 const TestingStartDutyForm = () => {
   const dispatch = useDispatch();
-  const dutyId  = null;
+  const {dutyId}  = useSelector(state => state.testingDuty);
     const [formData, setFormData] = useState({
         startDate: currentDate.format(dateFormat), shift: ''
     });
@@ -35,15 +36,15 @@ const TestingStartDutyForm = () => {
     };
 
     const handleFormSubmit = async () => {
-    //   await dispatch(startQctDuty(formData)).unwrap();
-    //   navigate('/qct/sampleList');
-    message.error("Table testing_duty_t01. doesnt exist")
+      await dispatch(startTestingDuty(formData)).unwrap();
+      navigate('/testing/home');
+      message.success("Duty started successfully.");
       // message.error("Internal server error. Please contact support.")
     };
 
     if (dutyId) {
       message.error("Duty already in progress. Cannot start new duty.");
-      return <Navigate to="/qct/sampleList" />;
+      return <Navigate to="/testing/home" />;
     }
 
   return (
