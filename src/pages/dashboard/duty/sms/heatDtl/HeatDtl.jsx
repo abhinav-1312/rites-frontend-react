@@ -123,21 +123,44 @@ const HeatDtl = () => {
     const payload = {
       ...formData,
       dutyId,
-      sequenceNo: `${formData.sequenceNo1 || ""}/${formData.sequenceNo2 || ""}`,
+      // sequenceNo: `${formData.sequenceNo1 || ""}/${formData.sequenceNo2 || ""}`,
+      sequenceNo: `${formData.sequenceNo1?.trim() || ""}/${formData.sequenceNo2?.trim() || ""}`,
     };
 
-    try {
-      if (stageValidationRules[currentStage].every((field) => formData[field]) && currentStage < 5) {
-        await apiCall("POST", "/sms/updateHeatDtls", token, payload);
-        message.success(`Stage ${currentStage} data saved successfully.`);
-        setCurrentStage(currentStage + 1);
-      }
-      else {
-        message.error(`Please fill all the data for stage ${currentStage}`)
-      }
+    // try {
+    //   const isStageValid = stageValidationRules[currentStage].every(
+    //     (field) => formData[field] !== undefined && formData[field] !== null && formData[field].toString().trim() !== ""
+    //   );
 
+    //   if (isStageValid && currentStage < 5) {
+    //     await apiCall("POST", "/sms/updateHeatDtls", token, payload);
+    //     message.success(`Stage ${currentStage} data saved successfully.`);
+    //     // setCurrentStage(currentStage + 1);
+    //     setCurrentStage((prev) => prev + 1);
+    //   }
+    //   else {
+    //     message.error(`Please fill all the data for stage ${currentStage}`)
+    //   }
+
+    // } catch (error) {
+    //   message.error("Failed to save stage data.");
+    // }
+    try {
+        const isStageValid = stageValidationRules[currentStage].every((field) => {
+          const value = formData[field];
+          return value !== undefined && value !== null && (typeof value === "number" || value.toString().trim() !== "");
+        });
+
+        if (isStageValid && currentStage <= 5) {
+            await apiCall("POST", "/sms/updateHeatDtls", token, payload);
+            message.success(`Stage ${currentStage} data saved successfully.`);
+            setCurrentStage((prev) => prev + 1);
+            navigate("/sms/heatSummary")
+        } else {
+            message.error(`Please fill all the data for stage ${currentStage}`);
+        }
     } catch (error) {
-      message.error("Failed to save stage data.");
+        message.error("Failed to save stage data.");
     }
   };
 
@@ -172,6 +195,42 @@ const HeatDtl = () => {
         setFormData((prev) => ({
           ...prev,
           degassingDuration: value,
+        }));
+        setIsOutOfRange(false);
+      }
+    }
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  }
+
+  const [turDowTempRule, setTurDowTempRule] = useState([])
+
+  const handleTurDowTempChange = (fieldName, value) => {
+    const isInteger = regexMatch.intRegex.test(value);
+
+    if (!isInteger) {
+      setTurDowTempRule([
+        {
+          validator: (_, value) =>
+            Promise.reject(new Error("Value must be integer.")),
+
+        },
+      ]);
+    }
+    else {
+      setTurDowTempRule([]);
+      if (parseFloat(value) < 1630) {
+        message.warning("Value must be greater than or equal to 1630", 5);
+
+        setFormData((prev) => ({
+          ...prev,
+          turnDownTemp: value,
+        }));
+        setIsOutOfRange(true);
+      }
+      else {
+        setFormData((prev) => ({
+          ...prev,
+          turnDownTemp: value,
         }));
         setIsOutOfRange(false);
       }
@@ -368,25 +427,67 @@ const HeatDtl = () => {
       setCastTempRule([
         {
           validator: (_, value) =>
-            Promise.reject(
-              new Error("Temperature must not contain decimal values.")
-            ),
+            Promise.reject(new Error("Value must be integer.")),
+
         },
       ]);
-    } else if (isInteger && parseInt(value) < 1480) {
-      setCastTempRule([
+    }
+    else {
+      setCastTempRule([]);
+      if (parseFloat(value) < 1480) {
+        message.warning("Value must be greater than or equal to 1480", 5);
+
+        setFormData((prev) => ({
+          ...prev,
+          castingTemp: value,
+        }));
+        setIsOutOfRange(true);
+      }
+      else {
+        setFormData((prev) => ({
+          ...prev,
+          castingTemp: value,
+        }));
+        setIsOutOfRange(false);
+      }
+    }
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  }
+
+  const [castTemp2Rule, setCastTemp2Rule] = useState([])
+
+  const handleCastTemp2Change = (fieldName, value) => {
+    const isInteger = regexMatch.intRegex.test(value);
+
+    if (!isInteger) {
+      setCastTemp2Rule([
         {
           validator: (_, value) =>
-            Promise.reject(
-              new Error("Temperature must be greater than or equal to 1480.")
-            ),
+            Promise.reject(new Error("Value must be integer.")),
+
         },
       ]);
-    } else {
-      setCastTempRule([]);
     }
+    else {
+      setCastTemp2Rule([]);
+      if (parseFloat(value) < 1480) {
+        message.warning("Value must be greater than or equal to 1480", 5);
 
-    setFormData(prev => ({ ...prev, [fieldName]: value }))
+        setFormData((prev) => ({
+          ...prev,
+          castingTemp2: value,
+        }));
+        setIsOutOfRange(true);
+      }
+      else {
+        setFormData((prev) => ({
+          ...prev,
+          castingTemp2: value,
+        }));
+        setIsOutOfRange(false);
+      }
+    }
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
   }
 
   // //   const handleChemChange = (fieldName, value) => {
@@ -696,9 +797,8 @@ const HeatDtl = () => {
   <FormInputItem
     label="Turn Down Temp. (&deg;C)"
     name="turnDownTemp"
-    onChange={(fieldName, value) =>
-      handleChange(fieldName, value, setFormData)
-    }
+    rules={turDowTempRule}
+    onChange={handleTurDowTempChange}
     disabled={isFieldDisabled(1)}
     className={currentStage >= 1 ? "block" : "hidden"}
   />
@@ -786,16 +886,16 @@ const HeatDtl = () => {
         <div className="grid grid-cols-2 gap-x-4">
           <FormInputItem
             label="1st Casting Temp (&deg;C)"
-            name="castingTempOne"
+            name="castingTemp"
             onChange={handleCastTempChange}
             rules={castTempRule}
             disabled={isFieldDisabled(3)}
           />
           <FormInputItem
             label="2nd Casting Temp(&deg;C)"
-            name="castingTempTwo"
-            onChange={handleCastTempChange}
-            rules={castTempRule}
+            name="castingTemp2"
+            onChange={handleCastTemp2Change}
+            rules={castTemp2Rule}
             disabled={isFieldDisabled(3)}
           />
           {/* <FormInputItem
