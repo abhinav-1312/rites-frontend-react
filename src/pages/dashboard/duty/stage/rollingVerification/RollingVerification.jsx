@@ -102,11 +102,48 @@ const RollingVerification = () => {
     });
   };
 
-  const handleChargingTableDtlChange = (fieldName, value, index) => {
-    setFormData((prev) => {
-      const chargingTableUpdated = [...prev.chargingTableDtls];
-      chargingTableUpdated[index][fieldName] = value;
+  // const handleChargingTableDtlChange = (fieldName, value, index) => {
+  //   setFormData((prev) => {
+  //     const chargingTableUpdated = [...prev.chargingTableDtls];
+  //     chargingTableUpdated[index][fieldName] = value;
 
+  //     if (fieldName === "bloomTrackingVerification") {
+  //       chargingTableUpdated[index]["bloomTrackingVerificationDesc"] =
+  //         setDescription("bloomTrackingVerification", value);
+  //     } else if (fieldName === "hotBloomsDescaling") {
+  //       chargingTableUpdated[index]["hotBloomsDescalingDesc"] = setDescription(
+  //         "hotBloomsDescaling",
+  //         value
+  //       );
+  //     }
+  //     return {
+  //       ...prev,
+  //       chargingTableDtls: chargingTableUpdated,
+  //     };
+  //   });
+  // };
+  
+  const handleChargingTableDtlChange = (fieldName, value, index = 0) => {
+    setFormData((prev) => {
+      // Ensure chargingTableDtls exists
+      const chargingTableUpdated = [...(prev.chargingTableDtls || [])];
+  
+      // Ensure the specific index exists
+      if (!chargingTableUpdated[index]) {
+        chargingTableUpdated[index] = {
+          heatNo: null,
+          length: null,
+          defect: null,
+          bloomTrackingVerification: null,
+          bloomTrackingVerificationDesc: null,
+          hotBloomsDescaling: null,
+          hotBloomsDescalingDesc: null,
+        };
+      }
+  
+      // Update the value
+      chargingTableUpdated[index][fieldName] = value;
+  
       if (fieldName === "bloomTrackingVerification") {
         chargingTableUpdated[index]["bloomTrackingVerificationDesc"] =
           setDescription("bloomTrackingVerification", value);
@@ -116,12 +153,13 @@ const RollingVerification = () => {
           value
         );
       }
+  
       return {
         ...prev,
         chargingTableDtls: chargingTableUpdated,
       };
     });
-  };
+  };  
 
   const handleBloomYardDtlDelete = (index) => {
     const bloomYarDtlsUpdated = formData.bloomYardDtls;
@@ -413,11 +451,11 @@ const RollingVerification = () => {
                   <h4 className="font-semibold col-span-2 mb-2">
                     1. Online Verification of Internal Transfer Memo for Stacking
                   </h4>
-                  <FormInputItem
-                    placeholder="Heat number"
-                    name={["chargingTableDtls", index, "heatNo"]}
+                  <FormInputItem 
+                    placeholder="Heat Number"               
+                    name={["bloomYardDtls", index, "heatNo"]}
                     onChange={(fName, value) =>
-                      handleChargingTableDtlChange(fName, value, index)
+                      handleBloomDtlChange(fName, value, index)
                     }
                     required
                   />
@@ -545,6 +583,7 @@ const RollingVerification = () => {
           formField="bloomTrackingVerification"
           name={[
             "chargingTableDtls",
+            0,
             "bloomTrackingVerificationDesc",
           ]}
           dropdownArray={satUnsatDropdown}
@@ -552,7 +591,7 @@ const RollingVerification = () => {
           valueField="key"
           required
           onChange={(fName, value) =>
-            handleChargingTableDtlChange(fName, value)
+            handleChargingTableDtlChange(fName, value, 0)
           }
         />
 
@@ -565,13 +604,13 @@ const RollingVerification = () => {
         <FormDropdownItem
           placeholder="satisfactory / unsatisfactory"
           formField="hotBloomsDescaling"
-          name={["chargingTableDtls", "hotBloomsDescalingDesc"]}
+          name={["chargingTableDtls", 0, "hotBloomsDescalingDesc"]}
           dropdownArray={satUnsatDropdown}
           visibleField="value"
           valueField="key"
           required
           onChange={(fName, value) =>
-            handleChargingTableDtlChange(fName, value)
+            handleChargingTableDtlChange(fName, value, 0)
           }
         />
 

@@ -799,7 +799,7 @@ const HeatDtl = () => {
     name="turnDownTemp"
     rules={turDowTempRule}
     onChange={handleTurDowTempChange}
-    disabled={isFieldDisabled(1)}
+    // disabled={isFieldDisabled(1)}
     className={currentStage >= 1 ? "block" : "hidden"}
   />
   <FormDropdownItem
@@ -812,7 +812,7 @@ const HeatDtl = () => {
     onChange={(fieldName, value) =>
       handleChange(fieldName, value, setFormData)
     }
-    disabled={isFieldDisabled(1)}
+    // disabled={isFieldDisabled(1)}
   />
 </div>
             </>
@@ -834,7 +834,7 @@ const HeatDtl = () => {
                   placeholder="2.5"
                   rules={degVacRule}
                   onChange={handleDegVacChange}
-                  disabled={isFieldDisabled(2)}
+                  // disabled={isFieldDisabled(2)}
                 />
                 <FormDropdownItem
                   label=""
@@ -847,7 +847,7 @@ const HeatDtl = () => {
                   onChange={(fieldName, value) =>
                     handleChange(fieldName, value, setFormData)
                   }
-                  disabled={isFieldDisabled(2)}
+                  // disabled={isFieldDisabled(2)}
                 />
                 <FormInputItem
                   label="Degassing Duration(min)"
@@ -855,7 +855,7 @@ const HeatDtl = () => {
                   placeholder="10.0"
                   rules={degDurRule}
                   onChange={handleDegDurChange}
-                  disabled={isFieldDisabled(2)}
+                  // disabled={isFieldDisabled(2)}
 
                 />
                 <FormDropdownItem
@@ -869,7 +869,7 @@ const HeatDtl = () => {
                   onChange={(fieldName, value) =>
                     handleChange(fieldName, value, setFormData)
                   }
-                  disabled={isFieldDisabled(2)}
+                  // disabled={isFieldDisabled(2)}
                 />
               </div>
             </>
@@ -889,14 +889,14 @@ const HeatDtl = () => {
             name="castingTemp"
             onChange={handleCastTempChange}
             rules={castTempRule}
-            disabled={isFieldDisabled(3)}
+            // disabled={isFieldDisabled(3)}
           />
           <FormInputItem
             label="2nd Casting Temp(&deg;C)"
             name="castingTemp2"
             onChange={handleCastTemp2Change}
             rules={castTemp2Rule}
-            disabled={isFieldDisabled(3)}
+            // disabled={isFieldDisabled(3)}
           />
           {/* <FormInputItem
             label="Caster Number "
@@ -919,7 +919,7 @@ const HeatDtl = () => {
                   onChange={(fieldName, value) =>
                     handleChange(fieldName, value, setFormData)
                   }
-                  disabled={isFieldDisabled(3)}
+                  // disabled={isFieldDisabled(3)}
                 />
 
                 <div>
@@ -934,7 +934,7 @@ const HeatDtl = () => {
                       onChange={(fieldName, value) =>
                         handleChange(fieldName, value, setFormData)
                       }
-                      disabled={isFieldDisabled(3)}
+                      // disabled={isFieldDisabled(3)}
                     />
                     <div className="text-4xl font-semibold">
 
@@ -946,7 +946,7 @@ const HeatDtl = () => {
                       onChange={(fieldName, value) =>
                         handleChange(fieldName, value, setFormData)
                       }
-                      disabled={isFieldDisabled(3)}
+                      // disabled={isFieldDisabled(3)}
                     />
                   </div>
 
@@ -956,7 +956,7 @@ const HeatDtl = () => {
                   name="hydris"
                   rules={hydrisRuleObj}
                   onChange={handleHydrisChange}
-                  disabled={isFieldDisabled(3)}
+                  // disabled={isFieldDisabled(3)}
                 />
               </div>
 
@@ -1001,14 +1001,14 @@ const HeatDtl = () => {
                   name="nitrogen"
                   rules={nitrogenRule}
                   onChange={handleNitrogenChange}
-                  disabled={isFieldDisabled(4)}
+                  // disabled={isFieldDisabled(4)}
                 />
                 <FormInputItem
                   label="Oxygen (ppm)"
                   name="oxygen"
                   rules={oxygenRule}
                   onChange={handleOxygenChange}
-                  disabled={isFieldDisabled(4)}
+                  // disabled={isFieldDisabled(4)}
                 />
 
                 <FormDropdownItem
@@ -1019,7 +1019,7 @@ const HeatDtl = () => {
                   visibleField="value"
                   valueField="key"
                   onChange={handleChemChange}
-                  disabled={isFieldDisabled(4)}
+                  // disabled={isFieldDisabled(4)}
                 />
 
                 {showLabCheckbox && (

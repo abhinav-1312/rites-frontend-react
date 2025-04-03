@@ -236,9 +236,9 @@ const SmsBloomInspection = () => {
   const [bloomLengthRule, setBloomLengthRule] = useState([]);
 
   const handleBloomLengthChange = (fieldName, value) => {
-    const isInteger = regexMatch.intRegex.test(value);
+    const isFloat = regexMatch.floatRegex.test(value)
 
-    if (!isInteger) {
+    if (!isFloat) {
       setBloomLengthRule([
         {
           validator: (_, value) =>
