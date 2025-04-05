@@ -34,9 +34,11 @@ const WsRemarks = () => {
 
   const {token} = useSelector(state => state.auth)
 
+  const {dutyId} = useSelector(state => state.sriDuty)
+
   const populateWsRemarks = useCallback(async () => {
     try{
-      const {data} = await apiCall("GET", "/shortrailinspection/getWorkStationRemarks", token);
+      const {data} = await apiCall("GET", `/shortrailinspection/getWorkStationRemarks?dutyId=${dutyId}`, token);
       setDataSource(data?.responseData || [])
     }
     catch(error){}

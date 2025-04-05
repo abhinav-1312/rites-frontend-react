@@ -179,7 +179,7 @@ const WeldingStartDutyForm = () => {
 
             <Form initialValues={formData} form={form} layout="vertical" onFinish={handleFormSubmit}>
                 <div className="grid grid-cols-2 gap-x-2">
-                    <CustomDatePicker label="Date" name="startDate" defaultValue={formData.startDate} onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required disabled/>
+                    <CustomDatePicker label="Date" name="startDate" defaultValue={formData.startDate} onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required/>
                     <FormDropdownItem label="Shift" name="shift" formField="shift" dropdownArray={shiftList} visibleField="value" valueField="key" onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
 
                     <FormDropdownItem label='Mill' name='mill' formField="mill" dropdownArray={millDropdownList} valueField='key' visibleField='value' onChange={(fieldName, value) => {

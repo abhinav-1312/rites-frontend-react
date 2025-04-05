@@ -137,7 +137,7 @@ const VerificationIso = () => {
             castNo: item.heatNumber,
             vacuum: item.degassingVacuum,
             time: item.degassingDuration,
-            castingTimeWv: item.degasssingDurationWv
+            castingTimeWv: item.degassingDurationWv
           });
         }
         else if (item.heatStage === "Casting") {
@@ -150,7 +150,7 @@ const VerificationIso = () => {
             castNo: item.heatNumber,
             vacuum: item.degassingVacuum,
             time: item.degassingDuration,
-            castingTimeWv: item.degasssingDurationWv
+            castingTimeWv: item.degassingDurationWv
           });
           castingDtlList.push({
             castNo: item.heatNumber,
@@ -172,7 +172,7 @@ const VerificationIso = () => {
             castNo: item.heatNumber,
             vacuum: item.degassingVacuum,
             time: item.degassingDuration,
-            castingTimeWv: item.degasssingDurationWv
+            castingTimeWv: item.degassingDurationWv
           });
           castingDtlList.push({
             castNo: item.heatNumber,
@@ -198,6 +198,8 @@ const VerificationIso = () => {
       // Error handling
     }
   }
+
+  console.log("FORN: ", formData)
 
   useEffect(() => {
   }, [])

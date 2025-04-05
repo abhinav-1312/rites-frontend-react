@@ -86,7 +86,7 @@ const ShiftDetailsForm = () => {
             defaultValue={formData.startDate}
             onChange={handleChange}
             required
-            disabled
+            // disabled
           />
           <FormDropdownItem
             label="Shift"

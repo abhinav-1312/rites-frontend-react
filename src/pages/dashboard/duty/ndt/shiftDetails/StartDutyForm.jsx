@@ -180,7 +180,7 @@ const StartDutyForm = () => {
 
             <Form initialValues={formData} form={form} layout="vertical" onFinish={handleFormSubmit}>
                 <div className="grid grid-cols-2 gap-x-2">
-                    <CustomDatePicker label="Date" name="startDate" defaultValue={formData.startDate} onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} disabled required />
+                    <CustomDatePicker label="Date" name="startDate" defaultValue={formData.startDate} onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
                     <FormDropdownItem label="Shift" name="shift" formField='shift' dropdownArray={shiftList} visibleField="value" valueField="key" onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} required />
                 </div>
 

@@ -2,18 +2,27 @@ import React, { useState } from 'react'
 import FormContainer from '../../../../../components/DKG_FormContainer'
 import SubHeader from '../../../../../components/DKG_SubHeader'
 import FormInputItem from '../../../../../components/DKG_FormInputItem'
-import { Select, Form } from 'antd';
+import { Select, Form, message } from 'antd';
 import { testStatusDropdown } from '../../../../../utils/Constants';
 import Btn from '../../../../../components/DKG_Btn';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { apiCall } from '../../../../../utils/CommonFunctions';
 
 const FWTTest = () => {
     const [form] = Form.useForm();
 
+    const navigate = useNavigate();
+    const {dutyId} = useSelector(state => state.testingDuty)
+    const {token} = useSelector(state => state.auth)
     const handleSubmit = async () => {
-
+        try{
+            await apiCall("POST", "/testing/completeTest", token, {...formData, dutyId})
+            message.success("Test Saved Successfully")
+            navigate("/testing/home")
+        }
+        catch(error){}
     }
-
     const state = useLocation().state;
     const {heatNo, strand, sampleId, sampleLot, sampleType} = state;
 

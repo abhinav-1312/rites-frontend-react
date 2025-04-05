@@ -51,7 +51,6 @@ const items = [
     key: "1",
     icon: <HomeOutlined />,
     label: "Home",
-    activeTab: 1,
     path: "/",
   },
   {

@@ -83,10 +83,10 @@ export const endTestingDuty = createAsyncThunk(
     "testingDuty/endTestingDuty",
     async (formData, {getState})=> {
         const {token} = getState().auth;
-        const {dutyId} = getState().qctDuty;
+        const {dutyId} = getState().testingDuty;
         try{
             await apiCall("POST", "/testing/endDuty", token, {...formData, dutyId});
-            message.success("QCT duty ended successfully.");
+            message.success("Testing duty ended successfully.");
         }
         catch(error){
 
