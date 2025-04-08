@@ -146,6 +146,7 @@ const WeldingHome = () => {
         <GeneralInfo data={weldingGeneralInfo} />
 
         <section className='mt-4'>
+          <h1 className="font-semibold !text-xl mb-4 underline">Weld Joint Counter</h1>
           <Table
             dataSource={machineWiseCount}
             columns={machineWiseCountColumns}
@@ -203,7 +204,7 @@ const WeldingHome = () => {
           pagination={false}
         /> */}
       <Form form={form} layout='vertical' initialValues={formData} onFinish={handleFormSubmit}>
-        <h1 className="font-semibold !text-xl mb-4 underline">Weld Joint Counter</h1>
+        <h1 className="font-semibold !text-xl mb-4 underline">UT M/c Probe Setting Details</h1>
         <div className="border grid grid-cols-5 divide-x divide-y divide-gray-300">
           <div></div>
           <h3 className="font-semibold p-2 text-center">Machine Sno.</h3>

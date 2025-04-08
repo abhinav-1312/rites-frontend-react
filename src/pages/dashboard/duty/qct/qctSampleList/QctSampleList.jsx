@@ -37,7 +37,7 @@ const columns = [
   {
     title: "Rail Grade and Rail Section",
     dataIndex: "rg",
-    render: (_, row) => row.railGrade + " - " + row.railSection,
+    render: (_, row) => row.railGrade + " , " + row.railSection,
     filterable: true
   },
   {

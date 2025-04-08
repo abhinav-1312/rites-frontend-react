@@ -151,12 +151,12 @@ const NewCalibrationForm = () => {
           />
           {
             (formData?.calibrationResult === 'OK') && 
-            <FormInputItem label='Cal Expiry No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} disabled />
+            <FormInputItem label='Cal. Expiry Notification No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)} disabled />
           }
 
           {
             (formData?.calibrationResult === 'Not OK') && 
-            <FormInputItem label='Cal Expiry No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)}/>
+            <FormInputItem label='Cal. Expiry Notification No. of Days' name='calibrationExpiryNumberOfDays' placeholder='0' onChange={(fieldName, value) => handleChange(fieldName, value, setFormData)}/>
           }
         </div>
 

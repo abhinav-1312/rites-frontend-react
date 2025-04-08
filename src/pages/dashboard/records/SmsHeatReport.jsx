@@ -18,7 +18,7 @@ const SmsHeatReport = () => {
       dataIndex: "smsNumber",
       key: "smsNumber",
       filterable: true, // Enable filter
-      render: (_, record) => record.sms + " , " + record.casterNo
+      render: (_, record) => record.smsNumber + " , " + record.casterNumber
     },
     {
       title: "Rail Grade",

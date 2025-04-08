@@ -289,8 +289,8 @@ const RoutesComponent = () => {
             </Route>
 
             <Route path="/calibration">
-              <Route index element={<CalShiftDetailsForm />} />
-              <Route path="startDuty" element={<CalShiftDetailsForm />} />
+              <Route index element={<CalibrationList />} />
+              <Route path="list" element={<CalibrationList />} />
               <Route element={<CalibrationPrivateRoute />}>
                 <Route path="list" element={<CalibrationList />} />
                 <Route
