@@ -485,10 +485,10 @@ const VisualInspectionForm = () => {
 
         totalAcceptedLength = totalAcceptedLength + acceptedNo * acceptedLength;
         // console.log("TOTACCEPTED LENTH: ", totalAcceptedLength)
-        if (totalAcceptedLength > stdOffLength) {
+        if (totalAcceptedLength > formData?.actualOfferedLength ) {
           // console.log("INSIE IFFFFF")
           message.error(
-            "Total accepted length is greater than std offered length. Please check."
+            "Total accepted length is greater than actual offered length. Please check."
           );
           setSubmitBtnDisabled(true);
         } else {

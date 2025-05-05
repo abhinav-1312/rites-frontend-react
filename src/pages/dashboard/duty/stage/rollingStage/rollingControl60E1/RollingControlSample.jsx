@@ -70,7 +70,6 @@ const RollingControlSample = () => {
     if (fieldName === "height") {
       const isFloat = regexMatch.floatRegex.test(value);
       if (!isFloat) {
-        console.log("HEIGHT IS NOT FLOAT: ", fieldName, value)
         setHeightRule(
           [
           {
@@ -80,7 +79,6 @@ const RollingControlSample = () => {
         ]
       );
       } else if (isFloat) {
-        console.log("FLOAT: ", value)
         let floor = null;
         let ceil = null;
         if (railSection === "IRS52") {

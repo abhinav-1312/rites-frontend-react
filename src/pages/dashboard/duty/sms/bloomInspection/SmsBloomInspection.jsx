@@ -203,6 +203,7 @@ const bloomIdentificationList = [
 ];
 
 const SmsBloomInspection = () => {
+  const [fieldsDisable, setFieldsDisabled] = useState(true)
   const smsGeneralInfo = useSelector((state) => state.smsDuty);
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -308,6 +309,8 @@ const SmsBloomInspection = () => {
         noOfPrimeBlooms: data.responseData?.noOfPrimeBlooms || 0,
         noOfCoBlooms: data.responseData?.noOfCoBlooms || 0,
       });
+
+      setFieldsDisabled(false)
     } catch (error) {}
   };
 
@@ -363,6 +366,7 @@ const SmsBloomInspection = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
+            disabled={fieldsDisable}
             required
           />
           <FormInputItem
@@ -370,6 +374,7 @@ const SmsBloomInspection = () => {
             name="lengthOfBlooms"
             onChange={handleBloomLengthChange}
             rules={bloomLengthRule}
+            disabled={fieldsDisable}
             required
           />
           <FormInputItem
@@ -378,6 +383,7 @@ const SmsBloomInspection = () => {
             onChange={(fieldName, value) =>
               handleChange(fieldName, value, setFormData)
             }
+            disabled={fieldsDisable}
             required
           />
           <FormInputItem
@@ -385,6 +391,7 @@ const SmsBloomInspection = () => {
             name="noOfPrimeBloomsRejected"
             onChange={handlePrimeBloomRejectedChange}
             rules={primeBloomRejectedRule}
+            disabled={fieldsDisable}
             required
           />
           <FormInputItem
@@ -392,6 +399,7 @@ const SmsBloomInspection = () => {
             name="noOfCoBloomsRejected"
             onChange={handleCoBloomRejectedChange}
             rules={coBloomRejectedRule}
+            disabled={fieldsDisable}
             required
           />
           <TextAreaComponent
@@ -401,6 +409,7 @@ const SmsBloomInspection = () => {
               handleChange(fieldName, value, setFormData)
             }
             className="col-span-2"
+            disabled={fieldsDisable}
             required
           />
             <Btn htmlType="submit" className="flex mx-auto col-span-2">Submit</Btn>

@@ -145,8 +145,38 @@ const WeldingHome = () => {
         <SubHeader title="Welding - Home" link="/" />
         <GeneralInfo data={weldingGeneralInfo} />
 
-        <section className='mt-4'>
-          <h1 className="font-semibold !text-xl mb-4 underline">Weld Joint Counter</h1>
+        <Form form={form} layout='vertical' initialValues={formData} onFinish={handleFormSubmit}>
+        <h1 className="font-semibold !text-xl mb-4 underline">Weld Joint Counter</h1>
+        <div className="border grid grid-cols-5 divide-x divide-y divide-gray-300">
+          <div></div>
+          <h3 className="font-semibold p-2 text-center">Machine Sno.</h3>
+          <h3 className="font-semibold p-2 text-center">Probe Details</h3>
+          <h3 className="font-semibold p-2 text-center">Probe DB</h3>
+          <h3 className="font-semibold p-2 text-center">Remarks</h3>
+
+          <h3 className="font-semibold p-2 text-center">Head</h3>
+          <TextAreaComponent className="no-border" placeholder='Machine S.No.' name='machineSNoHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+          <TextAreaComponent className="no-border" name='probeDetailsHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+          <TextAreaComponent className="no-border" name='probeDbHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+          <TextAreaComponent className="no-border" name='remarksHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+
+          <h3 className="font-semibold p-2 text-center">Foot</h3>
+          <TextAreaComponent className="no-border" name='machineSNoFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+          <TextAreaComponent className="no-border" name='probeDetailsFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+          <TextAreaComponent className="no-border" name='probeDbFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+          <TextAreaComponent className="no-border" name='remarksFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+        </div>
+            
+          <Divider className= "mt-4" />
+
+          {/* <FormInputItem placeholder='Enter Remarks' name='shiftRemarks' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+
+          <div className='flex justify-center'>
+              <Btn htmlType='submit' className='w-36'>End Duty</Btn>
+          </div> */}
+          </Form>
+
+        <section className="-mt-4">
           <Table
             dataSource={machineWiseCount}
             columns={machineWiseCountColumns}
@@ -165,7 +195,7 @@ const WeldingHome = () => {
           {
             weldingGeneralInfo.mill === 'RSM' && (
               <>
-              <Divider className="mb-0" />
+              <Divider />
               <div className="flex gap-2">
               <h2 className="font-bold">No. of Joints  welded in previous Shift after Weld Test (BSP4):</h2>
               <FormInputItem name="jointsWeldedPrevShiftBsp4" onChange={(name, value) => handleChange(name, value, setFormData)} />
@@ -194,36 +224,28 @@ const WeldingHome = () => {
           }
         </section>
 
-        <Divider className="mb-0 mt-0" />
 
-        {/* <Table 
-          columns={weldDataColumns}
-          dataSource={info}
-          bordered
-          scroll={{x: true}}
-          pagination={false}
-        /> */}
-      <Form form={form} layout='vertical' initialValues={formData} onFinish={handleFormSubmit}>
-        <h1 className="font-semibold !text-xl mb-4 underline">UT M/c Probe Setting Details</h1>
-        <div className="border grid grid-cols-5 divide-x divide-y divide-gray-300">
-          <div></div>
-          <h3 className="font-semibold p-2 text-center">Machine Sno.</h3>
-          <h3 className="font-semibold p-2 text-center">Probe Details</h3>
-          <h3 className="font-semibold p-2 text-center">Probe DB</h3>
-          <h3 className="font-semibold p-2 text-center">Remarks</h3>
+        <Form form={form} layout='vertical' initialValues={formData} onFinish={handleFormSubmit}>
+        {/* <h1 className="font-semibold !text-xl mb-4 underline">Weld Joint Counter</h1> */}
+        {/* <div className="border grid grid-cols-5 divide-x divide-y divide-gray-300"> */}
+          {/* <div></div> */}
+          {/* <h3 className="font-semibold p-2 text-center">Machine Sno.</h3> */}
+          {/* <h3 className="font-semibold p-2 text-center">Probe Details</h3> */}
+          {/* <h3 className="font-semibold p-2 text-center">Probe DB</h3> */}
+          {/* <h3 className="font-semibold p-2 text-center">Remarks</h3> */}
 
-          <h3 className="font-semibold p-2 text-center">Head</h3>
-          <TextAreaComponent className="no-border" placeholder='Machine S.No.' name='machineSNoHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
-          <TextAreaComponent className="no-border" name='probeDetailsHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
-          <TextAreaComponent className="no-border" name='probeDbHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
-          <TextAreaComponent className="no-border" name='remarksHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/>
+          {/* <h3 className="font-semibold p-2 text-center">Head</h3> */}
+          {/* <TextAreaComponent className="no-border" placeholder='Machine S.No.' name='machineSNoHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/> */}
+          {/* <TextAreaComponent className="no-border" name='probeDetailsHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/> */}
+          {/* <TextAreaComponent className="no-border" name='probeDbHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/> */}
+          {/* <TextAreaComponent className="no-border" name='remarksHead' onChange={(name, value) => handleChange(name, value, setFormData)} required/> */}
 
-          <h3 className="font-semibold p-2 text-center">Foot</h3>
-          <TextAreaComponent className="no-border" name='machineSNoFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
+          {/* <h3 className="font-semibold p-2 text-center">Foot</h3> */}
+          {/* <TextAreaComponent className="no-border" name='machineSNoFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
           <TextAreaComponent className="no-border" name='probeDetailsFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
           <TextAreaComponent className="no-border" name='probeDbFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
           <TextAreaComponent className="no-border" name='remarksFoot' onChange={(name, value) => handleChange(name, value, setFormData)}  required/>
-        </div>
+        </div> */}
             
           <Divider className= "mt-0" />
 
@@ -233,6 +255,16 @@ const WeldingHome = () => {
               <Btn htmlType='submit' className='w-36'>End Duty</Btn>
           </div>
           </Form>
+
+        <Divider className="mb-0 mt-0" />
+
+        {/* <Table 
+          columns={weldDataColumns}
+          dataSource={info}
+          bordered
+          scroll={{x: true}}
+          pagination={false}
+        /> */}
     </FormContainer>
   )
 }
