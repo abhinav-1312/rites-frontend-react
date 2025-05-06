@@ -229,7 +229,6 @@ const VisualInspectionForm = () => {
   const [defectTypeList, setDefectTypeList] = useState([]);
 
   const handleFormSubmit = async () => {
-    console.log("submit called");
     try {
       await apiCall("POST", "/vi/saveViDtls", token, {
         ...formData,
@@ -382,17 +381,18 @@ const VisualInspectionForm = () => {
     if (formData?.railId) {
       const fetchInspectionData = async () => {
         try {
-          console.log(formData?.railId)
-          const response = await apiCall("GET", `/dashboard/getDimensionalInspectionDtlByRailId?railId=${formData.railId}`, token);
+          const {data} = await apiCall("GET", `/dashboard/getDimensionalInspectionDtlByRailId?railId=${formData.railId}`, token);
+          const {data: data1} = await apiCall("GET", `/dashboard/getSurfaceInspectionDtlByRailId?railId=${formData.railId}`, token);
           
-          if (response) {
+          // if (data.responseData) {
+            const dimFeedback = data?.responseData?.map((item) => item.defectType + " at " + item.distanceFromHead).join(", ")
+            const visualFeedback = data1?.responseData?.map((item) => item.labelName + " at " + item.distance).join(", ")
             setFormData((prev) => ({
               ...prev,
-              actualStatus: response[0]?.actualStatus || "",
-              defectType: response[0]?.defectType || "",
-              distanceFromHead: response[0]?.distanceFromHead || "",
+              ut: "",
+              dim: dimFeedback,
+              visual: visualFeedback,
             }));
-          }
         } catch (error) {
           console.error("Error fetching AI inspection data:", error);
         }
@@ -484,7 +484,7 @@ const VisualInspectionForm = () => {
         const acceptedLength = parseFloat(item.acceptedLength) || 0;
 
         totalAcceptedLength = totalAcceptedLength + acceptedNo * acceptedLength;
-        // console.log("TOTACCEPTED LENTH: ", totalAcceptedLength)
+        console.log("TOTACCEPTED LENTH: ", totalAcceptedLength, formData?.stdOffLength)
         if (totalAcceptedLength > formData?.actualOfferedLength ) {
           // console.log("INSIE IFFFFF")
           message.error(
@@ -759,15 +759,15 @@ const VisualInspectionForm = () => {
           </h3>
           <div className="text-justify">
             <span className="font-semibold">UT: </span>
-            {formData?.distanceFromHead || ""}
+            {formData?.ut || "---"}
           </div>
           <div className="text-justify">
             <span className="font-semibold">Dim: </span>
-            {formData?.defectType || ""}
+            {formData?.dim || "No dimension data available."}
           </div>
           <div className="text-justify">
             <span className="font-semibold">Visual: </span>
-            {formData?.actualStatus || ""} 
+            {formData?.visual || "No surface data available."} 
           </div>
 
           <div className="grid grid-cols-2">
@@ -1037,7 +1037,7 @@ const VisualInspectionForm = () => {
 
           <Btn
             htmlType="submit"
-            // disabled={submitBtnDisabled}
+            disabled={submitBtnDisabled}
             className="mx-auto mt-6"
           >
             Save Inspection Data

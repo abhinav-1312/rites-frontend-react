@@ -8,7 +8,7 @@ const TestingPrivateRoute = () => {
     const {dutyId} = useSelector(state => state.testingDuty);
 
     if(!dutyId){
-        message.error("No ongoing Testing duty. Please start a duty.")
+        // message.error("No ongoing Testing duty. Please start a duty.")
     }
 
   return (

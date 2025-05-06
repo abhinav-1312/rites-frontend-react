@@ -70,7 +70,7 @@ const ShiftDetailsForm = () => {
   };
 
   if (dutyId) {
-    message.error("Rolling duty in progress. Cannot start new duty.");
+    // message.error("Rolling duty in progress. Cannot start new duty.");
     return <Navigate to="/stage/home" />;
   }
 

@@ -39,7 +39,7 @@ const SmsDutyEnd = () => {
 
   const handleFormSubmit = async () => {
     await dispatch(endSmsDuty(formData)).unwrap();
-    navigate('/')
+    // navigate('/sms/dutyEnd', {state: {dutyEnd: true}});
   }
 
   const smsGeneralInfo = useSelector(state => ({
