@@ -99,7 +99,7 @@ const NewCalibrationForm = () => {
         calibrationDate: responseData?.calibrationDate || null,
         calibrationResult: responseData?.calibrationResult || null,
         calibrationValidUpto: responseData?.calibrationValidUpto || null,
-        calibrationExpiryNumberOfDays: responseData?.calibrationExpiryNumberOfDays || null
+        calibrationExpiryNumberOfDays: responseData?.notificationAfterDays || null
       });
     }catch (error) {}
   }, [token, formData.serialNumber])

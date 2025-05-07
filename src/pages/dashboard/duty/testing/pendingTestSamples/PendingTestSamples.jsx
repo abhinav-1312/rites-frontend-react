@@ -53,6 +53,10 @@ const PendingTestSamples = () => {
         navigate('/testing/home')
     };
 
+    const saveRecord = () => {
+        
+    }
+
 
 const pendingTestSamplesColumns = [
     {
@@ -174,6 +178,8 @@ const pendingTestSamplesColumns = [
                                         sampleType: record.sampleType
                                     }
                                 })}
+
+                                // onClick={saveRecord()}
                             >
                                 {"Test for " + test}
                             </Button>

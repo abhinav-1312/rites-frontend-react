@@ -19,10 +19,12 @@ const TensileFootTest = () => {
         try{
             await apiCall("POST", "/testing/completeTest", token, {...formData, dutyId})
             message.success("Test Saved Successfully")
-            navigate("/testing/home")
+            // navigate("/testing/home")
         }
         catch(error){}
     }
+
+    
 
     const state = useLocation().state;
     const {heatNo, strand, sampleId, sampleLot, sampleType} = state;
@@ -34,7 +36,7 @@ const TensileFootTest = () => {
         sampleLot: sampleLot,
         sampleType: sampleType,
         testType: "TENSILE_FOOT",
-        tensileFootTestStatus: "",
+        tensileFootStatus: "",
         tensileFootYield: "",
         tensileFootUts: "",
         tensileFootEi: ""
@@ -48,6 +50,8 @@ const TensileFootTest = () => {
         }
       })
     }
+
+    console.log("FORM: ", formData)
 
     return (
         <div>
@@ -68,9 +72,9 @@ const TensileFootTest = () => {
                     <FormInputItem label="Ei" name="tensileFootEi" onChange={handleChange}/>
                     <Form.Item
                         label="Tensile Foot Test Status"
-                        name="tensileFootTestStatus"
+                        name="tensileFootStatus"
                     >
-                        <Select options={testStatusDropdown} onChange={(val) => handleChange("tensileFootTestStatus", val)}/>
+                        <Select options={testStatusDropdown} onChange={(val) => handleChange("tensileFootStatus", val)}/>
                     </Form.Item>
 
                     <Btn htmlType='submit' text="SAVE" />
